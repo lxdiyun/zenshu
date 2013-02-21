@@ -79,10 +79,12 @@
 										</td>    
 
 										<td align="left" width="30%">    
-											<form action="{% url home_page %}" method="get">    
+											<form action="{% url list_donators_page %}" method="POST">    
 												<p align="left">    
 												<font size="2">输入页码[{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}]:<input name="page" size="3" class="font9" type="text"></font>    
-												</p></form>    
+												</p>
+												{% csrf_token %} 
+											</form>    
 										</td></tr>    
 								</tbody></table>     
 						</center>

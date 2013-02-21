@@ -3,9 +3,11 @@ from django.db import models
 
 class Donator(models.Model):
     name = models.CharField(max_length=250)
+    description = models.TextField(null=True)
 
     def __unicode__(self):
         return self.name
+
 
 class Book(models.Model):
     name = models.CharField(max_length=250)
@@ -17,3 +19,5 @@ class Book(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        ordering = ['donate_date']
