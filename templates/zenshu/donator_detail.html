@@ -3,12 +3,12 @@
 		<title>{{ donator.name }}赠书</title>
 	</head>
 
-	<body topmargin="6" background="/static/zenshu/bgblight.jpg">
+	<body topmargin="6" background="{{ STATIC_URL }}zenshu/bgblight.jpg">
 
 		<div align="center">
 			<center>
 
-				<table background="/static/zenshu/bg_s001.gif" border="0" cellpadding="3" width="96%">
+				<table background="{{ STATIC_URL }}zenshu/bg_s001.gif" border="0" cellpadding="3" width="96%">
 					<tbody><tr>
 							<td width="85%">
 
@@ -16,8 +16,8 @@
 
 								<font size="5" color="#blue" face="隶书">{{ donator.name }}</font><font size="5" color="#000000" face="隶书">
 									&nbsp;</font> 
-								</p></td><td background="/static/zenshu/bgline.gif" width="15%"> 
-								<p align="right"><font color="#800000"><img src="/static/zenshu/ba.gif" border="0"><a href="/zenshu/"><font size="2"><b>赠书芳名录</b></font></a></font></p></td> 
+								</p></td><td background="{{ STATIC_URL }}zenshu/bgline.gif" width="15%"> 
+								<p align="right"><font color="#800000"><img src="{{ STATIC_URL }}zenshu/ba.gif" border="0"><a href="/zenshu/"><font size="2"><b>赠书芳名录</b></font></a></font></p></td> 
 						</tr> 
 				</tbody></table>   
 
