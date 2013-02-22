@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from zenshu.views import DonatorListView, DonatorListCheck
+from zenshu.views import DonatorListView, DonatorListCheck, DonatorDetailView
 
 donators_list_view = DonatorListView.as_view()
 
@@ -13,4 +13,7 @@ urlpatterns = patterns('',
                        url(r'^donators_list_page$',
                            DonatorListCheck.as_view(),
                            name='list_donators_page'),
+                       url(r'^detail/(?P<pk>\d+)$',
+                           DonatorDetailView.as_view(),
+                           name='detail_donator'),
                        )

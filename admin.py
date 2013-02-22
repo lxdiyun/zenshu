@@ -14,6 +14,8 @@ class DonatorAdmin(admin.ModelAdmin):
 
     last_donate_date.admin_order_field = 'last_donate_date'
 
+class BookAdmin(admin.ModelAdmin):
+    list_display = ["name", "author_name", "amount", "donate_date"]
 
-admin.site.register(Book)
+admin.site.register(Book, BookAdmin)
 admin.site.register(Donator, DonatorAdmin)

@@ -1,12 +1,17 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Donator(models.Model):
     name = models.CharField(max_length=250)
-    description = models.TextField(null=True)
+    description = models.TextField(blank=True)
 
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        print self.id
+        return reverse("detail_donator", kwargs={'pk':self.id})
 
 
 class Book(models.Model):

@@ -1,0 +1,66 @@
+<html><head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>{{ donator.name }}赠书</title>
+	</head>
+
+	<body topmargin="6" background="/static/zenshu/bgblight.jpg">
+
+		<div align="center">
+			<center>
+
+				<table background="/static/zenshu/bg_s001.gif" border="0" cellpadding="3" width="96%">
+					<tbody><tr>
+							<td width="85%">
+
+								<p align="center">
+
+								<font size="5" color="#blue" face="隶书">{{ donator.name }}</font><font size="5" color="#000000" face="隶书">
+									&nbsp;</font> 
+								</p></td><td background="/static/zenshu/bgline.gif" width="15%"> 
+								<p align="right"><font color="#800000"><img src="/static/zenshu/ba.gif" border="0"><a href="/zenshu/"><font size="2"><b>赠书芳名录</b></font></a></font></p></td> 
+						</tr> 
+				</tbody></table>   
+
+			</center>
+		</div>
+
+		<p align="left"><b><font color="#008000">&nbsp;&nbsp; </font></b><font size="2"><b>&nbsp; 
+				简介：</b></font><b><font color="#008000">{{ donator.description|default_if_none:"" }}</font></b></p>     
+		<div align="center">    
+			<center>    
+				<table style="border: 1 outset #CC3300" border="1" bordercolor="#ECECFF" cellpadding="3" cellspacing="0" width="90%">    
+					<tbody><tr>    
+							<td width="10%">
+								<font size="2">最近赠书时间：{{ donator.last_donate_date|default_if_none:"" }}</font></td>   
+							<td width="13%"><font size="2">共赠送册数：{{ donator.total_donate|default_if_none:"0" }}</font></td>   
+						</tr>   
+						<tr>   
+							<td colspan="2" width="23%"><font size="2">-赠书列表-</font></td>   
+						</tr>   
+						<tr>   
+							<td colspan="2" width="23%"> 
+								<table bgcolor="#ECECFF" border="1" bordercolor="#FFFFFF" cellpadding="2" cellspacing="0" height="56" width="90%"> 
+									<tbody><tr>   
+											<td height="16" width="10%"><font size="2">编号</font></td>   
+											<td height="16" width="70%"><font size="2">书名／作者</font></td>   
+											<td height="16" width="20%"><font size="2">册数</font></td>  
+										</tr>   
+
+										{% for book in books%}
+										<tr>   
+											<td height="16" width="10%"><font size="2">{{ forloop.counter }}</font></td>   
+											<td height="16" width="70%"><font size="2">{{ book.name }} {% if book.author %} / {{ book.author }}{% endif %}</font></td>     
+											<td height="16" width="20%"><font size="2">{{ book.amount }}</font></td>   
+										</tr>    
+										{% endfor %}
+
+
+								</tbody></table>    
+
+							</td>    
+						</tr>    
+				</tbody></table>    
+			</center>    
+		</div>  
+		<p align="center"></p><center><input value="返    回" onclick="history.back()" type="button"></center>     
+</body></html>

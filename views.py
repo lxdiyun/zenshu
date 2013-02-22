@@ -1,10 +1,10 @@
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from django.views.generic.edit import FormView
-from zenshu.models import Donator
+from zenshu.models import Donator, Book
 from zenshu.utils import DONATOR_PAGE_SIZE
 from zenshu.form import DonatorListPageForm
 from django.core.urlresolvers import reverse
-from django.db.models import Max
+from django.db.models import Max, Sum
 from django.http import HttpResponseRedirect
 
 
@@ -23,3 +23,21 @@ class DonatorListCheck(DonatorListView, FormView):
 
     def form_invalid(self, form):
         return HttpResponseRedirect(reverse("list_donators", args=[1]))
+
+
+class DonatorDetailView(DetailView):
+    model = Donator
+    context_object_name = 'donator'
+    template_name = 'zenshu/donator_detail.html'
+
+    def get_queryset(self):
+        queryset = super(DonatorDetailView, self).get_queryset()
+        queryset = queryset.annotate(last_donate_date=Max('book__donate_date'),
+                                     total_donate=Sum('book__amount'))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(DonatorDetailView,self).get_context_data(**kwargs)
+        context['books'] = Book.objects.filter(donator=self.object)
+
+        return context

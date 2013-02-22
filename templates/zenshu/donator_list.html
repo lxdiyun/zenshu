@@ -52,7 +52,9 @@
 
 							<tr>   
 								{% for donator in donators %}
-									<td class="{% cycle 'td1' 'td2' 'td1' 'td2' 'td2' 'td1' 'td2' 'td1'%}"> {{ donator.name }} </td>
+								<td class="{% cycle 'td1' 'td2' 'td1' 'td2' 'td2' 'td1' 'td2' 'td1'%}">
+									<a href="{{ donator.get_absolute_url }}">{{ donator.name }}</a>
+								</td>
 									{% cycle '' '' '' '</tr><tr>' %}
 								{% endfor %}
 							</tr>   
