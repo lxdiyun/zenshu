@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 
 class Donator(models.Model):
     name = models.CharField(max_length=250)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True,null=True)
 
     def __unicode__(self):
         return self.name
