@@ -44,7 +44,7 @@ class DonatorDetailView(DetailView):
 class DonatorSearchView(DonatorListView):
 
     def get_queryset(self):
-        keyword = self.request.get('keyword')
+        keyword = self.request.REQUEST['keyword']
         print keyword
         queryset = super(DonatorSearchView, self).get_queryset()
         queryset = queryset.filter(name__contains=keyword)
