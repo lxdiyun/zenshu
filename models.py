@@ -10,7 +10,6 @@ class Donator(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        print self.id
         return reverse("detail_donator", kwargs={'pk':self.id})
 
 

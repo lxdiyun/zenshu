@@ -17,3 +17,4 @@ class DonatorListPageForm(forms.Form):
             cleaned_data["page"] = "1"
 
         return cleaned_data
+    

@@ -1,4 +1,4 @@
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from zenshu.models import Donator, Book
 from zenshu.utils import DONATOR_PAGE_SIZE
@@ -24,7 +24,6 @@ class DonatorListCheck(DonatorListView, FormView):
     def form_invalid(self, form):
         return HttpResponseRedirect(reverse("list_donators", args=[1]))
 
-
 class DonatorDetailView(DetailView):
     model = Donator
     context_object_name = 'donator'
@@ -41,3 +40,21 @@ class DonatorDetailView(DetailView):
         context['books'] = Book.objects.filter(donator=self.object)
 
         return context
+
+class DonatorSearchView(DonatorListView):
+
+    def get_queryset(self):
+        keyword = self.request.get('keyword')
+        print keyword
+        queryset = super(DonatorSearchView, self).get_queryset()
+        queryset = queryset.filter(name__contains=keyword)
+
+        return queryset
+
+    def render_to_response(self, context, **response_kwargs):
+        donators = context['donators']
+        if donators.count() == 1:
+            HttpResponseRedirect(donators[0].get_absolute_url())
+        else:
+            return super(DonatorSearchView, self).render_to_response(context,
+                                                                     **response_kwargs)

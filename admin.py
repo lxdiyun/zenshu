@@ -2,6 +2,7 @@ from zenshu.models import Book, Donator
 from django.contrib import admin
 from django.db.models import Max
 
+
 class DonatorAdmin(admin.ModelAdmin):
     list_display = ["name", "last_donate_date"]
 
