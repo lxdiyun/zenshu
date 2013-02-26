@@ -1,121 +1,45 @@
-<html><head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<style type="text/css">
-			<!--
-			a {text-decoration:12px}
-			a:link {  color: #000000; text-decoration: none}
-			a:visited {color: #00000f; text-decoration: none}
-			a:hover {  color: #FF0000; text-decoration: underline}
-			td.td1 { text-align: center; background-color: #E9E9E9; height: 16; width: 25% }
-			td.td2 { text-align: center; background-color: #FFFFFF; height: 16; width: 25%}
-			-->
-		</style>
+{% extends "zenshu/donator_base.html" %}
 
-		<title>图书馆赠书芳名录</title>
-	</head>
+{% block donators %}
+{% for donator in donators %}
+<td class="{% cycle 'td1' 'td2' 'td1' 'td2' 'td2' 'td1' 'td2' 'td1'%}">
+	<a href="{{ donator.get_absolute_url }}">{{ donator.name }}</a>
+</td>
+{% cycle '' '' '' '</tr><tr>' %}
+{% endfor %}
+{% endblock %}
 
-	<body topmargin="6" bgcolor="#0055AA">
+{% block paginate %}
+{% if is_paginated %}
+<div align="center">   
+	<center>   
+		<table background="{{ STATIC_URL }}zenshu/bgblight.jpg" border="0" cellpadding="0" cellspacing="0" width="80%">   
+			<tbody><tr><td align="center" width="70%">   
+						{% if page_obj.number != 1 and page_obj.paginator.num_pages > 1 %}
+						<a href="{% url list_donators page=1 %}"><img src="{{ STATIC_URL }}zenshu/first.gif" border="0"></a>
+						{% endif %}
+						{% if page_obj.has_previous %}
+						<a href="{% url list_donators page=page_obj.previous_page_number %}"><img src="{{ STATIC_URL }}zenshu/pre.gif" border="0"></a>
+						{% endif %}
+						{% if page_obj.has_next %}
+						<a href="{% url list_donators page=page_obj.next_page_number %}"><img src="{{ STATIC_URL }}zenshu/next.gif" border="0"></a>
+						{% endif %}
+						{% if page_obj.number != page_obj.paginator.num_pages%}
+						<a href="{% url list_donators page=page_obj.paginator.num_pages %}"><img src="{{ STATIC_URL }}zenshu/last.gif" border="0"></a>
+						{% endif %}
 
-		<div align="center">
-			<center>
+					</td>    
 
-				<table background="{{ STATIC_URL }}zenshu/bg_s001.gif" border="0" cellspacing="0" width="80%">
-					<tbody><tr>
-							<td width="24">
-								<p align="center"><img src="{{ STATIC_URL }}zenshu/libicon3.jpg" border="0">
-								</p>
-							</td>
-
-							<td width="548">
-								<p align="left"><font color="#000080" face="隶书" size="5"><br>
-									&nbsp; </font>     
-								<font color="#800000" face="华文行楷" size="5">特藏组潮汕文献赠书芳名录</font>     
-								</p><p align="center">       
-								<font size="2">     
-									谨向关心支持我馆潮汕文献建设发展的单位和个人表示衷心感谢!</font>     
-
-								</p><p align="right">       
-								<font size="2">&nbsp;</font>    
-
-								</p>
-							</td>    
-					</tr></tbody>
-				</table>      
-			</center>
-		</div>    
-		<table style="border: 1 outset #000080" align="center" background="{{ STATIC_URL }}zenshu/bgblight.jpg" border="1" cellpadding="1" width="80%">    
-			<tbody><tr>   
-					<td colspan="4" align="center" height="16" width="100%">  
-						<form method="POST" action="search.asp">    
-							<p align="right">   
-							<b><font color="#008000" size="2">输入单位或姓名:</font></b><input name="srhword" size="20" type="text"><input value="查 找" name="B1" type="submit">   
-							</p></form>  
-						</td>   
-					</tr>   
-
-					<tr>   
-						{% for donator in donators %}
-						<td class="{% cycle 'td1' 'td2' 'td1' 'td2' 'td2' 'td1' 'td2' 'td1'%}">
-							<a href="{{ donator.get_absolute_url }}">{{ donator.name }}</a>
-						</td>
-						{% cycle '' '' '' '</tr><tr>' %}
-						{% endfor %}
-					</tr>   
-			</tbody>
-		</table>   
-		{% if is_paginated %}
-		<div align="center">   
-			<center>   
-				<table background="{{ STATIC_URL }}zenshu/bgblight.jpg" border="0" cellpadding="0" cellspacing="0" width="80%">   
-					<tbody><tr><td align="center" width="70%">   
-								{% if page_obj.number != 1 and page_obj.paginator.num_pages > 1 %}
-								<a href="{% url list_donators page=1 %}"><img src="{{ STATIC_URL }}zenshu/first.gif" border="0"></a>
-								{% endif %}
-								{% if page_obj.has_previous %}
-								<a href="{% url list_donators page=page_obj.previous_page_number %}"><img src="{{ STATIC_URL }}zenshu/pre.gif" border="0"></a>
-								{% endif %}
-								{% if page_obj.has_next %}
-								<a href="{% url list_donators page=page_obj.next_page_number %}"><img src="{{ STATIC_URL }}zenshu/next.gif" border="0"></a>
-								{% endif %}
-								{% if page_obj.number != page_obj.paginator.num_pages%}
-								<a href="{% url list_donators page=page_obj.paginator.num_pages %}"><img src="{{ STATIC_URL }}zenshu/last.gif" border="0"></a>
-								{% endif %}
-
-							</td>    
-
-							<td align="left" width="30%">    
-								<form action="{% url list_donators_page %}" method="POST">    
-									<p align="left">    
-									<font size="2">输入页码[{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}]:<input name="page" size="3" class="font9" type="text"></font>    
-									</p>
-									{% csrf_token %} 
-								</form>    
-						</td></tr>    
-				</tbody></table>     
-			</center>
-		</div>    
-		{% endif %}
-		<div align="center">    
-			<center>    
-				<table background="{{ STATIC_URL }}zenshu/bgblight.jpg" border="0" cellspacing="0" width="80%">    
-					<tbody>
-						<tr>    
-							<td width="100%"><hr color="#800000" size="1" width="99%"></td>    
-						</tr> 
-						<tr><td> 
-								<p align="center">   
-								<a href="http://cstc.lib.stu.edu.cn/"><img src="{{ STATIC_URL }}zenshu/home.gif" alt="返回首页" border="0"></a><font color="#000080" face="楷体_GB2312" size="2"> 
-									【Copyright(C) 汕大图书馆特藏组】</font>                                                
-								</p>
-						</td></tr>   
-					</tbody>
-				</table>   
-			</center>
-		</div>   
-		<br>   
-		<p align="center">   
-		　                                              
-		</p>                          
-
-	</body>
-</html>
+					<td align="left" width="30%">    
+						<form action="{% url list_donators_page %}" method="POST">    
+							<p align="left">    
+							<font size="2">输入页码[{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}]:<input name="page" size="3" class="font9" type="text"></font>    
+							</p>
+							{% csrf_token %} 
+						</form>    
+				</td></tr>    
+		</tbody></table>     
+	</center>
+</div>    
+{% endif %}
+{% endblock %}

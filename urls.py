@@ -16,7 +16,7 @@ urlpatterns = patterns('',
                        url(r'^detail/(?P<pk>\d+)$',
                            DonatorDetailView.as_view(),
                            name='detail_donator'),
-                       url(r'^search/(?P<keyword>.+)$',
+                       url(r'^search$',
                            DonatorSearchView.as_view(),
                            name='search_donator'),
                        )

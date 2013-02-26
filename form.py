@@ -18,3 +18,12 @@ class DonatorListPageForm(forms.Form):
 
         return cleaned_data
     
+class DonatorSearchForm(forms.Form):
+    keyword = forms.CharField(max_length=20)
+
+    def is_valid(self):
+        if (super(DonatorSearchForm, self).is_valid()
+            and "" != self.cleaned_data['keyword']):
+            return True
+            
+        return False
