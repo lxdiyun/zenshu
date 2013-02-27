@@ -2,17 +2,19 @@ from zenshu.models import Book, Donator
 from django.contrib import admin
 from django.db.models import Max
 from django.utils.translation import ugettext_lazy as _
+from django import forms
 
 
 class BookInline(admin.TabularInline):
     model = Book.donator.through
     verbose_name = _('book')
 
+
 class DonatorAdmin(admin.ModelAdmin):
     list_display = ["name", "last_donate_date", "description"]
     search_fields = ['name', "description"]
     list_filter = ["book__donate_date"]
-    inlines = [BookInline,]
+    inlines = [BookInline]
 
     def queryset(self, request):
         qs = super(DonatorAdmin, self).queryset(request)
@@ -23,6 +25,7 @@ class DonatorAdmin(admin.ModelAdmin):
 
     last_donate_date.admin_order_field = 'last_donate_date'
     last_donate_date.short_description = _('last donate date')
+
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ["name", "author_name", "amount", "donate_date"]
