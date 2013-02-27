@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-27 10:33+0800\n"
+"POT-Creation-Date: 2013-02-27 11:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:17
+#: admin.py:9 models.py:33 models.py:34
+msgid "book"
+msgstr "赠书"
+
+#: admin.py:26
 msgid "last donate date"
 msgstr "最近赠书时间"
 
@@ -48,8 +52,3 @@ msgstr "册数"
 #: models.py:26
 msgid "donate date"
 msgstr "赠书时间"
-
-#: models.py:33 models.py:34
-msgid "book"
-msgstr "赠书"
-
