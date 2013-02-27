@@ -8,11 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD:locale/zh_CN/LC_MESSAGES/django.po
-"POT-Creation-Date: 2013-02-26 21:08+0800\n"
-=======
 "POT-Creation-Date: 2013-02-27 11:39+0800\n"
->>>>>>> fbff55361ca9ff8ccd54b41a939cda88b5678134:locale/zh_CN/LC_MESSAGES/django.po
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
 
 #: admin.py:9 models.py:33 models.py:34
 msgid "book"
@@ -32,21 +27,12 @@ msgstr "最近赠书时间"
 
 #: models.py:7
 msgid "donator name"
-<<<<<<< HEAD:locale/zh_CN/LC_MESSAGES/django.po
-msgstr "捐赠者"
-=======
 msgstr "单位或姓名"
->>>>>>> fbff55361ca9ff8ccd54b41a939cda88b5678134:locale/zh_CN/LC_MESSAGES/django.po
 
 #: models.py:8
 msgid "description"
 msgstr "简介"
 
-<<<<<<< HEAD:locale/zh_CN/LC_MESSAGES/django.po
-#: models.py:17 models.py:18
-msgid "donator"
-msgstr "捐赠者"
-=======
 #: models.py:17 models.py:18 models.py:23
 msgid "donator"
 msgstr "赠书者"
@@ -66,4 +52,3 @@ msgstr "册数"
 #: models.py:26
 msgid "donate date"
 msgstr "赠书时间"
->>>>>>> fbff55361ca9ff8ccd54b41a939cda88b5678134:locale/zh_CN/LC_MESSAGES/django.po
