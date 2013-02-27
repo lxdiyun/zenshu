@@ -19,14 +19,16 @@ class Donator(models.Model):
 
 
 class Book(models.Model):
-    name = models.CharField(max_length=250)
-    donator = models.ManyToManyField(Donator)
-    author_name = models.CharField(max_length=250)
-    amount = models.IntegerField()
-    donate_date = models.DateField('Donate Date')
+    name = models.CharField(max_length=250, verbose_name=_('book name'))
+    donator = models.ManyToManyField(Donator, verbose_name=_('donator'))
+    author_name = models.CharField(max_length=250, verbose_name=_('author'))
+    amount = models.IntegerField(verbose_name=_('amount'))
+    donate_date = models.DateField(verbose_name=_('donate date'))
 
     def __unicode__(self):
         return self.name
 
     class Meta:
         ordering = ['donate_date']
+        verbose_name = _('book')
+        verbose_name_plural = _('book')

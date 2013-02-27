@@ -58,17 +58,20 @@ class DonatorSearchView(FormView, DonatorListBase):
         queryset = super(DonatorSearchView, self).get_queryset()
         queryset = queryset.filter(name__contains=keyword)
 
-        return queryset
 
     def render_to_response(self, context, **response_kwargs):
-        donators = self.get_queryset()
+        if 'keyword' in self.request.REQUEST:
+            donators = self.get_queryset()
         
-        if donators.count() == 1:
-            return HttpResponseRedirect(donators[0].get_absolute_url())
-        else:
-            context['donators'] = donators
-            return super(DonatorSearchView, self).render_to_response(context,
+            if donators.count() == 1:
+                return HttpResponseRedirect(donators[0].get_absolute_url())
+            else:
+                context['donators'] = donators
+                return super(DonatorSearchView, self).render_to_response(context,
                                                                      **response_kwargs)
+        else:
+            return HttpResponseRedirect(reverse("list_donators", args=[1]))
+
     def form_valid(self, form):
         nextUrl = reverse('search_donator')
         nextUrl += "?keyword=%s" % form.cleaned_data['keyword']

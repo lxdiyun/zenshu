@@ -1,6 +1,7 @@
 from zenshu.models import Book, Donator
 from django.contrib import admin
 from django.db.models import Max
+from django.utils.translation import ugettext_lazy as _
 
 class DonatorAdmin(admin.ModelAdmin):
     list_display = ["name", "last_donate_date"]
@@ -13,9 +14,10 @@ class DonatorAdmin(admin.ModelAdmin):
         return obj.last_donate_date
 
     last_donate_date.admin_order_field = 'last_donate_date'
+    last_donate_date.short_description = _('last donate date')
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ["name", "author_name", "amount", "donate_date"]
 
-admin.site.register(Book, BookAdmin)
 admin.site.register(Donator, DonatorAdmin)
+admin.site.register(Book, BookAdmin)
