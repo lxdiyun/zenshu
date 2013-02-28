@@ -10,10 +10,11 @@ class Book(models.Model):
     donate_date = models.DateField(verbose_name=_('donate date'))
     donator = models.ManyToManyField('Donator',
                                      verbose_name=_('donator'),
-                                     null=True)
+                                     null=True,
+                                     blank=True)
 
     def __unicode__(self):
-        return self.name
+        return "%s/%s/%d" % (self.name, self.author_name, self.amount)
 
     class Meta:
         ordering = ['donate_date']
