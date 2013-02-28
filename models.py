@@ -4,10 +4,32 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Book(models.Model):
+    STATUS = (
+        (0, _('store up')),
+        (1, _('circulate')),
+        (2, _('unknow')),
+    )
     name = models.CharField(max_length=250, verbose_name=_('book name'))
-    author_name = models.CharField(max_length=250, verbose_name=_('author'))
+    author_name = models.CharField(max_length=250,
+                                   null=True,
+                                   blank=True,
+                                   verbose_name=_('author'))
     amount = models.IntegerField(verbose_name=_('amount'))
     donate_date = models.DateField(verbose_name=_('donate date'))
+    publisher = models.CharField(max_length=120,
+                                 null=True,
+                                 blank=True,
+                                 verbose_name=_('publisher'))
+    publish_date = models.DateField(null=True,
+                                    blank=True,
+                                    verbose_name=_('publish date'))
+    status = models.IntegerField(max_length=25,
+                                 choices=STATUS,
+                                 default=0,
+                                 verbose_name=_('status'))
+    description = models.TextField(blank=True,
+                                   null=True,
+                                   verbose_name=_("description"))
     donator = models.ManyToManyField('Donator',
                                      verbose_name=_('donator'),
                                      null=True,
@@ -27,6 +49,9 @@ class Donator(models.Model):
     description = models.TextField(blank=True,
                                    null=True,
                                    verbose_name=_("description"))
+    contact_info = models.TextField(blank=True,
+                                    null=True,
+                                    verbose_name=_("contact info"))
 
     def __unicode__(self):
         return self.name

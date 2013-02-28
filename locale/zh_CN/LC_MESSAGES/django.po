@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 09:10+0800\n"
+"POT-Creation-Date: 2013-02-28 15:23+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:14 admin.py:17 models.py:20 models.py:21
+#: admin.py:14 admin.py:17 models.py:40 models.py:41
 msgid "book"
 msgstr "赠书"
 
@@ -25,30 +25,58 @@ msgstr "赠书"
 msgid "last donate date"
 msgstr "最近赠书时间"
 
-#: models.py:7
+#: models.py:8
+msgid "store up"
+msgstr "收藏"
+
+#: models.py:9
+msgid "circulate"
+msgstr "流通"
+
+#: models.py:10
+msgid "unknow"
+msgstr "未知"
+
+#: models.py:12
 msgid "book name"
 msgstr "赠书名"
 
-#: models.py:8
+#: models.py:16
 msgid "author"
 msgstr "作者"
 
-#: models.py:9
+#: models.py:17
 msgid "amount"
 msgstr "册数"
 
-#: models.py:10
+#: models.py:18
 msgid "donate date"
 msgstr "赠书时间"
 
-#: models.py:12 models.py:37 models.py:38
+#: models.py:22
+msgid "publisher"
+msgstr "出版社"
+
+#: models.py:25
+msgid "publish date"
+msgstr "出版日期"
+
+#: models.py:29
+msgid "status"
+msgstr "状态"
+
+#: models.py:31 models.py:60 models.py:61
 msgid "donator"
 msgstr "赠书者"
 
-#: models.py:25
+#: models.py:45
 msgid "donator name"
 msgstr "单位或姓名"
 
-#: models.py:28
+#: models.py:48
 msgid "description"
 msgstr "简介"
+
+#: models.py:51
+msgid "contact info"
+msgstr "联系信息"
