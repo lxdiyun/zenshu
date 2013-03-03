@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from zenshu.models import Book, Donator
-from django.utils.encoding import smart_str
-from django.db.models import Sum
+from django.utils.encoding import smart_str, smart_unicode
+#from django.db.models import Sum
 
 
 class ZshBook(models.Model):
@@ -33,29 +34,70 @@ class ZshPresent(models.Model):
 
 
 def pre_trans():
-#    presents = ZshPresent.objects.all().order_by('id')
-#    for pt in presents:
-#        pt.present_name = pt.present_name.strip()
-#        if pt.info is not None:
-#            pt.info = pt.info.strip()
-#        if pt.contact2 is not None:
-#            pt.contact2 = pt.contact2.strip()
-#        pt.save()
-#        print(pt.id)
+    presents = ZshPresent.objects.all().order_by('id')
+    for pt in presents:
+        pt.present_name = pt.present_name.strip()
+        if pt.info is not None:
+            pt.info = pt.info.strip()
+        if pt.contact2 is not None:
+            pt.contact2 = pt.contact2.strip()
+        pt.save()
+        print(pt.id)
 
     zbks = ZshBook.objects.all().order_by('id')
     for zbk in zbks:
         zbk.bookname = zbk.bookname.strip()
         if zbk.present_name is not None:
             zbk.present_name = zbk.present_name.strip()
-#        if zbk.publisher is not None:
-#            zbk.publisher = zbk.publisher.strip()
-#        if zbk.author is not None:
-#            zbk.author = zbk.author.strip()
-#        if zbk.info is not None:
-#            zbk.info = zbk.info.strip()
+        if zbk.publisher is not None:
+            zbk.publisher = zbk.publisher.strip()
+        if zbk.author is not None:
+            zbk.author = zbk.author.strip()
+        if zbk.info is not None:
+            zbk.info = zbk.info.strip()
         zbk.save()
         print(zbk.id)
+
+
+def trans_book(dn, pt):
+    zshbooks = ZshBook.objects.filter(present_name=pt.present_name)
+
+    for zbk in zshbooks:
+        bk = Book()
+        bk.name = zbk.bookname
+        if pt.sent_time is not None:
+            bk.donate_date = pt.sent_time
+        else:
+            bk.donate_date = '1990-02-28'
+        if zbk.vols:
+            bk.amount = zbk.vols
+        else:
+            bk.amount = 1
+        if zbk.author is not None:
+            bk.author_name = zbk.author
+        if zbk.info is not None:
+            bk.description = zbk.info
+        if zbk.publisher is not None:
+            bk.publisher = zbk.publisher
+        if zbk.info is not None:
+            bk.description = zbk.info
+        bk.publish_date = zbk.public_date
+        bk.save()
+        bk.donator.add(dn)
+        bk.save()
+        print(bk.id)
+
+
+def trans_dn(pt, dn_name):
+    dn = Donator()
+    dn.name = dn_name
+    if pt.info is not None:
+        dn.description = pt.info
+    if pt.contact2 is not None:
+        dn.contact_info = pt.contact2
+    dn.save()
+
+    return dn
 
 
 def trans():
@@ -63,45 +105,16 @@ def trans():
 
     for pt in presents:
         pt_name = pt.present_name
+#        print(smart_str(pt_name))
         dns = Donator.objects.filter(name=pt_name)
-        if (0 == dns.count()):
-            dn = Donator()
-            dn.name = pt_name
-            if pt.info is not None:
-                dn.description = pt.info
-            if pt.contact2 is not None:
-                dn.contact_info = pt.contact2
-            dn.save()
 
-            zshbooks = ZshBook.objects.filter(
-                present_name=pt_name)
-
-            for zbk in zshbooks:
-                bk = Book()
-                bk.name = zbk.bookname
-                if pt.sent_time is not None:
-                    bk.donate_date = pt.sent_time
-                else:
-                    bk.donate_date = '1990-02-28'
-                if zbk.vols:
-                    bk.amount = zbk.vols
-                else:
-                    bk.amount = 1
-                if zbk.author is not None:
-                    bk.author_name = zbk.author
-                if zbk.info is not None:
-                    bk.description = zbk.info
-                if zbk.publisher is not None:
-                    bk.publisher = zbk.publisher
-                if zbk.info is not None:
-                    bk.description = zbk.info
-                bk.publish_date = zbk.public_date
-                bk.save()
-                bk.donator.add(dn)
-                bk.save()
-                print bk.id
+        if (dns.exists()):
+            dn_name = pt_name + smart_unicode("(重复)")
+            trans_dn(pt, dn_name)
         else:
-            print("%d, %s" % (pt.id, smart_str(pt_name)))
+            dn_name = pt_name
+            dn = trans_dn(pt, dn_name)
+            trans_book(dn, pt)
 
 
 def trans2():
@@ -109,7 +122,7 @@ def trans2():
 
     for zbk in zshbooks:
         dns = Donator.objects.filter(name=zbk.present_name)
-        if (0 == dns.count()):
+        if (not dns.exists()):
             print("%d %s\n" % (zbk.id, smart_str(zbk.bookname)))
             dn = Donator()
             dn.name = zbk.present_name
@@ -133,7 +146,7 @@ def trans2():
                     bk.description = zshbook.info
                 if zshbook.publisher is not None:
                     bk.publisher = zshbook.publisher
-                bk.publish_date = zshbook.public_date
+#                bk.publish_date = zshbook.public_date
                 bk.save()
                 bk.donator.add(dn)
                 bk.save()
@@ -159,3 +172,59 @@ def check3():
     for dn in dns:
         total = dn.book_set.count()
         print total
+
+g_merge_dict = {}
+
+
+def make_merge_list():
+    dns = Donator.objects.all()
+
+    for dn in dns:
+        if ('' != dn.name):
+            same_name_dns = Donator.objects.filter(
+                name__regex="^\d?"+dn.name+smart_unicode(
+                    "[（\d）]*$")).order_by('id')
+            if (1 < same_name_dns.count()):
+                merge_list = []
+
+                for sdn in same_name_dns:
+                    if (dn.id != sdn.id):
+                        merge_list.append(sdn.id)
+                g_merge_dict[dn.id] = merge_list
+
+    for key in g_merge_dict.keys():
+        key_name = Donator.objects.get(id=key).name
+        dn_ids = g_merge_dict[key]
+        dn_names = Donator.objects.filter(id__in=dn_ids).values_list('name',
+                                                                     flat=True)
+        dn_names_smart = map(smart_str, dn_names)
+        print("%s:[%s]" % (smart_str(key_name), "".join(dn_names_smart)))
+
+
+def merge_dn(key_dn, dn):
+    if dn.contact_info is not None:
+        if key_dn.contact_info is not None:
+            key_dn.contact_info += " | " + dn.contact_info
+        else:
+            key_dn.contact_info = dn.contact_info
+    if dn.description is not None:
+        if key_dn.description is not None:
+            key_dn.description += " | " + dn.description
+        else:
+            key_dn.description = dn.description
+
+    key_dn.book_set.add(*dn.book_set.values_list('id', flat=True))
+
+
+def merge():
+    for key in g_merge_dict.keys():
+        key_dn = Donator.objects.get(id=key)
+        print key_dn
+        dn_ids = g_merge_dict[key]
+        dns = Donator.objects.filter(id__in=dn_ids)
+        for dn in dns:
+            merge_dn(key_dn, dn)
+        key_dn.save()
+
+    for dn_ids in g_merge_dict.values():
+        Donator.objects.filter(id__in=dn_ids).all().delete()

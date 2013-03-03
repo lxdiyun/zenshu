@@ -40,10 +40,13 @@ class DonatorAdminForm(forms.ModelForm):
 
 
 class DonatorAdmin(admin.ModelAdmin):
-    list_display = ["name", "last_donate_date", "description"]
+    list_display = ["name", "last_donate_date", "description", "contact_info"]
     search_fields = ['name', "description"]
     list_filter = ["book__donate_date"]
     form = DonatorAdminForm
+
+    def get_ordering(self, request):
+        return ["-last_donate_date"]
 
     def queryset(self, request):
         qs = super(DonatorAdmin, self).queryset(request)
