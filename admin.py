@@ -3,7 +3,31 @@ from django.contrib import admin
 from django.db.models import Max
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib.admin.widgets import ManyToManyRawIdWidget
 from django.utils.translation import ugettext_lazy as _
+from daterange_filter.filter import DateRangeFilter
+
+
+class BookInline(admin.TabularInline):
+    model = Book.donator.through
+    readonly_fields = ["book_name", "book_donate_date", "book_amount"]
+    ordering = ["-book__donate_date"]
+    exclude = ['book']
+    extra = 0
+    max_num = 0
+
+    def book_name(self, object):
+        return object.book.name
+    book_name.short_description = _("book name")
+    book_name.admin_order_field = "book__name"
+
+    def book_donate_date(self, object):
+        return object.book.donate_date
+    book_donate_date.short_description = _("donate date")
+
+    def book_amount(self, object):
+        return object.book.amount
+    book_amount.short_description = _("amount")
 
 
 class DonatorAdminForm(forms.ModelForm):
@@ -42,8 +66,9 @@ class DonatorAdminForm(forms.ModelForm):
 class DonatorAdmin(admin.ModelAdmin):
     list_display = ["name", "last_donate_date", "description", "contact_info"]
     search_fields = ['name', "description"]
-    list_filter = ["book__donate_date"]
-    form = DonatorAdminForm
+    list_filter = (('book__donate_date', DateRangeFilter),)
+    inlines = [BookInline]
+#    form = DonatorAdminForm
 
     def get_ordering(self, request):
         return ["-last_donate_date"]
@@ -63,7 +88,7 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ["name", "author_name", "amount", "donate_date"]
     search_fields = ['name', "author_name"]
     filter_horizontal = ['donator']
-    list_filter = ['donate_date']
+    list_filter = (('donate_date', DateRangeFilter),)
 
 admin.site.register(Donator, DonatorAdmin)
 admin.site.register(Book, BookAdmin)

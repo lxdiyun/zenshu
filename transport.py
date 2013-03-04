@@ -106,9 +106,9 @@ def trans():
     for pt in presents:
         pt_name = pt.present_name
 #        print(smart_str(pt_name))
-        dns = Donator.objects.filter(name=pt_name)
+        pt_name_exists = Donator.objects.filter(name=pt_name).exists()
 
-        if (dns.exists()):
+        if (pt_name_exists):
             dn_name = pt_name + smart_unicode("(重复)")
             trans_dn(pt, dn_name)
         else:
@@ -121,8 +121,8 @@ def trans2():
     zshbooks = ZshBook.objects.all()
 
     for zbk in zshbooks:
-        dns = Donator.objects.filter(name=zbk.present_name)
-        if (not dns.exists()):
+        pt_name_exists = Donator.objects.filter(name=zbk.present_name).exists()
+        if (not pt_name_exists):
             print("%d %s\n" % (zbk.id, smart_str(zbk.bookname)))
             dn = Donator()
             dn.name = zbk.present_name

@@ -36,10 +36,10 @@ class Book(models.Model):
                                      blank=True)
 
     def __unicode__(self):
-        return "%s/%s/%d" % (self.name, self.author_name, self.amount)
+        return self.name
 
     class Meta:
-        ordering = ['donate_date']
+        ordering = ['-donate_date']
         verbose_name = _('book')
         verbose_name_plural = _('book')
 
