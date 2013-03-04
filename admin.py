@@ -1,20 +1,31 @@
 from zenshu.models import Book, Donator
 from django.contrib import admin
-from django.db.models import Max
+from django.db.models import Max, ForeignKey
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from django.contrib.admin.widgets import ManyToManyRawIdWidget
+from django.contrib.admin.widgets import ForeignKeyRawIdWidget
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
+
+
+class BookInlineAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BookInlineAdminForm, self).__init__(*args, **kwargs)
+        self.fields['book'].widget.attrs['disabled'] = True
 
 
 class BookInline(admin.TabularInline):
     model = Book.donator.through
     readonly_fields = ["book_name", "book_donate_date", "book_amount"]
     ordering = ["-book__donate_date"]
-    exclude = ['book']
-    extra = 0
-    max_num = 0
+#    exclude = ['book']
+    extra = 1
+#    max_num = 0
+#    form = BookInlineAdminForm
+#    formfield_overrides = {
+#        ForeignKey: {'widget': forms.TextInput},
+#    }
+    raw_id_fields = ['book']
 
     def book_name(self, object):
         return object.book.name
@@ -28,6 +39,19 @@ class BookInline(admin.TabularInline):
     def book_amount(self, object):
         return object.book.amount
     book_amount.short_description = _("amount")
+
+#    def get_readonly_fields(self, request, obj=None):
+#        if obj:
+#            return self.readonly_fields + ['book']
+#        return self.readonly_fields
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+#        kwargs['widget'] = forms.TextInput
+#        print kwargs
+
+        return super(BookInline, self).formfield_for_foreignkey(db_field,
+                                                                request,
+                                                                **kwargs)
 
 
 class DonatorAdminForm(forms.ModelForm):
