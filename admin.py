@@ -1,31 +1,19 @@
 from zenshu.models import Book, Donator
+from zenshu.actions import merge_selected_donators
 from django.contrib import admin
-from django.db.models import Max, ForeignKey
-from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
-from django.contrib.admin.widgets import ForeignKeyRawIdWidget
+from django.db.models import Max
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
-
-
-class BookInlineAdminForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(BookInlineAdminForm, self).__init__(*args, **kwargs)
-        self.fields['book'].widget.attrs['disabled'] = True
 
 
 class BookInline(admin.TabularInline):
     model = Book.donator.through
     readonly_fields = ["book_name", "book_donate_date", "book_amount"]
     ordering = ["-book__donate_date"]
-#    exclude = ['book']
-    extra = 1
-#    max_num = 0
-#    form = BookInlineAdminForm
-#    formfield_overrides = {
-#        ForeignKey: {'widget': forms.TextInput},
-#    }
-    raw_id_fields = ['book']
+    exclude = ['book']
+    max_num = 0
+    verbose_name = _("book")
+    verbose_name_plural = _("book")
 
     def book_name(self, object):
         return object.book.name
@@ -40,59 +28,13 @@ class BookInline(admin.TabularInline):
         return object.book.amount
     book_amount.short_description = _("amount")
 
-#    def get_readonly_fields(self, request, obj=None):
-#        if obj:
-#            return self.readonly_fields + ['book']
-#        return self.readonly_fields
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-#        kwargs['widget'] = forms.TextInput
-#        print kwargs
-
-        return super(BookInline, self).formfield_for_foreignkey(db_field,
-                                                                request,
-                                                                **kwargs)
-
-
-class DonatorAdminForm(forms.ModelForm):
-    book = forms.ModelMultipleChoiceField(
-        queryset=Book.objects.all(),
-        required=False,
-        widget=FilteredSelectMultiple(
-            verbose_name=_('book'),
-            is_stacked=False
-        ),
-        label=_('book')
-    )
-
-    class Meta:
-        model = Donator
-
-    def __init__(self, *args, **kwargs):
-        super(DonatorAdminForm, self).__init__(*args, **kwargs)
-
-        if self.instance and self.instance.pk:
-            self.fields['book'].initial = self.instance.book_set.all()
-
-    def save(self, commit=True):
-        donator = super(DonatorAdminForm, self).save(commit=False)
-
-        if commit:
-            donator.save()
-
-        if donator.pk:
-            donator.book_set = self.cleaned_data['book']
-            self.save_m2m()
-
-        return donator
-
 
 class DonatorAdmin(admin.ModelAdmin):
     list_display = ["name", "last_donate_date", "description", "contact_info"]
     search_fields = ['name', "description"]
     list_filter = (('book__donate_date', DateRangeFilter),)
     inlines = [BookInline]
-#    form = DonatorAdminForm
+    actions = [merge_selected_donators]
 
     def get_ordering(self, request):
         return ["-last_donate_date"]
@@ -103,9 +45,14 @@ class DonatorAdmin(admin.ModelAdmin):
 
     def last_donate_date(self, obj):
         return obj.last_donate_date
-
     last_donate_date.admin_order_field = 'last_donate_date'
     last_donate_date.short_description = _('last donate date')
+
+    def lookup_allowed(self, lookup, value):
+        print(lookup)
+        if lookup in ('book__donate_date__lte', 'book__donate_date__gte'):
+            return True
+        return super(DonatorAdmin, self).lookup_allowed(lookup, value)
 
 
 class BookAdmin(admin.ModelAdmin):

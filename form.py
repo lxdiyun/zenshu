@@ -1,7 +1,9 @@
 from django import forms
 from django.core.paginator import Paginator
-from zenshu.models import Donator
+from zenshu.models import Donator, Book
 from zenshu.utils import DONATOR_PAGE_SIZE
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.utils.translation import ugettext_lazy as _
 
 
 class DonatorListPageForm(forms.Form):
@@ -17,13 +19,48 @@ class DonatorListPageForm(forms.Form):
             cleaned_data["page"] = "1"
 
         return cleaned_data
-    
+
+
 class DonatorSearchForm(forms.Form):
     keyword = forms.CharField(max_length=20)
 
-    def is_valid(self):
-        if (super(DonatorSearchForm, self).is_valid()
-            and "" != self.cleaned_data['keyword']):
-            return True
-            
-        return False
+#    def is_valid(self):
+#        super_valid = super(DonatorSearchForm, self).is_valid()
+#        not_empty = ("" != self.cleaned_data['keyword'])
+#        if (super_valid and not_empty):
+#            return True
+#
+#        return False
+
+
+class DonatorAdminForm(forms.ModelForm):
+    book = forms.ModelMultipleChoiceField(
+        queryset=Book.objects.all(),
+        required=False,
+        widget=FilteredSelectMultiple(
+            verbose_name=_('book'),
+            is_stacked=False
+        ),
+        label=_('book')
+    )
+
+    class Meta:
+        model = Donator
+
+    def __init__(self, *args, **kwargs):
+        super(DonatorAdminForm, self).__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            self.fields['book'].initial = self.instance.book_set.all()
+
+    def save(self, commit=True):
+        donator = super(DonatorAdminForm, self).save(commit=False)
+
+        if commit:
+            donator.save()
+
+        if donator.pk:
+            donator.book_set = self.cleaned_data['book']
+            self.save_m2m()
+
+        return donator

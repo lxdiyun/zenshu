@@ -7,13 +7,16 @@ from zenshu.form import DonatorListPageForm, DonatorSearchForm
 from django.core.urlresolvers import reverse
 from django.db.models import Max, Sum
 from django.http import HttpResponseRedirect
+from django.utils.encoding import smart_str
 
 
 class DonatorListBase(TemplateResponseMixin):
     template_name = 'zenshu/donator_list.html'
 
     def get_queryset(self):
-        return Donator.objects.annotate(last_donate_date=Max('book__donate_date')).order_by("-last_donate_date")
+        qs = Donator.objects.annotate(
+            last_donate_date=Max('book__donate_date'))
+        return qs.order_by("-last_donate_date")
 
 
 class DonatorListView(ListView, DonatorListBase):
@@ -44,7 +47,7 @@ class DonatorDetailView(DetailView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        context = super(DonatorDetailView,self).get_context_data(**kwargs)
+        context = super(DonatorDetailView, self).get_context_data(**kwargs)
         context['books'] = Book.objects.filter(donator=self.object)
 
         return context
@@ -54,21 +57,25 @@ class DonatorSearchView(FormView, DonatorListBase):
     form_class = DonatorSearchForm
 
     def get_queryset(self):
-        keyword = self.request.REQUEST.get('keyword',"")
+        keyword = self.request.REQUEST.get('keyword', "")
+        print(smart_str(keyword))
         queryset = super(DonatorSearchView, self).get_queryset()
         queryset = queryset.filter(name__contains=keyword)
 
+        return queryset
 
     def render_to_response(self, context, **response_kwargs):
-        if 'keyword' in self.request.REQUEST:
+        if ('keyword' in self.request.REQUEST):
             donators = self.get_queryset()
-        
-            if donators.count() == 1:
+            print donators
+
+            if (donators and (donators.count() == 1)):
                 return HttpResponseRedirect(donators[0].get_absolute_url())
             else:
                 context['donators'] = donators
-                return super(DonatorSearchView, self).render_to_response(context,
-                                                                     **response_kwargs)
+                return super(DonatorSearchView,
+                             self).render_to_response(context,
+                                                      **response_kwargs)
         else:
             return HttpResponseRedirect(reverse("list_donators", args=[1]))
 
