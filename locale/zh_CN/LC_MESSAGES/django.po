@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-05 14:33+0800\n"
+"POT-Creation-Date: 2013-03-05 16:31+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,37 +17,45 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:18 admin.py:19 admin.py:40 admin.py:43 models.py:43 models.py:44
-msgid "book"
-msgstr "赠书"
-
-#: admin.py:23 models.py:12
-msgid "book name"
-msgstr "赠书名"
-
-#: admin.py:28 models.py:18
-msgid "donate date"
-msgstr "赠书时间"
-
-#: admin.py:32 models.py:17
-msgid "amount"
-msgstr "册数"
-
-#: admin.py:85
-msgid "last donate date"
-msgstr "最近赠书时间"
-
-#: admin.py:104
+#: actions.py:25
 msgid "Merge Completed"
 msgstr "合并完成"
 
-#: admin.py:106
+#: actions.py:27
 msgid "Please select at least two donators"
 msgstr "请至少选择两项"
 
-#: admin.py:108
+#: actions.py:29
 msgid "Merge selected"
 msgstr "合并选择项目"
+
+#: admin.py:15 admin.py:16 form.py:33 form.py:36 models.py:43 models.py:44
+msgid "book"
+msgstr "赠书"
+
+#: admin.py:20 models.py:12
+msgid "book name"
+msgstr "赠书名"
+
+#: admin.py:25 models.py:18
+msgid "donate date"
+msgstr "赠书时间"
+
+#: admin.py:29 models.py:17
+msgid "amount"
+msgstr "册数"
+
+#: admin.py:40 models.py:54
+msgid "contact info"
+msgstr "联系信息"
+
+#: admin.py:53
+msgid "last donate date"
+msgstr "最近赠书时间"
+
+#: admin.py:75 models.py:34 models.py:63 models.py:64
+msgid "donator"
+msgstr "赠书者"
 
 #: models.py:8
 msgid "store up"
@@ -81,14 +89,6 @@ msgstr "状态"
 msgid "description"
 msgstr "简介"
 
-#: models.py:34 models.py:63 models.py:64
-msgid "donator"
-msgstr "赠书者"
-
 #: models.py:48
 msgid "donator name"
 msgstr "单位或姓名"
-
-#: models.py:54
-msgid "contact info"
-msgstr "联系信息"

@@ -24,14 +24,6 @@ class DonatorListPageForm(forms.Form):
 class DonatorSearchForm(forms.Form):
     keyword = forms.CharField(max_length=20)
 
-#    def is_valid(self):
-#        super_valid = super(DonatorSearchForm, self).is_valid()
-#        not_empty = ("" != self.cleaned_data['keyword'])
-#        if (super_valid and not_empty):
-#            return True
-#
-#        return False
-
 
 class DonatorAdminForm(forms.ModelForm):
     book = forms.ModelMultipleChoiceField(

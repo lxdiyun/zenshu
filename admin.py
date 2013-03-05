@@ -1,5 +1,5 @@
 from zenshu.models import Book, Donator
-from zenshu.actions import merge_selected_donators
+from zenshu.actions import merge_selected_donators, export_csv_action
 from django.contrib import admin
 from django.db.models import Max
 from django.utils.translation import ugettext_lazy as _
@@ -34,7 +34,11 @@ class DonatorAdmin(admin.ModelAdmin):
     search_fields = ['name', "description"]
     list_filter = (('book__donate_date', DateRangeFilter),)
     inlines = [BookInline]
-    actions = [merge_selected_donators]
+    actions = [merge_selected_donators,
+               export_csv_action(fields=[
+                   ('name', _('donator name')),
+                   ('contact_info', _('contact info'))
+               ])]
 
     def get_ordering(self, request):
         return ["-last_donate_date"]
@@ -56,10 +60,19 @@ class DonatorAdmin(admin.ModelAdmin):
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ["name", "author_name", "amount", "donate_date"]
-    search_fields = ['name', "author_name"]
+    list_display = ["name",
+                    "author_name",
+                    "amount",
+                    "donate_date",
+                    "get_donators"]
+    search_fields = ['name', "author_name", "donator__name", "donate_date"]
     filter_horizontal = ['donator']
     list_filter = (('donate_date', DateRangeFilter),)
+
+    def get_donators(self, obj):
+        return ", ".join([dn.name for dn in obj.donator.all()])
+    get_donators.short_description = _('donator')
+
 
 admin.site.register(Donator, DonatorAdmin)
 admin.site.register(Book, BookAdmin)
