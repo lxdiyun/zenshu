@@ -1,7 +1,7 @@
 from zenshu.models import Book, Donator
 from zenshu.actions import merge_selected_donators, export_csv_action
 from django.contrib import admin
-from django.db.models import Max
+from django.db.models import Max, Sum
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
 
@@ -30,7 +30,11 @@ class BookInline(admin.TabularInline):
 
 
 class DonatorAdmin(admin.ModelAdmin):
-    list_display = ["name", "last_donate_date", "description", "contact_info"]
+    list_display = ["name",
+                    "last_donate_date",
+                    "amount",
+                    "description",
+                    "contact_info"]
     search_fields = ['name', "description"]
     list_filter = (('book__donate_date', DateRangeFilter),)
     inlines = [BookInline]
@@ -45,12 +49,18 @@ class DonatorAdmin(admin.ModelAdmin):
 
     def queryset(self, request):
         qs = super(DonatorAdmin, self).queryset(request)
-        return qs.annotate(last_donate_date=Max('book__donate_date'))
+        return qs.annotate(last_donate_date=Max('book__donate_date'),
+                           amount=Sum('book__amount'))
 
     def last_donate_date(self, obj):
         return obj.last_donate_date
     last_donate_date.admin_order_field = 'last_donate_date'
     last_donate_date.short_description = _('last donate date')
+
+    def amount(self, obj):
+        return obj.amount
+    amount.admin_order_field = 'amount'
+    amount.short_description = _('amount')
 
     def lookup_allowed(self, lookup, value):
         print(lookup)
