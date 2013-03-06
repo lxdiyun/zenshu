@@ -38,6 +38,10 @@ class Book(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_donators(self):
+        return ", ".join([dn.name for dn in self.donator.all()])
+    get_donators.short_description = _('donator')
+
     class Meta:
         ordering = ['-donate_date']
         verbose_name = _('book')

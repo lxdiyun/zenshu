@@ -1,9 +1,12 @@
 from zenshu.models import Book, Donator
 from zenshu.actions import merge_selected_donators, export_csv_action
 from django.contrib import admin
+from django.db import models
+from django.contrib.admin.util import get_fields_from_path
 from django.db.models import Max, Sum
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
+from django.utils.encoding import smart_str
 
 
 class BookInline(admin.TabularInline):
@@ -41,29 +44,57 @@ class DonatorAdmin(admin.ModelAdmin):
     actions = [merge_selected_donators,
                export_csv_action(fields=[
                    ('name', _('donator name')),
+                   ('amount', _('amount')),
                    ('contact_info', _('contact info'))
                ])]
 
     def get_ordering(self, request):
         return ["-last_donate_date"]
 
+    def pre_filter(self, request, querryset):
+        params = dict(request.GET.items())
+        filter_field = 'book__donate_date'
+        field_path = None
+        for key, value in params.items():
+            if not isinstance(key, str):
+                del params[key]
+                params[smart_str(key)] = value
+        if not isinstance(filter_field, models.Field):
+            field_path = filter_field
+            filter_field = get_fields_from_path(self.model, field_path)[-1]
+        daterange_filter = DateRangeFilter(filter_field,
+                                           request,
+                                           params,
+                                           self.model,
+                                           self,
+                                           field_path)
+        return daterange_filter.filter_queryset_special(request, querryset)
+
     def queryset(self, request):
         qs = super(DonatorAdmin, self).queryset(request)
-        return qs.annotate(last_donate_date=Max('book__donate_date'),
-                           amount=Sum('book__amount'))
+        qs = self.pre_filter(request, qs)
+        qs = qs.annotate(amount=Sum('book__amount'),
+                         last_donate_date=Max('book__donate_date'))
+        qs = qs.distinct()
+        print qs.count()
+        return qs
 
     def last_donate_date(self, obj):
-        return obj.last_donate_date
-    last_donate_date.admin_order_field = 'last_donate_date'
+        return "2012-01-01"
+#        return obj.last_donate_date
+#    last_donate_date.admin_order_field = 'last_donate_date'
     last_donate_date.short_description = _('last donate date')
 
     def amount(self, obj):
+        print obj
         return obj.amount
     amount.admin_order_field = 'amount'
     amount.short_description = _('amount')
 
+    def count(self, obj):
+        return obj.count
+
     def lookup_allowed(self, lookup, value):
-        print(lookup)
         if lookup in ('book__donate_date__lte', 'book__donate_date__gte'):
             return True
         return super(DonatorAdmin, self).lookup_allowed(lookup, value)
@@ -78,10 +109,12 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ['name', "author_name", "donator__name", "donate_date"]
     filter_horizontal = ['donator']
     list_filter = (('donate_date', DateRangeFilter),)
-
-    def get_donators(self, obj):
-        return ", ".join([dn.name for dn in obj.donator.all()])
-    get_donators.short_description = _('donator')
+    actions = [export_csv_action(fields=[
+        ('name', _('book name')),
+        ('amount', _('amount')),
+        ('donate_date', _('donate date')),
+        ('get_donators', _('donator name'))
+    ])]
 
 
 admin.site.register(Donator, DonatorAdmin)
