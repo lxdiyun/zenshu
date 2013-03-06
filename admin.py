@@ -68,7 +68,13 @@ class DonatorAdmin(admin.ModelAdmin):
                                            self.model,
                                            self,
                                            field_path)
-        return daterange_filter.filter_queryset_special(request, querryset)
+        print request.GET
+        # remove parameters so that the dateranger filter won't be triger agin
+        request.GET['book__donate_date__lte'] = ''
+        request.GET['book__donate_date__gte'] = ''
+        print request.GET
+
+        return daterange_filter.queryset(request, querryset)
 
     def queryset(self, request):
         qs = super(DonatorAdmin, self).queryset(request)
