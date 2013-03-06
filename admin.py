@@ -80,9 +80,8 @@ class DonatorAdmin(admin.ModelAdmin):
         return qs
 
     def last_donate_date(self, obj):
-        return "2012-01-01"
-#        return obj.last_donate_date
-#    last_donate_date.admin_order_field = 'last_donate_date'
+        return obj.last_donate_date
+    last_donate_date.admin_order_field = 'last_donate_date'
     last_donate_date.short_description = _('last donate date')
 
     def amount(self, obj):
