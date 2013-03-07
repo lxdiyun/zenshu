@@ -91,6 +91,8 @@ def trans_book(dn, pt):
 def trans_dn(pt, dn_name):
     dn = Donor()
     dn.name = dn_name
+    if (3 >= pt.length):
+        dn.donor_type = 0
     if pt.info is not None:
         dn.description = pt.info
     if pt.contact2 is not None:
@@ -101,7 +103,8 @@ def trans_dn(pt, dn_name):
 
 
 def trans():
-    presents = ZshPresent.objects.all()
+    presents = ZshPresent.objects.extra(
+        select={'length': 'Length(present_name)'})
 
     for pt in presents:
         pt_name = pt.present_name
@@ -118,7 +121,8 @@ def trans():
 
 
 def trans2():
-    zshbooks = ZshBook.objects.all()
+    zshbooks = ZshBook.objects.extra(
+        select={'length': 'Length(present_name)'})
 
     for zbk in zshbooks:
         pt_name_exists = Donor.objects.filter(name=zbk.present_name).exists()
@@ -126,6 +130,8 @@ def trans2():
             print("%d %s\n" % (zbk.id, smart_str(zbk.bookname)))
             dn = Donor()
             dn.name = zbk.present_name
+            if (3 >= zbk.length):
+                dn.donor_type = 0
             dn.save()
             bk = Book()
 
