@@ -2,8 +2,8 @@ from django.contrib.admin.filters import FieldListFilter
 from django.db.models import Max, Sum
 
 
-class DonatorAnnotateFilter(FieldListFilter):
-    template = 'zenshu/donator_annotate_filter.html'
+class DonorAnnotateFilter(FieldListFilter):
+    template = 'zenshu/donor_annotate_filter.html'
 
     def expected_parameters(self):
         return []

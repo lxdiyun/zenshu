@@ -1,22 +1,22 @@
 from django.conf.urls import patterns, url
 from zenshu.views import *
 
-donators_list_view = DonatorListView.as_view()
+donors_list_view = DonorListView.as_view()
 
 urlpatterns = patterns('',
                        url(r'^$',
-                           donators_list_view,
+                           donors_list_view,
                            name='home_page'),
                        url(r'^(?P<page>\d+)$',
-                           donators_list_view,
-                           name='list_donators'),
-                       url(r'^donators_list_page$',
-                           DonatorListCheck.as_view(),
-                           name='list_donators_page'),
+                           donors_list_view,
+                           name='list_donors'),
+                       url(r'^donors_list_page$',
+                           DonorListCheck.as_view(),
+                           name='list_donors_page'),
                        url(r'^detail/(?P<pk>\d+)$',
-                           DonatorDetailView.as_view(),
-                           name='detail_donator'),
+                           DonorDetailView.as_view(),
+                           name='detail_donor'),
                        url(r'^search$',
-                           DonatorSearchView.as_view(),
-                           name='search_donator'),
+                           DonorSearchView.as_view(),
+                           name='search_donor'),
                        )

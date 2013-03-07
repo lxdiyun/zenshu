@@ -1,4 +1,4 @@
-from zenshu.models import Donator
+from zenshu.models import Donor
 from zenshu.transport import merge_dn
 from zenshu.utils import UnicodeWriter
 from django.utils.translation import ugettext_lazy as _
@@ -11,9 +11,9 @@ from django.http import HttpResponse
 #from django.utils.encoding import smart_str, smart_unicode
 
 
-def merge_selected_donators(self, request, queryset):
+def merge_selected_donors(self, request, queryset):
     if (queryset and (1 < queryset.all().count())):
-        key_dn = Donator()
+        key_dn = Donor()
         key_dn.name = queryset[0].name
         key_dn.save()
 
@@ -24,9 +24,9 @@ def merge_selected_donators(self, request, queryset):
         queryset.all().delete()
         messages.success(request, _("Merge Completed"))
     else:
-        messages.error(request, _("Please select at least two donators"))
+        messages.error(request, _("Please select at least two donors"))
 
-merge_selected_donators.short_description = _("Merge selected")
+merge_selected_donors.short_description = _("Merge selected")
 
 
 def prep_field(obj, field):

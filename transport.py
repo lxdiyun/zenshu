@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from zenshu.models import Book, Donator
+from zenshu.models import Book, Donor
 from django.utils.encoding import smart_str, smart_unicode
 #from django.db.models import Sum
 
@@ -83,13 +83,13 @@ def trans_book(dn, pt):
             bk.description = zbk.info
         bk.publish_date = zbk.public_date
         bk.save()
-        bk.donator.add(dn)
+        bk.donor.add(dn)
         bk.save()
         print(bk.id)
 
 
 def trans_dn(pt, dn_name):
-    dn = Donator()
+    dn = Donor()
     dn.name = dn_name
     if pt.info is not None:
         dn.description = pt.info
@@ -106,7 +106,7 @@ def trans():
     for pt in presents:
         pt_name = pt.present_name
 #        print(smart_str(pt_name))
-        pt_name_exists = Donator.objects.filter(name=pt_name).exists()
+        pt_name_exists = Donor.objects.filter(name=pt_name).exists()
 
         if (pt_name_exists):
             dn_name = pt_name + smart_unicode("(重复)")
@@ -121,10 +121,10 @@ def trans2():
     zshbooks = ZshBook.objects.all()
 
     for zbk in zshbooks:
-        pt_name_exists = Donator.objects.filter(name=zbk.present_name).exists()
+        pt_name_exists = Donor.objects.filter(name=zbk.present_name).exists()
         if (not pt_name_exists):
             print("%d %s\n" % (zbk.id, smart_str(zbk.bookname)))
-            dn = Donator()
+            dn = Donor()
             dn.name = zbk.present_name
             dn.save()
             bk = Book()
@@ -148,7 +148,7 @@ def trans2():
                     bk.publisher = zshbook.publisher
 #                bk.publish_date = zshbook.public_date
                 bk.save()
-                bk.donator.add(dn)
+                bk.donor.add(dn)
                 bk.save()
                 print(bk.id)
 
@@ -168,7 +168,7 @@ def check2():
 
 
 def check3():
-    dns = Donator.objects.all()
+    dns = Donor.objects.all()
     for dn in dns:
         total = dn.book_set.count()
         print total
@@ -177,11 +177,11 @@ g_merge_dict = {}
 
 
 def make_merge_list():
-    dns = Donator.objects.all()
+    dns = Donor.objects.all()
 
     for dn in dns:
         if ('' != dn.name):
-            same_name_dns = Donator.objects.filter(
+            same_name_dns = Donor.objects.filter(
                 name__regex="^\d?"+dn.name+smart_unicode(
                     "[（\d）]*$")).order_by('id')
             if (1 < same_name_dns.count()):
@@ -193,9 +193,9 @@ def make_merge_list():
                 g_merge_dict[dn.id] = merge_list
 
     for key in g_merge_dict.keys():
-        key_name = Donator.objects.get(id=key).name
+        key_name = Donor.objects.get(id=key).name
         dn_ids = g_merge_dict[key]
-        dn_names = Donator.objects.filter(id__in=dn_ids).values_list('name',
+        dn_names = Donor.objects.filter(id__in=dn_ids).values_list('name',
                                                                      flat=True)
         dn_names_smart = map(smart_str, dn_names)
         print("%s:[%s]" % (smart_str(key_name), "".join(dn_names_smart)))
@@ -218,13 +218,13 @@ def merge_dn(key_dn, dn):
 
 def merge():
     for key in g_merge_dict.keys():
-        key_dn = Donator.objects.get(id=key)
+        key_dn = Donor.objects.get(id=key)
         print key_dn
         dn_ids = g_merge_dict[key]
-        dns = Donator.objects.filter(id__in=dn_ids)
+        dns = Donor.objects.filter(id__in=dn_ids)
         for dn in dns:
             merge_dn(key_dn, dn)
         key_dn.save()
 
     for dn_ids in g_merge_dict.values():
-        Donator.objects.filter(id__in=dn_ids).all().delete()
+        Donor.objects.filter(id__in=dn_ids).all().delete()

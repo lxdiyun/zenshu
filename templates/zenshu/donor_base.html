@@ -45,7 +45,7 @@
 		<table style="border: 1 outset #000080" align="center" background="{{ STATIC_URL }}zenshu/bgblight.jpg" border="1" cellpadding="1" width="80%">    
 			<tbody><tr>   
 					<td colspan="4" align="center" height="16" width="100%">  
-						<form method="POST" action="{% url search_donator %}">    
+						<form method="POST" action="{% url search_donor %}">    
 							{% csrf_token %}
 							<p align="right">   
 							<b><font color="#008000" size="2">输入单位或姓名:</font></b>
@@ -56,7 +56,7 @@
 						</form>  
 					</td>   
 				</tr>   
-				{% block donators %}{% endblock %}
+				{% block donors %}{% endblock %}
 			</tbody>
 		</table>   
 		{% block paginate %}{% endblock %}

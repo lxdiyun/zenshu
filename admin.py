@@ -1,13 +1,13 @@
-from zenshu.models import Book, Donator
-from zenshu.actions import merge_selected_donators, export_csv_action
-from zenshu.filters import DonatorAnnotateFilter
+from zenshu.models import Book, Donor
+from zenshu.actions import merge_selected_donors, export_csv_action
+from zenshu.filters import DonorAnnotateFilter
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
 
 
 class BookInline(admin.TabularInline):
-    model = Book.donator.through
+    model = Book.donor.through
     readonly_fields = ["book_name", "book_donate_date", "book_amount"]
     ordering = ["-book__donate_date"]
     exclude = ['book']
@@ -29,7 +29,7 @@ class BookInline(admin.TabularInline):
     book_amount.short_description = _("amount")
 
 
-class DonatorAdmin(admin.ModelAdmin):
+class DonorAdmin(admin.ModelAdmin):
     list_display = ["name",
                     "last_donate_date",
                     "amount",
@@ -39,11 +39,11 @@ class DonatorAdmin(admin.ModelAdmin):
     list_filter = (('book__donate_date', DateRangeFilter),
                    # Need this special filter to provide annotate field
                    # because the m2m annotation must after m2m filter
-                   ('id', DonatorAnnotateFilter))
+                   ('id', DonorAnnotateFilter))
     inlines = [BookInline]
-    actions = [merge_selected_donators,
+    actions = [merge_selected_donors,
                export_csv_action(fields=[
-                   ('name', _('donator name')),
+                   ('name', _('donor name')),
                    ('amount', _('amount')),
                    ('contact_info', _('contact info'))
                ])]
@@ -64,7 +64,7 @@ class DonatorAdmin(admin.ModelAdmin):
     def lookup_allowed(self, lookup, value):
         if lookup in ('book__donate_date__lte', 'book__donate_date__gte'):
             return True
-        return super(DonatorAdmin, self).lookup_allowed(lookup, value)
+        return super(DonorAdmin, self).lookup_allowed(lookup, value)
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -72,17 +72,17 @@ class BookAdmin(admin.ModelAdmin):
                     "author_name",
                     "amount",
                     "donate_date",
-                    "get_donators"]
-    search_fields = ['name', "author_name", "donator__name", "donate_date"]
-    filter_horizontal = ['donator']
+                    "get_donors"]
+    search_fields = ['name', "author_name", "donor__name", "donate_date"]
+    filter_horizontal = ['donor']
     list_filter = (('donate_date', DateRangeFilter),)
     actions = [export_csv_action(fields=[
         ('name', _('book name')),
         ('amount', _('amount')),
         ('donate_date', _('donate date')),
-        ('get_donators', _('donator name'))
+        ('get_donors', _('donor name'))
     ])]
 
 
-admin.site.register(Donator, DonatorAdmin)
+admin.site.register(Donor, DonorAdmin)
 admin.site.register(Book, BookAdmin)

@@ -30,17 +30,17 @@ class Book(models.Model):
     description = models.TextField(blank=True,
                                    null=True,
                                    verbose_name=_("description"))
-    donator = models.ManyToManyField('Donator',
-                                     verbose_name=_('donator'),
+    donor = models.ManyToManyField('Donor',
+                                     verbose_name=_('donor'),
                                      null=True,
                                      blank=True)
 
     def __unicode__(self):
         return self.name
 
-    def get_donators(self):
-        return ", ".join([dn.name for dn in self.donator.all()])
-    get_donators.short_description = _('donator')
+    def get_donors(self):
+        return ", ".join([dn.name for dn in self.donor.all()])
+    get_donors.short_description = _('donor')
 
     class Meta:
         ordering = ['-donate_date']
@@ -48,12 +48,12 @@ class Book(models.Model):
         verbose_name_plural = _('book')
 
 
-class Donator(models.Model):
+class Donor(models.Model):
     TYPE = (
         (0, _('personal')),
         (1, _('organization')),
     )
-    name = models.CharField(max_length=250, verbose_name=_("donator name"))
+    name = models.CharField(max_length=250, verbose_name=_("donor name"))
     description = models.TextField(blank=True,
                                    null=True,
                                    verbose_name=_("description"))
@@ -69,8 +69,8 @@ class Donator(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("detail_donator", kwargs={'pk': self.id})
+        return reverse("detail_donor", kwargs={'pk': self.id})
 
     class Meta:
-        verbose_name = _('donator')
-        verbose_name_plural = _('donator')
+        verbose_name = _('donor')
+        verbose_name_plural = _('donor')
