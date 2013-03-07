@@ -1,12 +1,9 @@
 from zenshu.models import Book, Donator
 from zenshu.actions import merge_selected_donators, export_csv_action
+from zenshu.filters import DonatorAnnotateFilter
 from django.contrib import admin
-from django.db import models
-from django.contrib.admin.util import get_fields_from_path
-from django.db.models import Max, Sum
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
-from django.utils.encoding import smart_str
 
 
 class BookInline(admin.TabularInline):
@@ -39,7 +36,10 @@ class DonatorAdmin(admin.ModelAdmin):
                     "description",
                     "contact_info"]
     search_fields = ['name', "description"]
-    list_filter = (('book__donate_date', DateRangeFilter),)
+    list_filter = (('book__donate_date', DateRangeFilter),
+                   # Need this special filter to provide annotate field
+                   # because the m2m annotation must after m2m filter
+                   ('id', DonatorAnnotateFilter))
     inlines = [BookInline]
     actions = [merge_selected_donators,
                export_csv_action(fields=[
@@ -51,53 +51,15 @@ class DonatorAdmin(admin.ModelAdmin):
     def get_ordering(self, request):
         return ["-last_donate_date"]
 
-    def pre_filter(self, request, querryset):
-        params = dict(request.GET.items())
-        filter_field = 'book__donate_date'
-        field_path = None
-        for key, value in params.items():
-            if not isinstance(key, str):
-                del params[key]
-                params[smart_str(key)] = value
-        if not isinstance(filter_field, models.Field):
-            field_path = filter_field
-            filter_field = get_fields_from_path(self.model, field_path)[-1]
-        daterange_filter = DateRangeFilter(filter_field,
-                                           request,
-                                           params,
-                                           self.model,
-                                           self,
-                                           field_path)
-        print request.GET
-        # remove parameters so that the dateranger filter won't be triger agin
-        request.GET['book__donate_date__lte'] = ''
-        request.GET['book__donate_date__gte'] = ''
-        print request.GET
-
-        return daterange_filter.queryset(request, querryset)
-
-    def queryset(self, request):
-        qs = super(DonatorAdmin, self).queryset(request)
-        qs = self.pre_filter(request, qs)
-        qs = qs.annotate(amount=Sum('book__amount'),
-                         last_donate_date=Max('book__donate_date'))
-        qs = qs.distinct()
-        print qs.count()
-        return qs
-
     def last_donate_date(self, obj):
         return obj.last_donate_date
     last_donate_date.admin_order_field = 'last_donate_date'
     last_donate_date.short_description = _('last donate date')
 
     def amount(self, obj):
-        print obj
         return obj.amount
     amount.admin_order_field = 'amount'
     amount.short_description = _('amount')
-
-    def count(self, obj):
-        return obj.count
 
     def lookup_allowed(self, lookup, value):
         if lookup in ('book__donate_date__lte', 'book__donate_date__gte'):

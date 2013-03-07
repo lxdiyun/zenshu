@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.db.models import Max, Sum
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -59,6 +60,18 @@ class Donator(models.Model):
 
     def __unicode__(self):
         return self.name
+
+#    def last_donate_date(self):
+#        qs = self.book_set.aggregate(last_donate_date=Max('donate_date'))
+#        return qs['last_donate_date']
+#    last_donate_date.admin_order_field = 'last_donate_date'
+#    last_donate_date.short_description = _('last donate date')
+
+#    def amount(self):
+#        qs = self.book_set.aggregate(amount=Sum('amount'))
+#        return qs['amount']
+#    amount.admin_order_field = 'amount'
+#    amount.short_description = _('amount')
 
     def get_absolute_url(self):
         return reverse("detail_donator", kwargs={'pk': self.id})
