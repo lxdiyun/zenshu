@@ -1,5 +1,11 @@
 import csv
 import StringIO
+from django.contrib.admin.util import NestedObjects, quote
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
+from django.utils.html import escape
+from django.utils.text import capfirst
+from django.utils.encoding import force_unicode
 
 DONATOR_PAGE_SIZE = 16
 
@@ -76,3 +82,56 @@ class UnicodeDictWriter(UnicodeWriter):
     def writerow(self, drow):
         row = [drow.get(field, '') for field in self.fields]
         super(UnicodeDictWriter, self).writerow(row)
+
+
+def get_merged_objects(objs, opts, user, admin_site, using):
+    """
+    Find all objects related to ``objs`` that should also be merged. ``objs``
+    must be a homogenous iterable of objects (e.g. a QuerySet).
+
+    Returns a nested list of strings suitable for display in the
+    template with the ``unordered_list`` filter.
+
+    """
+    collector = NestedObjects(using=using)
+    collector.collect(objs)
+    perms_needed = set()
+
+    def format_callback(obj):
+        has_admin = obj.__class__ in admin_site._registry
+        opts = obj._meta
+
+        if has_admin:
+            admin_url = reverse('%s:%s_%s_change'
+                                % (admin_site.name,
+                                   opts.app_label,
+                                   opts.object_name.lower()),
+                                None, (quote(obj._get_pk_val()),))
+            p = '%s.%s' % (opts.app_label,
+                           opts.get_delete_permission())
+            if not user.has_perm(p):
+                perms_needed.add(opts.verbose_name)
+            p = '%s.%s' % (opts.app_label,
+                           opts.get_change_permission())
+            if not user.has_perm(p):
+                perms_needed.add(opts.verbose_name)
+            p = '%s.%s' % (opts.app_label,
+                           opts.get_add_permission())
+            if not user.has_perm(p):
+                perms_needed.add(opts.verbose_name)
+            # Display a link to the admin page.
+            return mark_safe(u'%s: <a href="%s">%s</a>' %
+                             (escape(capfirst(opts.verbose_name)),
+                              admin_url,
+                              escape(obj)))
+        else:
+            # Don't display link to edit, because it either has no
+            # admin or is edited inline.
+            return u'%s: %s' % (capfirst(opts.verbose_name),
+                                force_unicode(obj))
+
+    to_merge = collector.nested(format_callback)
+
+    protected = [format_callback(obj) for obj in collector.protected]
+
+    return to_merge, perms_needed, protected

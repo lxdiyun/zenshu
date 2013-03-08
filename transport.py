@@ -112,7 +112,7 @@ def trans():
         pt_name_exists = Donor.objects.filter(name=pt_name).exists()
 
         if (pt_name_exists):
-            dn_name = pt_name + smart_unicode("(重复)")
+            dn_name = pt_name + smart_unicode("(0)")
             trans_dn(pt, dn_name)
         else:
             dn_name = pt_name
@@ -189,7 +189,7 @@ def make_merge_list():
         if ('' != dn.name):
             same_name_dns = Donor.objects.filter(
                 name__regex="^\d?"+dn.name+smart_unicode(
-                    "[（\d）]*$")).order_by('id')
+                    "[(（\d）)]*$")).order_by('id')
             if (1 < same_name_dns.count()):
                 merge_list = []
 
@@ -202,7 +202,7 @@ def make_merge_list():
         key_name = Donor.objects.get(id=key).name
         dn_ids = g_merge_dict[key]
         dn_names = Donor.objects.filter(id__in=dn_ids).values_list('name',
-                                                                     flat=True)
+                                                                   flat=True)
         dn_names_smart = map(smart_str, dn_names)
         print("%s:[%s]" % (smart_str(key_name), "".join(dn_names_smart)))
 
@@ -210,12 +210,12 @@ def make_merge_list():
 def merge_dn(key_dn, dn):
     if dn.contact_info is not None:
         if key_dn.contact_info is not None:
-            key_dn.contact_info += " | " + dn.contact_info
+            key_dn.contact_info += "\n" + dn.contact_info
         else:
             key_dn.contact_info = dn.contact_info
     if dn.description is not None:
         if key_dn.description is not None:
-            key_dn.description += " | " + dn.description
+            key_dn.description += "\n" + dn.description
         else:
             key_dn.description = dn.description
 

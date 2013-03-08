@@ -1,5 +1,5 @@
 from zenshu.models import Book, Donor
-from zenshu.actions import merge_selected_donors, export_csv_action
+from zenshu.actions import merge_selected, export_csv_action
 from zenshu.filters import DonorAnnotateFilter
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
@@ -41,7 +41,7 @@ class DonorAdmin(admin.ModelAdmin):
                    # because the m2m annotation must after m2m filter
                    ('id', DonorAnnotateFilter))
     inlines = [BookInline]
-    actions = [merge_selected_donors,
+    actions = [merge_selected,
                export_csv_action(fields=[
                    ('name', _('donor name')),
                    ('amount', _('amount')),
