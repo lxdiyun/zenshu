@@ -66,7 +66,6 @@ def merge_selected(modeladmin, request, queryset):
         else:
             title = _("Are you sure?")
 
-        print(mergeable_objects)
         context = {
             "title": title,
             "objects_name": objects_name,
