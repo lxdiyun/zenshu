@@ -1,4 +1,4 @@
-from zenshu.models import Book, Donor
+from zenshu.models import Book, Donor, Photo
 from zenshu.actions import merge_selected, export_csv_action
 from zenshu.filters import DonorAnnotateFilter
 from django.contrib import admin
@@ -67,6 +67,10 @@ class DonorAdmin(admin.ModelAdmin):
         return super(DonorAdmin, self).lookup_allowed(lookup, value)
 
 
+class PhotoInline(admin.TabularInline):
+    model = Photo
+
+
 class BookAdmin(admin.ModelAdmin):
     list_display = ["name",
                     "author_name",
@@ -82,7 +86,9 @@ class BookAdmin(admin.ModelAdmin):
         ('donate_date', _('donate date')),
         ('get_donors', _('donor name'))
     ])]
+    inlines = [PhotoInline]
 
 
 admin.site.register(Donor, DonorAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(Photo)

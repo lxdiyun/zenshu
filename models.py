@@ -31,9 +31,9 @@ class Book(models.Model):
                                    null=True,
                                    verbose_name=_("description"))
     donor = models.ManyToManyField('Donor',
-                                     verbose_name=_('donor'),
-                                     null=True,
-                                     blank=True)
+                                   verbose_name=_('donor'),
+                                   null=True,
+                                   blank=True)
 
     def __unicode__(self):
         return self.name
@@ -45,7 +45,7 @@ class Book(models.Model):
     class Meta:
         ordering = ['-donate_date']
         verbose_name = _('book')
-        verbose_name_plural = _('book')
+        verbose_name_plural = _('books')
 
 
 class Donor(models.Model):
@@ -73,4 +73,20 @@ class Donor(models.Model):
 
     class Meta:
         verbose_name = _('donor')
-        verbose_name_plural = _('donor')
+        verbose_name_plural = _('donors')
+
+
+class Photo(models.Model):
+    name = models.CharField(max_length=250, verbose_name=_('photo name'))
+    image = models.ImageField(upload_to='zenshu_book_photo')
+    book = models.ForeignKey('Book',
+                             verbose_name=(_('book')),
+                             null=True,
+                             blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('photo')
+        verbose_name_plural = _('photos')
