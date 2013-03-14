@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from imagekit.models import ImageSpecField
+from imagekit.processors import SmartResize
 
 
 class Book(models.Model):
@@ -78,7 +80,12 @@ class Donor(models.Model):
 
 class Photo(models.Model):
     name = models.CharField(max_length=250, verbose_name=_('photo name'))
-    image = models.ImageField(upload_to='zenshu_book_photo')
+    image = models.ImageField(upload_to='zenshu_book_photo',
+                              verbose_name=_('Image'))
+    thumbnail = ImageSpecField(image_field='image',
+                               processors=[SmartResize(100, 50)],
+                               format='JPEG',
+                               options={'quality': 60})
     book = models.ForeignKey('Book',
                              verbose_name=(_('book')),
                              null=True,

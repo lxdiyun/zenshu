@@ -4,6 +4,7 @@ from zenshu.filters import DonorAnnotateFilter
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
+from imagekit.admin import AdminThumbnail
 
 
 class BookInline(admin.TabularInline):
@@ -89,6 +90,16 @@ class BookAdmin(admin.ModelAdmin):
     inlines = [PhotoInline]
 
 
+class PhotoAdmin(admin.ModelAdmin):
+    list_display = ["name", "admin_thumbnail"]
+    fields = ('name', 'image', 'admin_thumbnail', 'book')
+    readonly_fields = ['admin_thumbnail']
+    admin_thumbnail = AdminThumbnail(image_field='thumbnail')
+    raw_id_fields = ['book']
+
+    admin_thumbnail.short_description = _('Thumbnail')
+
+
 admin.site.register(Donor, DonorAdmin)
 admin.site.register(Book, BookAdmin)
-admin.site.register(Photo)
+admin.site.register(Photo, PhotoAdmin)
