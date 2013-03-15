@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from imagekit.models import ImageSpecField
 from imagekit.processors import SmartResize
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 
 
 class Book(models.Model):
@@ -36,6 +38,9 @@ class Book(models.Model):
                                    verbose_name=_('donor'),
                                    null=True,
                                    blank=True)
+    photos = generic.GenericRelation('Photo',
+                                     content_type_field='content_type',
+                                     object_id_field='object_id')
 
     def __unicode__(self):
         return self.name
@@ -83,13 +88,12 @@ class Photo(models.Model):
     image = models.ImageField(upload_to='zenshu_book_photo',
                               verbose_name=_('Image'))
     thumbnail = ImageSpecField(image_field='image',
-                               processors=[SmartResize(100, 50)],
+                               processors=[SmartResize(75, 100)],
                                format='JPEG',
                                options={'quality': 60})
-    book = models.ForeignKey('Book',
-                             verbose_name=(_('book')),
-                             null=True,
-                             blank=True)
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     def __unicode__(self):
         return self.name

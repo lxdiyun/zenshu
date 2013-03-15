@@ -4,6 +4,7 @@ from zenshu.filters import DonorAnnotateFilter
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
+from django.contrib.contenttypes import generic
 from imagekit.admin import AdminThumbnail
 
 
@@ -68,8 +69,12 @@ class DonorAdmin(admin.ModelAdmin):
         return super(DonorAdmin, self).lookup_allowed(lookup, value)
 
 
-class PhotoInline(admin.TabularInline):
+class PhotoInline(generic.GenericTabularInline):
     model = Photo
+    readonly_fields = ['admin_thumbnail']
+    admin_thumbnail = AdminThumbnail(image_field='thumbnail')
+
+    admin_thumbnail.short_description = _('Thumbnail')
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -92,14 +97,14 @@ class BookAdmin(admin.ModelAdmin):
 
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ["name", "admin_thumbnail"]
-    fields = ('name', 'image', 'admin_thumbnail', 'book')
+    fields = ["name", "image", "admin_thumbnail"]
     readonly_fields = ['admin_thumbnail']
     admin_thumbnail = AdminThumbnail(image_field='thumbnail')
-    raw_id_fields = ['book']
+    search_fields = ['name']
 
     admin_thumbnail.short_description = _('Thumbnail')
 
 
 admin.site.register(Donor, DonorAdmin)
 admin.site.register(Book, BookAdmin)
-admin.site.register(Photo, PhotoAdmin)
+#admin.site.register(Photo, PhotoAdmin)
