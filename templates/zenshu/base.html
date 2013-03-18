@@ -58,42 +58,14 @@
 				<div class="span10">
 					<div class="hero-unit">
 						<div class="row-fluid">
-							<img class="img-rounded span1" src="/static/zenshu/libicon3.jpg">
+							<img class="img-rounded span1" src="{{STATIC_URL}}zenshu/libicon3.jpg">
 							<div class="span9">
 								<h2>特藏组潮汕文献赠书芳名录</h2>
 								<p>谨向关心支持我馆潮汕文献建设发展的单位和个人表示衷心感谢!</p>
 							</div>
 						</div>
 					</div>
-					{% block donors %}{% endblock %}
-					<div class="row-fluid">
-						<div class="span4">
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn" href="#">View details »</a></p>
-						</div>
-						<div class="span4">
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="span4">
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn" href="#">View details »</a></p>
-						</div><!--/span-->
-					</div><!--/row-->
-					<div class="pagination">
-						<ul>
-							<li><a href="#">Prev</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">Next</a></li>
-						</ul>
-					</div>
+					{% block content %}{% endblock %}
 				</div><!--/span-->
 			</div><!--/row-->
 

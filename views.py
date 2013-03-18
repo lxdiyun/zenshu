@@ -23,6 +23,11 @@ class DonorListView(ListView, DonorListBase):
     paginate_by = DONATOR_PAGE_SIZE
     context_object_name = 'donors'
 
+    def get_context_data(self, **kwargs):
+        context = super(DonorListView, self).get_context_data(**kwargs)
+        context['request'] = self.request
+        return context
+
 
 class DonorListCheck(FormView):
     form_class = DonorListPageForm
