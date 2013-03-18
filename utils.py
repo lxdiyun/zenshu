@@ -7,7 +7,7 @@ from django.utils.html import escape
 from django.utils.text import capfirst
 from django.utils.encoding import force_unicode
 
-DONATOR_PAGE_SIZE = 16
+DONATOR_PAGE_SIZE = 6
 
 
 class UnicodeWriter(object):

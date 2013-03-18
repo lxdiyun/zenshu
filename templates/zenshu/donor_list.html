@@ -1,45 +1,17 @@
-{% extends "zenshu/donor_base.html" %}
+{% extends "zenshu/base.html" %}
 
 {% block donors %}
+<div class="row-fluid">
 {% for donor in donors %}
-<td class="{% cycle 'td1' 'td2' 'td1' 'td2' 'td2' 'td1' 'td2' 'td1'%}">
-	<a href="{{ donor.get_absolute_url }}">{{ donor.name }}</a>
-</td>
-{% cycle '' '' '' '</tr><tr>' %}
+	<div class="span4">
+		<h3>{{ donor.name }}</h3>
+		<p><a class="btn" href="{{ donor.get_absolute_url }}">View details »</a></p>
+	</div>
+	{% if forloop.counter|divisibleby:3 %}
+		</div>
+		<div class="row-fluid">
+	{% endif %}
 {% endfor %}
+</div>
 {% endblock %}
 
-{% block paginate %}
-{% if is_paginated %}
-<div align="center">   
-	<center>   
-		<table background="{{ STATIC_URL }}zenshu/bgblight.jpg" border="0" cellpadding="0" cellspacing="0" width="80%">   
-			<tbody><tr><td align="center" width="70%">   
-						{% if page_obj.number != 1 and page_obj.paginator.num_pages > 1 %}
-						<a href="{% url 'list_donors' page=1 %}"><img src="{{ STATIC_URL }}zenshu/first.gif" border="0"></a>
-						{% endif %}
-						{% if page_obj.has_previous %}
-						<a href="{% url 'list_donors' page=page_obj.previous_page_number %}"><img src="{{ STATIC_URL }}zenshu/pre.gif" border="0"></a>
-						{% endif %}
-						{% if page_obj.has_next %}
-						<a href="{% url 'list_donors' page=page_obj.next_page_number %}"><img src="{{ STATIC_URL }}zenshu/next.gif" border="0"></a>
-						{% endif %}
-						{% if page_obj.number != page_obj.paginator.num_pages%}
-						<a href="{% url 'list_donors' page=page_obj.paginator.num_pages %}"><img src="{{ STATIC_URL }}zenshu/last.gif" border="0"></a>
-						{% endif %}
-
-					</td>    
-
-					<td align="left" width="30%">    
-						<form action="{% url 'list_donors_page' %}" method="POST">    
-							<p align="left">    
-							<font size="2">输入页码[{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}]:<input name="page" size="3" class="font9" type="text"></font>    
-							</p>
-							{% csrf_token %} 
-						</form>    
-				</td></tr>    
-		</tbody></table>     
-	</center>
-</div>    
-{% endif %}
-{% endblock %}
