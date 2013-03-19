@@ -4,9 +4,12 @@
 {% block content %}
 <div class="row-fluid">
 {% for donor in donors %}
-	<div class="span4">
+	<div class="span4" href="{{ donor.get_absolute_url }}">
 		<h3>{{ donor.name }}</h3>
-		<p><a class="btn" href="{{ donor.get_absolute_url }}">View details »</a></p>
+		<p>
+			<strong>赠书：</strong>{{ donor.get_books_string }}
+			<a class="btn" href="{{ donor.get_absolute_url }}">详细 »</a>
+		</p>
 	</div>
 	{% if forloop.counter|divisibleby:3 %}
 		</div>

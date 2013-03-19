@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -77,6 +78,12 @@ class Donor(models.Model):
 
     def get_absolute_url(self):
         return reverse("detail_donor", kwargs={'pk': self.id})
+
+    def get_books_string(self):
+        book_names = map(lambda b: b.name, self.book_set.all())
+        name_str = u"》，《".join(book_names)
+        string = u"《" + name_str + u"》"
+        return string[:52] + u"……"
 
     class Meta:
         verbose_name = _('donor')
