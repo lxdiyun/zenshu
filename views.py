@@ -53,7 +53,7 @@ class DonorDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DonorDetailView, self).get_context_data(**kwargs)
-        context['books'] = Book.objects.filter(donor=self.object)
+        context['books'] = self.object.book_set.all()
 
         return context
 
@@ -90,3 +90,9 @@ class DonorSearchView(FormView, DonorListBase):
 
     def form_invalid(self, form):
         return HttpResponseRedirect(reverse("list_donors", args=[1]))
+
+
+class BookDetailView(DetailView):
+    model = Book
+    context_object_name = "book"
+    template_name = "zenshu/book_detail.html"

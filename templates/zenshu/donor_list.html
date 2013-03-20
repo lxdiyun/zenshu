@@ -17,7 +17,7 @@
 		<h3>{{ donor.name }}</h3>
 		<p>
 			<strong>赠书：</strong>{{ donor.get_books_string }}
-			<a class="btn" href="{{ donor.get_absolute_url }}">详细 »</a>
+			<a class="btn-link" href="{{ donor.get_absolute_url }}">详细 »</a>
 		</p>
 	</div>
 	{% if forloop.counter|divisibleby:3 %}
@@ -29,4 +29,4 @@
 {% if is_paginated %}
 {% bootstrap_paginate page_obj url_view_name='list_donors' range=10 %}
 {% endif %}
-{% endblock %}
+{% endblock  %}

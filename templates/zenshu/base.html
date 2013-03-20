@@ -15,6 +15,7 @@
 		<!--[if lte IE 7]>
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/ie.css">
 		<![endif]-->
+		<link rel="stylesheet" href="{{STATIC_URL}}bootstrap-image/css/bootstrap-image-gallery.min.css">
 
 		<style type="text/css">
 			body {
@@ -37,9 +38,9 @@
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+						<span class="icon-bar">1</span>
+						<span class="icon-bar">2</span>
+						<span class="icon-bar">3</span>
 					</a>
 					<a class="brand" href="{% url 'home_page' %}">赠书芳名录</a>
 					<div class="nav-collapse collapse">
@@ -48,7 +49,7 @@
 						</ul>
 						<form method="POST" action="{% url 'search_donor' %}" class="navbar-search pull-right">
 							<input type="text" name="keyword" placeholder="捐赠单位或个人" class="search-query span2">
-							<button class="btn-link" type="submit"><i class="icon-search"></i> </button>
+							<button class="btn-link" type="submit"><i class="icon-search"></i></button>
 							{% csrf_token %}
 						</form>
 					</div><!--/.nav-collapse -->
@@ -59,9 +60,13 @@
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span1">
+					{% block left-side-bar %}{% endblock %}
 				</div><!--/span-->
 				<div class="span10">
 					{% block content %}{% endblock %}
+				</div><!--/span-->
+				<div class="span1">
+					{% block right-side-bar %}{% endblock %}
 				</div><!--/span-->
 			</div><!--/row-->
 
@@ -73,6 +78,21 @@
 
 		</div><!--/.fluid-container-->
 
+		<!-- modal-gallery is the modal dialog used for the image gallery -->
+		<div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">&times;</a>
+				<h3 class="modal-title"></h3>
+			</div>
+			<div class="modal-body"><div class="modal-image"></div></div>
+			<div class="modal-footer">
+				<a class="btn btn-primary modal-next">Next <i class="icon-arrow-right icon-white"></i></a>
+				<a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Previous</a>
+				<a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000"><i class="icon-play icon-white"></i> Slideshow</a>
+				<a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
+			</div>
+		</div>
+
 
 		<!-- Le javascript
 		================================================== -->
@@ -81,6 +101,7 @@
 		<script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}js/bootstrap-ie.js"></script>
+		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-image/js/bootstrap-image-gallery.min.js"></script>
 		<script type="text/javascript">
 
 		</script>

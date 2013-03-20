@@ -50,6 +50,9 @@ class Book(models.Model):
         return ", ".join([dn.name for dn in self.donor.all()])
     get_donors.short_description = _('donor')
 
+    def get_absolute_url(self):
+        return reverse("detail_book", kwargs={'pk': self.id})
+
     class Meta:
         ordering = ['-donate_date']
         verbose_name = _('book')
