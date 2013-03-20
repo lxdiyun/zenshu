@@ -96,3 +96,10 @@ class BookDetailView(DetailView):
     model = Book
     context_object_name = "book"
     template_name = "zenshu/book_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(BookDetailView, self).get_context_data(**kwargs)
+        context['photos'] = self.object.photos.all()
+        print context
+
+        return context
