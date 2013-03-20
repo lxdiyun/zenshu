@@ -2,6 +2,15 @@
 {% load bootstrap_pagination %}
 
 {% block content %}
+<div class="hero-unit">
+	<div class="row-fluid">
+		<img class="img-rounded span1" src="{{STATIC_URL}}zenshu/libicon3.jpg">
+		<div class="span9">
+			<h2>特藏组潮汕文献赠书芳名录</h2>
+			<p>谨向关心支持我馆潮汕文献建设发展的单位和个人表示衷心感谢!</p>
+		</div>
+	</div>
+</div>
 <div class="row-fluid">
 {% for donor in donors %}
 	<div class="span4" href="{{ donor.get_absolute_url }}">
@@ -21,4 +30,3 @@
 {% bootstrap_paginate page_obj url_view_name='list_donors' range=10 %}
 {% endif %}
 {% endblock %}
-

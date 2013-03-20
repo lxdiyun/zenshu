@@ -3,7 +3,7 @@ from django.db.models import Max, Sum
 
 
 class DonorAnnotateFilter(FieldListFilter):
-    template = 'zenshu/donor_annotate_filter.html'
+    template = 'admin/donor_annotate_filter.html'
 
     def expected_parameters(self):
         return []

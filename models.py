@@ -80,10 +80,20 @@ class Donor(models.Model):
         return reverse("detail_donor", kwargs={'pk': self.id})
 
     def get_books_string(self):
-        book_names = map(lambda b: b.name, self.book_set.all())
-        name_str = u"》，《".join(book_names)
-        string = u"《" + name_str + u"》"
-        return string[:52] + u"……"
+        string = ""
+
+        for bk in self.book_set.all():
+            string += u"《" + bk.name + u"》，"
+            if (52 < len(string)):
+                break
+
+        if (1 < len(string)):
+            string = string[:-1]
+
+        if (52 < len(string)):
+            string += u"……"
+
+        return string
 
     class Meta:
         verbose_name = _('donor')
