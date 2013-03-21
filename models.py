@@ -6,6 +6,7 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import SmartResize
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from urllib import quote
 
 
 class Book(models.Model):
@@ -52,6 +53,15 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse("detail_book", kwargs={'pk': self.id})
+
+    def get_search_url(self):
+        url = ("http://202.192.155.48:83/opac/searchresult.aspx?"
+               "ANYWORDS=%s&dt=ALL&cl=ALL&dp=20"
+               "&sf=M_PUB_YEAR&ob=DESC&sm=table&dept=ALL")
+        url = (url % quote(self.name.encode("GBK")))
+        print (url)
+
+        return url
 
     class Meta:
         ordering = ['-donate_date']

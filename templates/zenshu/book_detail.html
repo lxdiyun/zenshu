@@ -2,6 +2,8 @@
 
 {% block content %}
 <h2>{{ book.name }}</h2>
+<a class="btn-link" target="_blank" href="{{ book.get_search_url }}">在图书馆中查找该书</a>
+<p ><strong >状态：</strong> {{ book.get_status_display }}</p>
 <p ><strong >赠书时间：</strong> {{ book.donate_date }}</p>
 <p ><strong >赠送册数：</strong> {{ book.amount }}</p>
 {% if book.author_name %}
@@ -18,14 +20,12 @@
 {% endif %}
 {% if photos.count %}
 <p ><strong >相关图片：</strong> </p>
-<div class="container-fluid">
-	<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-		{% for photo in photos %}
-		<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
-			<img src="{{ photo.thumbnail.url }}">
-		</a>
-		{% endfor %}
-	</div>
+<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+	{% for photo in photos %}
+	<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
+		<img src="{{ photo.thumbnail.url }}">
+	</a>
+	{% endfor %}
 </div>
 {% endif %}
 {% endblock %}

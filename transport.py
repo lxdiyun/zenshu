@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from zenshu.models import Book, Donor
-from django.utils.encoding import smart_str, smart_unicode
+from django.utils.encoding import smart_str, smart_text
 #from django.db.models import Sum
 
 
@@ -112,7 +112,7 @@ def trans():
         pt_name_exists = Donor.objects.filter(name=pt_name).exists()
 
         if (pt_name_exists):
-            dn_name = pt_name + smart_unicode("(0)")
+            dn_name = pt_name + smart_text("(0)")
             trans_dn(pt, dn_name)
         else:
             dn_name = pt_name
@@ -188,7 +188,7 @@ def make_merge_list():
     for dn in dns:
         if ('' != dn.name):
             same_name_dns = Donor.objects.filter(
-                name__regex="^\d?"+dn.name+smart_unicode(
+                name__regex="^\d?"+dn.name+smart_text(
                     "[(（\d）)]*$")).order_by('id')
             if (1 < same_name_dns.count()):
                 merge_list = []
