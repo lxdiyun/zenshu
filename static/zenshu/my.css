@@ -1,0 +1,6 @@
+.my-hero-unit {
+	background-image: url("1.jpg");
+	background-position: 50% bottom;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+}
