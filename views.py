@@ -100,6 +100,5 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(BookDetailView, self).get_context_data(**kwargs)
         context['photos'] = self.object.photos.all()
-        print context
 
         return context

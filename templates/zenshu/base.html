@@ -16,7 +16,6 @@
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/ie.css">
 		<![endif]-->
 
-
 		<link rel="stylesheet" href="{{STATIC_URL}}bootstrap-image/css/bootstrap-image-gallery.min.css">
 
 		<style type="text/css">
@@ -44,10 +43,10 @@
 						<span class="icon-bar">2</span>
 						<span class="icon-bar">3</span>
 					</a>
-					<a class="brand" href="{% url 'home_page' %}">赠书芳名录</a>
+					<a class="brand" href="http://cstc.lib.stu.edu.cn/">潮汕特藏网</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li ><a href="http://cstc.lib.stu.edu.cn/">潮汕特藏网</a></li>
+							<li ><a href="{% url 'home_page' %}">赠书芳名录</a></li>
 						</ul>
 						<form method="POST" action="{% url 'search_donor' %}" class="navbar-search pull-right">
 							<input type="text" name="keyword" placeholder="捐赠单位或个人" class="search-query span2">
@@ -88,23 +87,39 @@
 			</div>
 			<div class="modal-body"><div class="modal-image"></div></div>
 			<div class="modal-footer">
-				<a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
-				<a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000"><i class="icon-play icon-white"></i> Slideshow</a>
-				<a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Previous</a>
-				<a class="btn btn-primary modal-next">Next <i class="icon-arrow-right icon-white"></i></a>
+				<a class="btn modal-download" target="_blank">
+					<i class="icon-download"></i>
+					<span>Download</span>
+				</a>
+				<a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+					<i class="icon-play icon-white"></i>
+					<span>Slideshow</span>
+				</a>
+				<a class="btn btn-info modal-prev">
+					<i class="icon-arrow-left icon-white"></i>
+					<span>Previous</span>
+				</a>
+				<a class="btn btn-primary modal-next">
+					<span>Next</span>
+					<i class="icon-arrow-right icon-white"></i>
+				</a>
 			</div>
 		</div>
-
 
 		<!-- Le javascript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 
-		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-bsie/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="{{STATIC_URL}}jquery/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-bsie/js/bootstrap-ie.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}JavaScript-Load-Image/load-image.min.js"></script>
+		<!--[if gt IE 6]>
 		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-image/js/bootstrap-image-gallery.min.js"></script>
+		<![endif]-->
+		<!--[if !IE]>-->
+		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-image/js/bootstrap-image-gallery.min.js"></script>
+		<!--<![endif]-->
 		<script type="text/javascript">
 
 		</script>

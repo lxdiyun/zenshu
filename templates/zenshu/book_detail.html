@@ -2,19 +2,30 @@
 
 {% block content %}
 <h2>{{ book.name }}</h2>
+<p ><strong >赠书时间：</strong> {{ book.donate_date }}</p>
+<p ><strong >赠送册数：</strong> {{ book.amount }}</p>
+{% if book.author_name %}
+<p><strong>作者：</strong>{{ book.author_name }}</p>
+{% endif %}
+{% if book.publisher %}
+<p><strong>出版社：</strong>{{ book.publisher }}</p>
+{% endif %}
+{% if book.publish_date %}
+<p><strong>出版日期：</strong>{{ book.publish_date }}</p>
+{% endif %}
 {% if book.description %}
 <p><strong>简介：</strong>{{ book.description }}</p>
 {% endif %}
-<p ><strong >赠书时间：</strong> {{ book.donate_date }}</p>
-<p ><strong >赠送册数：</strong> {{ book.amount }}</p>
 {% if photos.count %}
 <p ><strong >相关图片：</strong> </p>
-<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-	{% for photo in photos %}
-	<a href="{{ photo.image.url }}" title="{{ photo.name }}" data-gallery="gallery">
-		<img src="{{ photo.thumbnail.url }}">
-	</a>
-	{% endfor %}
+<div class="container-fluid">
+	<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+		{% for photo in photos %}
+		<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
+			<img src="{{ photo.thumbnail.url }}">
+		</a>
+		{% endfor %}
+	</div>
 </div>
 {% endif %}
 {% endblock %}
