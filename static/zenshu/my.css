@@ -5,3 +5,30 @@
 	background-size: 100% auto;
 	background-repeat: no-repeat;
 }
+
+.pos-relative { position: relative; }
+.list-cover { 
+	position: absolute; 
+	top: 5%; 
+	z-index:2; 
+}
+.list-block { height: 150px; 
+	position: relative; 
+}
+
+.hyperspan-black, .hyperspan-white {
+	opacity: .1;
+	position:absolute;
+	width:98%;
+	height:95%;
+	left:0%;
+	top:5%;
+	z-index:1;
+	border-radius: 6px 6px 6px 6px;
+}
+.hyperspan-white {
+	background: white;
+}
+.hyperspan-black {
+	background: lightblue;
+}

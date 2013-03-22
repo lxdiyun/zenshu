@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="hero-unit my-hero-unit ">
-	<div class="row-fluid" style="background-color:rgba(255,255,255,0.2)">
+	<div class="row" style="background-color:rgba(255,255,255,0.2)">
 		<img class="img-rounded span1" src="{{STATIC_URL}}zenshu/libicon3.jpg">
 		<div class="span9" >
 			<h2>特藏组潮汕文献赠书芳名录</h2>
@@ -11,33 +11,33 @@
 		</div>
 	</div>
 </div>
-<div class="row-fluid">
+<div class="row">
 {% for donor in donors %}
 	<div class="span4">
-		<div class="row-fluid">
+		<div class="row list-block">
 			{% if donor.get_cover %}
 			{% with photo=donor.get_cover %}
-			<div class="span3" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+			<div class="span1" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
 				<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
-					<img class="img-rounded" src="{{ photo.thumbnail.url}}"> 
+					<img class="img-rounded list-cover" src="{{ photo.thumbnail.url}}"> 
 				</a>
 			</div>
 			{% endwith %}
-			<div class="span9">
+			<div class="span3">
 			{% else %}
-			<div class="span12">
+			<div class="span4">
 			{% endif %}
 				<h4>{{ donor.name }}</h4>
 				<p>
 				<strong>赠书：</strong>{{ donor.get_books_string }}
-				<a class="btn-link" href="{{ donor.get_absolute_url }}">详细 »</a>
+				<a class="btn-link" href="{{ donor.get_absolute_url }}"><span class="{% cycle 'hyperspan-white' 'hyperspan-black' %}"></span></a>
 				</p>
 			</div>
 		</div>
 	</div>
 	{% if forloop.counter|divisibleby:3 %}
 </div>
-<div class="row-fluid">
+<div class="row">
 	{% endif %}
 {% endfor %}
 </div>
