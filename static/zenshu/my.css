@@ -1,5 +1,7 @@
+
 .my-hero-unit {
-	background-image: url("1.jpg");
+	background-color:white;
+	background-image: url("donor_list_background.jpg");
 	background-position: 50% bottom;
 	background-size: 100% auto;
 	background-repeat: no-repeat;

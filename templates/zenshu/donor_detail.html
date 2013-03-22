@@ -13,6 +13,7 @@
 		<tr>
 			<th>#</th>
 			<th>书名／作者</th>
+			<th></th>
 			<th>捐赠时间</th>
 			<th>册数</th>
 		</tr>
@@ -26,6 +27,17 @@
 				{{ book.name }} {% if book.author %} / {{ book.author }}{% endif %}
 				</a>
 			</td>     
+		<td >
+			{% if book.get_cover %}
+			{% with photo=book.get_cover %}
+			<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+				<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
+					<img class="img-rounded" src="{{ photo.thumbnail.url}}"> 
+				</a>
+			</div>
+			{% endwith %}
+			{% endif %}
+		</td>   
 		<td >{{ book.donate_date }}</td>   
 		<td >{{ book.amount }}</td>   
 	</tr>    

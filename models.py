@@ -59,9 +59,14 @@ class Book(models.Model):
                "ANYWORDS=%s&dt=ALL&cl=ALL&dp=20"
                "&sf=M_PUB_YEAR&ob=DESC&sm=table&dept=ALL")
         url = (url % quote(self.name.encode("GBK")))
-        print (url)
 
         return url
+
+    def get_cover(self):
+        if (0 < self.photos.count()):
+            return self.photos.all()[0]
+
+        return
 
     class Meta:
         ordering = ['-donate_date']
@@ -107,6 +112,15 @@ class Donor(models.Model):
             string += u"……"
 
         return string
+
+    def get_cover(self):
+        if (0 < self.book_set.count()):
+            for bk in self.book_set.all():
+                cover = bk.get_cover
+                if (cover):
+                    return cover
+
+        return
 
     class Meta:
         verbose_name = _('donor')

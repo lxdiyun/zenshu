@@ -2,8 +2,15 @@
 
 {% block content %}
 <h2>{{ book.name }}</h2>
-<a class="btn-link" target="_blank" href="{{ book.get_search_url }}">在图书馆中查找该书</a>
+<a class="btn-link" target="_blank" href="{{ book.get_search_url }}">在图书馆中查找该书<i class="icon-hand-right"></i></a>
 <p ><strong >状态：</strong> {{ book.get_status_display }}</p>
+{% if donors.count %}
+<p ><strong >赠书单位或个人：</strong>
+	{% for donor in donors %}
+	<a class="btn-link" href="{{ donor.get_absolute_url }}">{{ donor.name }}</a>
+	{% endfor %}
+</p>
+{% endif %}
 <p ><strong >赠书时间：</strong> {{ book.donate_date }}</p>
 <p ><strong >赠送册数：</strong> {{ book.amount }}</p>
 {% if book.author_name %}
@@ -23,7 +30,7 @@
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
 	{% for photo in photos %}
 	<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
-		<img src="{{ photo.thumbnail.url }}">
+		<img class="img-rounded" src="{{ photo.thumbnail.url }}">
 	</a>
 	{% endfor %}
 </div>
