@@ -14,6 +14,7 @@
 		<![endif]-->
 		<!--[if lte IE 7]>
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/ie.css">
+		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}zenshu/myie.css">
 		<![endif]-->
 
 		<link rel="stylesheet" href="{{STATIC_URL}}bootstrap-image/css/bootstrap-image-gallery.min.css">
@@ -28,8 +29,9 @@
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="{{STATIC_URL}}html5/html5.js"></script>
 		<![endif]-->
+
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}zenshu/my.css">
 
 	</head>
@@ -40,9 +42,9 @@
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar">1</span>
-						<span class="icon-bar">2</span>
-						<span class="icon-bar">3</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
 					</a>
 					<a class="brand" href="http://cstc.lib.stu.edu.cn/">潮汕特藏网</a>
 					<div class="nav-collapse collapse">
@@ -51,7 +53,9 @@
 						</ul>
 						<form method="POST" action="{% url 'search_donor' %}" class="navbar-search pull-right">
 							<input type="text" name="keyword" placeholder="捐赠单位或个人" class="search-query span2">
-							<button class="btn-link" type="submit"><i class="icon-search"></i></button>
+							<button class="btn-link my-ie-hidden" type="submit">
+								<i class="icon-search" style="position: absolute; right: 30px; top: 6px;"></i>
+							</button>
 							{% csrf_token %}
 						</form>
 					</div><!--/.nav-collapse -->
@@ -110,6 +114,7 @@
 		<!-- Placed at the end of the document so the pages load faster -->
 
 		<script type="text/javascript" src="{{STATIC_URL}}jquery/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="{{STATIC_URL}}jquery/jquery.html5-placeholder-shim.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-bsie/js/bootstrap-ie.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}JavaScript-Load-Image/load-image.min.js"></script>

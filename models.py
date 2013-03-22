@@ -116,7 +116,7 @@ class Donor(models.Model):
     def get_cover(self):
         if (0 < self.book_set.count()):
             for bk in self.book_set.all():
-                cover = bk.get_cover
+                cover = bk.get_cover()
                 if (cover):
                     return cover
 
