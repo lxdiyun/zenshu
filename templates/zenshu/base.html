@@ -15,6 +15,7 @@
 		<!--[if lte IE 7]>
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/ie.css">
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}zenshu/myie.css">
+		<script src="{{STATIC_URL}}html5/html5.js"></script>
 		<![endif]-->
 
 		<link rel="stylesheet" href="{{STATIC_URL}}bootstrap-image/css/bootstrap-image-gallery.min.css">
@@ -26,11 +27,6 @@
 			}
 
 		</style>
-
-		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-		<!--[if lt IE 9]>
-		<script src="{{STATIC_URL}}html5/html5.js"></script>
-		<![endif]-->
 
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}zenshu/my.css">
 
@@ -113,6 +109,11 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="{{STATIC_URL}}html5/html5.js"></script>
+		<![endif]-->
+
 		<script type="text/javascript" src="{{STATIC_URL}}jquery/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}jquery/jquery.html5-placeholder-shim.js"></script>
 		<script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
@@ -124,6 +125,9 @@
 		<!--[if !IE]>-->
 		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-image/js/bootstrap-image-gallery.min.js"></script>
 		<!--<![endif]-->
+		<!--[if lte IE 7]>
+		<script src="{{STATIC_URL}}zenshu/myiejs.js"></script>
+		<![endif]-->
 		<script type="text/javascript">
 
 		</script>

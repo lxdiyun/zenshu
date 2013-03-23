@@ -14,7 +14,7 @@
 <div class="row">
 {% for donor in donors %}
 	<div class="span4">
-		<div class="row list-block">
+		<div class="row list-block hover-div">
 			{% if donor.get_cover %}
 			{% with photo=donor.get_cover %}
 			<div class="span1" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
@@ -30,7 +30,7 @@
 				<h4>{{ donor.name }}</h4>
 				<p>
 				<strong>赠书：</strong>{{ donor.get_books_string }}
-				<a class="btn-link" href="{{ donor.get_absolute_url }}"><span class="{% cycle 'hyperspan-white' 'hyperspan-black' %}"></span></a>
+				<a class="btn-link" href="{{ donor.get_absolute_url }}"><span class="hyperspan"><br><br><br><br></span></a>
 				</p>
 			</div>
 		</div>
