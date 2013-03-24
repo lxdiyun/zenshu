@@ -37,7 +37,7 @@ class DonorAdmin(admin.ModelAdmin):
                     "amount",
                     "description",
                     "contact_info"]
-    search_fields = ['name', "description"]
+    search_fields = ['name', 'description']
     list_filter = (('book__donate_date', DateRangeFilter),
                    # Need this special filter to provide annotate field
                    # because the m2m annotation must after m2m filter

@@ -29,7 +29,7 @@ class Book(models.Model):
     publish_date = models.DateField(null=True,
                                     blank=True,
                                     verbose_name=_('publish date'))
-    status = models.IntegerField(max_length=25,
+    status = models.IntegerField(max_length=8,
                                  choices=STATUS,
                                  default=0,
                                  verbose_name=_('status'))
@@ -43,6 +43,11 @@ class Book(models.Model):
     photos = generic.GenericRelation('Photo',
                                      content_type_field='content_type',
                                      object_id_field='object_id')
+
+    class Meta:
+        ordering = ['-donate_date']
+        verbose_name = _('book')
+        verbose_name_plural = _('books')
 
     def __unicode__(self):
         return self.name
@@ -68,11 +73,6 @@ class Book(models.Model):
 
         return
 
-    class Meta:
-        ordering = ['-donate_date']
-        verbose_name = _('book')
-        verbose_name_plural = _('books')
-
 
 class Donor(models.Model):
     TYPE = (
@@ -90,6 +90,10 @@ class Donor(models.Model):
     contact_info = models.TextField(blank=True,
                                     null=True,
                                     verbose_name=_("contact info"))
+
+    class Meta:
+        verbose_name = _('donor')
+        verbose_name_plural = _('donors')
 
     def __unicode__(self):
         return self.name
@@ -121,10 +125,6 @@ class Donor(models.Model):
                     return cover
 
         return
-
-    class Meta:
-        verbose_name = _('donor')
-        verbose_name_plural = _('donors')
 
 
 class Photo(models.Model):
