@@ -30,7 +30,7 @@
 <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
 	{% for photo in photos %}
 	<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
-		<img class="img-rounded" src="{{ photo.thumbnail.url }}">
+		<img class="img-rounded my-image" src="{{ photo.thumbnail.url }}">
 	</a>
 	{% endfor %}
 </div>

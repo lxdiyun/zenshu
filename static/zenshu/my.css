@@ -36,3 +36,7 @@
 }
 .hover-div{background: #ffffff;}
 .hover-div:hover {background: #f5f5f5;}
+
+.my-image {
+	cursor: url("crs_full.cur"), auto;
+}
