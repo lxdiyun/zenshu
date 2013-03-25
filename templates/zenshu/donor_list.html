@@ -4,7 +4,7 @@
 {% block content %}
 <div class="hero-unit my-hero-unit ">
 	<div class="row" style="background-color:rgba(255,255,255,0.2)">
-		<img class="img-rounded span1" src="{{STATIC_URL}}zenshu/libicon3.jpg">
+		<img class="img-rounded span1" src="{{STATIC_URL}}zenshu/lib-icon.jpg">
 		<div class="span9" >
 			<h2>特藏组潮汕文献赠书芳名录</h2>
 			<p class="pull-right">谨向关心支持我馆潮汕文献建设发展的单位和个人表示衷心感谢!</p>
@@ -18,9 +18,7 @@
 			{% if donor.get_cover %}
 			{% with photo=donor.get_cover %}
 			<div class="span1" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-				<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
-					<img class="img-rounded list-cover my-image" src="{{ photo.thumbnail.url}}"> 
-				</a>
+				<img class="img-rounded list-cover my-image" src="{{ photo.thumbnail.url}}"> 
 			</div>
 			{% endwith %}
 			<div class="span3">
