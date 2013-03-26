@@ -18,7 +18,7 @@
 			{% if donor.get_cover %}
 			{% with photo=donor.get_cover %}
 			<div class="span1" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-				<img class="img-rounded list-cover my-image" src="{{ photo.thumbnail.url}}"> 
+				<img class="img-rounded list-cover" src="{{ photo.thumbnail.url}}"> 
 			</div>
 			{% endwith %}
 			<div class="span3">
