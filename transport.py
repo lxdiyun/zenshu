@@ -65,7 +65,7 @@ def trans_book(dn, pt):
     for zbk in zshbooks:
         bk = Book()
         bk.name = zbk.bookname
-        if pt.sent_time is not None:
+        if (pt.sent_time is not None) and ("" != pt.sent_time):
             bk.donate_date = pt.sent_time
         else:
             bk.donate_date = '1990-02-28'
@@ -81,7 +81,6 @@ def trans_book(dn, pt):
             bk.publisher = zbk.publisher
         if zbk.info is not None:
             bk.description = zbk.info
-        bk.publish_date = zbk.public_date
         bk.save()
         bk.donor.add(dn)
         bk.save()
@@ -187,16 +186,20 @@ def make_merge_list():
 
     for dn in dns:
         if ('' != dn.name):
+            name = dn.name.replace(")", u"）").replace("(", u"（")
             same_name_dns = Donor.objects.filter(
-                name__regex="^\d?"+dn.name+smart_text(
+                name__regex="^\d?"+name+smart_text(
                     "[(（\d）)]*$")).order_by('id')
-            if (1 < same_name_dns.count()):
-                merge_list = []
+            try:
+                if (1 < same_name_dns.count()):
+                    merge_list = []
 
-                for sdn in same_name_dns:
-                    if (dn.id != sdn.id):
-                        merge_list.append(sdn.id)
-                g_merge_dict[dn.id] = merge_list
+                    for sdn in same_name_dns:
+                        if (dn.id != sdn.id):
+                            merge_list.append(sdn.id)
+                    g_merge_dict[dn.id] = merge_list
+            finally:
+                print(smart_str(dn.name))
 
     for key in g_merge_dict.keys():
         key_name = Donor.objects.get(id=key).name
