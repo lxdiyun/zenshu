@@ -24,7 +24,7 @@
 			<td >{{ forloop.counter }}</td>   
 			<td >
 				<a href="{{ book.get_absolute_url }}" class="btn-link">
-				{{ book.name }} {% if book.author %} / {{ book.author }}{% endif %}
+				{{ book.name }}{% if book.author_name %} / {{ book.author_name }}{% endif %}
 				</a>
 			</td>     
 		<td >
