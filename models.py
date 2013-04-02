@@ -104,16 +104,10 @@ class Donor(models.Model):
     def get_books_string(self):
         string = ""
 
-        for bk in self.book_set.all():
+        for bk in self.book_set.all()[:5]:
             string += u"《" + bk.name + u"》\n"
             if (52 < len(string)):
                 break
-
-#        if (1 < len(string)):
-#            string = string[:-1]
-
-        if (52 < len(string)):
-            string += u"……"
 
         return string
     get_books_string.allow_tags = True
