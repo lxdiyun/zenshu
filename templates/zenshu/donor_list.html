@@ -26,9 +26,10 @@
 			<div class="span4">
 			{% endif %}
 				<h4>{{ donor.name }} 赠书：</h4>
-				<strong></strong>
-				{{ donor.get_books_string|linebreaks }}
-				<a class="btn-link" href="{{ donor.get_absolute_url }}"><span class="hyperspan"><br><br><br><br></span></a>
+				<p>
+					{{ donor.get_books_string|linebreaksbr }}
+					<a class="btn-link" href="{{ donor.get_absolute_url }}"><span class="hyperspan"><br><br><br><br></span></a>
+				</p>
 			</div>
 		</div>
 	</div>
