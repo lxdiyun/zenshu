@@ -1,0 +1,29 @@
+{% extends "zenshu/base.html" %}
+
+
+{% block content %}
+<div class="row">
+<div class="span3">
+{% block left-sidebar %}
+{% regroup donors by name_index as donor_index_list %}
+<div class="my-sidebar">
+	<ul class="nav nav-list my-sidenav affix">
+		<li class="my-sidebar-title"><strong>索引</strong></li>
+		{% for index in donor_index_list %}
+		{% if index.grouper %}
+		<li class=""><a href="{% block index_prefix %}{% endblock %}#{{ index.grouper }}"><i class="icon-chevron-right"></i>{{ index.grouper }}</a></li>
+		{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}
+</div>
+<div class="span9 pull-right">
+	{% block right-content %}{% endblock %}
+</div>
+</div>
+{% endblock %}
+
+{% block extend_js %}
+	$('#body').scrollspy();
+{% endblock %}

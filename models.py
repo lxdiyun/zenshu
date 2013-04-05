@@ -7,6 +7,8 @@ from imagekit.processors import SmartResize
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from urllib import quote
+import pinyin
+import re
 
 
 class Book(models.Model):
@@ -80,7 +82,6 @@ class Donor(models.Model):
         (1, _('organization')),
     )
     name = models.CharField(max_length=250, verbose_name=_("donor name"))
-    name_pinyin = models.CharField(max_length=250)
     name_index = models.CharField(max_length=2)
     description = models.TextField(blank=True,
                                    null=True,
@@ -97,10 +98,10 @@ class Donor(models.Model):
         verbose_name_plural = _('donors')
 
     def save(self, *args, **kwargs):
-        self.name_pinyin = re.sub("[^a-zA-z ]",
-                                  "",
-                                  pinyin.get_initial(self.name, ""))
-        self.name_index = self.name_pinyin[:1].upper()
+        name_pinyin = re.sub("[^a-zA-z ]",
+                             "",
+                             pinyin.get_initial(self.name, ""))
+        self.name_index = name_pinyin[:1].upper()
         super(Donor, self).save(*args, **kwargs)
 
     def __unicode__(self):

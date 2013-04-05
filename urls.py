@@ -28,7 +28,8 @@ urlpatterns = patterns('',
                            ListView.as_view(
                                queryset=Donor.objects.order_by("name_index",
                                                                "-donor_type",
-                                                               "name_pinyin"),
+                                                               "name",
+                                                               ),
                                context_object_name='donors',
                                template_name='zenshu/donor_index.html'),
                            name='donor_index')

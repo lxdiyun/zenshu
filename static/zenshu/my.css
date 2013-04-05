@@ -41,3 +41,60 @@
 .my-image {
 	cursor: url("crs_full.cur"), auto;
 }
+
+// sidebar
+.my-sidebar {
+	border-radius: 0 0 6px 6px;
+}
+.my-sidenav {
+	background-color: #FFFFFF;
+	border-radius: 6px 6px 6px 6px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+	margin: 20px 0 0;
+	padding: 0;
+	width: 128px;
+}
+.my-sidenav > li > a, .my-sidebar-title {
+	border: 1px solid #E5E5E5;
+	display: block;
+	margin: 0 0 -1px;
+	padding: 2px 14px;
+}
+.my-sidenav > li:first-child > a, .my-sidebar-title {
+	border-radius: 6px 6px 0 0;
+}
+.my-sidenav > li:last-child > a {
+	border-radius: 0 0 6px 6px;
+}
+.my-sidenav > .active > a {
+	border: 0 none;
+	box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, -1px 0 0 rgba(0, 0, 0, 0.1) inset;
+	padding: 3px 15px;
+	position: relative;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	z-index: 2;
+}
+.my-sidenav .icon-chevron-right {
+	float: right;
+	margin-right: -6px;
+	margin-top: 2px;
+	opacity: 0.25;
+}
+.my-sidenav > li > a:hover {
+	background-color: #F5F5F5;
+}
+.my-sidenav a:hover .icon-chevron-right {
+	opacity: 0.5;
+}
+.my-sidenav .active .icon-chevron-right, .bs-docs-sidenav .active a:hover .icon-chevron-right {
+	background-image: url("../bootstrap/img/glyphicons-halflings-white.png");
+	opacity: 1;
+}
+.my-sidenav.affix {
+	top: 40px;
+}
+.my-sidenav.affix-bottom {
+	bottom: 270px;
+	position: absolute;
+	top: auto;
+}
