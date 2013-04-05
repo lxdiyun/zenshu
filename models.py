@@ -80,11 +80,12 @@ class Donor(models.Model):
         (1, _('organization')),
     )
     name = models.CharField(max_length=250, verbose_name=_("donor name"))
+    name_pinyin = models.CharField(max_length=250)
+    name_index = models.CharField(max_length=2)
     description = models.TextField(blank=True,
                                    null=True,
                                    verbose_name=_("description"))
-    donor_type = models.IntegerField(max_length=25,
-                                     choices=TYPE,
+    donor_type = models.IntegerField(choices=TYPE,
                                      default=1,
                                      verbose_name=_('donor type'))
     contact_info = models.TextField(blank=True,
@@ -94,6 +95,13 @@ class Donor(models.Model):
     class Meta:
         verbose_name = _('donor')
         verbose_name_plural = _('donors')
+
+    def save(self, *args, **kwargs):
+        self.name_pinyin = re.sub("[^a-zA-z ]",
+                                  "",
+                                  pinyin.get_initial(self.name, ""))
+        self.name_index = self.name_pinyin[:1].upper()
+        super(Donor, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
@@ -110,7 +118,6 @@ class Donor(models.Model):
                 break
 
         return string
-    get_books_string.allow_tags = True
 
     def get_cover(self):
         if (0 < self.book_set.count()):

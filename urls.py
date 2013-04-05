@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+from zenshu.models import Donor
 from zenshu.views import *
 
 donors_list_view = DonorListView.as_view()
@@ -23,8 +24,12 @@ urlpatterns = patterns('',
                        url(r'^book/(?P<pk>\d+)$',
                            BookDetailView.as_view(),
                            name='detail_book'),
-                       url(r'base',
-                           TemplateView.as_view(
-                               template_name='zenshu/base.html'),
-                           name='base')
+                       url(r'^donor_index',
+                           ListView.as_view(
+                               queryset=Donor.objects.order_by("name_index",
+                                                               "-donor_type",
+                                                               "name_pinyin"),
+                               context_object_name='donors',
+                               template_name='zenshu/donor_index.html'),
+                           name='donor_index')
                        )

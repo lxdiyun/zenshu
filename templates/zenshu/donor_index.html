@@ -1,0 +1,25 @@
+{% extends "zenshu/base.html" %}
+
+
+{% block content %}
+{% regroup donors by name_index as donor_index_list %}
+{% for index in donor_index_list %}
+{%if index.grouper %}
+<span id="{{ index.grouper }}" ></span>
+<li>
+<h5>{{ index.grouper }}</h5>
+</li>
+	<div class="row">
+	{% for donor in index.list %}
+	<div class="span4">
+		<a class="btn-link" href="{{ donor.get_absolute_url }}">{{ donor.name }}</a>
+	</div>
+	{% if forloop.counter|divisibleby:3 %}
+	</div>
+	<div class="row">
+	{% endif %}
+	{% endfor %}
+	</div>
+{% endif %}
+{% endfor %}
+{% endblock %}
