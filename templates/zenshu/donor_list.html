@@ -16,7 +16,7 @@
 	<div class="span4">
 		<div class="row list-block hover-div">
 			{% if donor.get_cover %}
-			{% with photo=donor.get_cover %}
+			{% with photo=donor.get_top_cover %}
 			<div class="span1" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
 				<img class="img-rounded list-cover my-image" src="{{ photo.thumbnail.url}}"> 
 			</div>

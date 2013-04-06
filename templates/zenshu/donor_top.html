@@ -1,0 +1,63 @@
+{% extends "zenshu/base.html" %}
+
+
+{% block content %}
+<div class="hero-unit my-hero-unit ">
+	<div class="row" style="background-color:rgba(255,255,255,0.2)">
+		<img class="img-rounded span1" src="{{STATIC_URL}}zenshu/lib-icon.jpg">
+		<div class="span9" >
+			<h3>汕头大学图书馆特色文献服务部潮汕文献赠书芳名录</h3>
+			<p class="pull-right">谨向关心支持我馆潮汕文献建设发展的单位和个人表示衷心感谢!</p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span2">
+		{% block left-sidebar %}
+		<div class="my-sidebar">
+			<ul class="nav nav-list my-sidenav my-sidenav-top">
+				<li class="my-sidebar-title"><strong>姓名索引</strong></li>
+				{% for index in indexes %}
+				{% if index.name_index %}
+				<li class=""><a href="{% url 'donor_index' %}#{{ index.name_index }}"><i class="icon-chevron-right"></i>{{ index.name_index }}</a></li>
+				{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+		{% endblock %}
+	</div>
+	{% for donor_list in donor_list_set %}
+	<div class="{% ifequal 1 forloop.counter %}span5{% else %}span5{% endifequal %}">
+		{% for donor in donor_list %}
+		<div class="my-div ">
+			<div class="row-fluid">
+				{% with photo=donor.get_cover %}
+				{% if photo %}
+				<div class="span3" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+					<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
+						<img class="img-rounded my-image" src="{{ photo.thumbnail.url}}"> 
+					</a>
+				</div>
+				{% endif %}
+				<div class="{% if photo %}span9{% else %}span12{% endif %}">
+					{% endwith %}
+					<a class="btn-link" href="{{ donor.get_absolute_url }}">{{ donor.name }}</a> 赠书：
+					<ul>
+						{% for book in donor.get_top_books %}
+						<li><a href="{{ book.get_absolute_url }}">{{ book.name }}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endfor %}
+</div>
+<div class="row">
+	<div class="span10 offset2">
+		<a class="btn-link" href="{% url 'list_donors' 1 %}">更多赠书……</a>
+	</div>
+</div>
+{% endblock %}
+

@@ -2,10 +2,10 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateResponseMixin
 from zenshu.models import Donor, Book
-from zenshu.utils import DONATOR_PAGE_SIZE
+from zenshu.utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE
 from zenshu.form import DonorListPageForm, DonorSearchForm
 from django.core.urlresolvers import reverse
-from django.db.models import Max, Sum
+from django.db.models import Max, Sum, Count
 from django.http import HttpResponseRedirect
 from django.utils.encoding import smart_str
 
@@ -20,7 +20,7 @@ class DonorListBase(TemplateResponseMixin):
 
 
 class DonorListView(ListView, DonorListBase):
-    paginate_by = DONATOR_PAGE_SIZE
+    paginate_by = DONOR_PAGE_SIZE
     context_object_name = 'donors'
 
     def get_context_data(self, **kwargs):
@@ -90,6 +90,21 @@ class DonorSearchView(FormView, DonorListBase):
 
     def form_invalid(self, form):
         return HttpResponseRedirect(reverse("list_donors", args=[1]))
+
+
+class DonorTopView(ListView, DonorListBase):
+    template_name = 'zenshu/donor_top.html'
+
+    def render_to_response(self, context, **response_kwargs):
+        queryset = self.get_queryset()
+        org_donors = queryset.filter(donor_type=1)[:DONOR_TOP_SIZE]
+        personal_donors = queryset.filter(donor_type=0)[:DONOR_TOP_SIZE]
+        context['donor_list_set'] = [org_donors, personal_donors]
+        context['indexes'] = Donor.objects.values('name_index').order_by(
+            'name_index').annotate(num=Count('name_index'))
+
+        return super(DonorTopView, self).render_to_response(context,
+                                                            **response_kwargs)
 
 
 class BookDetailView(DetailView):

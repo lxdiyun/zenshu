@@ -1,7 +1,7 @@
 from django import forms
 from django.core.paginator import Paginator
 from zenshu.models import Donor, Book
-from zenshu.utils import DONATOR_PAGE_SIZE
+from zenshu.utils import DONOR_PAGE_SIZE
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import ugettext_lazy as _
 
@@ -11,7 +11,7 @@ class DonorListPageForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(DonorListPageForm, self).clean()
-        paginator = Paginator(Donor.objects.all(), DONATOR_PAGE_SIZE)
+        paginator = Paginator(Donor.objects.all(), DONOR_PAGE_SIZE)
 
         try:
             paginator.page(cleaned_data["page"])

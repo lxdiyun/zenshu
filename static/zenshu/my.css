@@ -4,6 +4,7 @@
 	background-position: 50% bottom;
 	background-size: 100% auto;
 	background-repeat: no-repeat;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
 .pos-relative { position: relative; }
@@ -42,7 +43,7 @@
 	cursor: url("crs_full.cur"), auto;
 }
 
-// sidebar
+/* sidebar */
 .my-sidebar {
 	border-radius: 0 0 6px 6px;
 }
@@ -97,4 +98,18 @@
 	bottom: 270px;
 	position: absolute;
 	top: auto;
+}
+/* top block */
+.my-div {
+	border: 1px solid #E5E5E5;
+	border-radius: 6px 6px 6px 6px;
+	display: block;
+	padding: 5px 8px 5px 8px;
+	margin: 0px 0px 20px 20px;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+}
+
+.my-sidenav-top {
+	margin: 0px 0px 0px 0px;
 }

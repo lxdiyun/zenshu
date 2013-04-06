@@ -3,19 +3,18 @@ from django.views.generic import ListView
 from zenshu.models import Donor
 from zenshu.views import *
 
-donors_list_view = DonorListView.as_view()
 
 urlpatterns = patterns('',
                        url(r'^$',
-                           donors_list_view,
+                           DonorTopView.as_view(),
                            name='home_page'),
                        url(r'^(?P<page>\d+)$',
-                           donors_list_view,
+                           DonorListView.as_view(),
                            name='list_donors'),
                        url(r'^donors_list_page$',
                            DonorListCheck.as_view(),
                            name='list_donors_page'),
-                       url(r'^detail/(?P<pk>\d+)$',
+                       url(r'^donor/(?P<pk>\d+)$',
                            DonorDetailView.as_view(),
                            name='detail_donor'),
                        url(r'^search$',
