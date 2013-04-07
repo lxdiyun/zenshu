@@ -82,6 +82,7 @@ class DonorSearchView(FormView, DonorListBase):
     def render_to_response(self, context, **response_kwargs):
         if ('keyword' in self.request.REQUEST):
             donors = self.get_queryset()
+            set_top_books_and_cover(donors)
 
             if (donors and (donors.count() == 1)):
                 return HttpResponseRedirect(donors[0].get_absolute_url())
