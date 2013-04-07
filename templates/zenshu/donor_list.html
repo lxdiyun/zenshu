@@ -2,39 +2,29 @@
 {% load bootstrap_pagination %}
 
 {% block content %}
-<div class="hero-unit my-hero-unit ">
-	<div class="row" style="background-color:rgba(255,255,255,0.2)">
-		<img class="img-rounded span1" src="{{STATIC_URL}}zenshu/lib-icon.jpg">
-		<div class="span9" >
-			<h3>汕头大学图书馆特色文献服务部潮汕文献赠书芳名录</h3>
-			<p class="pull-right">谨向关心支持我馆潮汕文献建设发展的单位和个人表示衷心感谢!</p>
-		</div>
-	</div>
-</div>
-<div class="row-fluid list-row">
+<div class="row">
 {% for donor in donors %}
-<div class="span4 list-block">
+<div class="span4">
 		<div class="row-fluid">
-			<a class="hyperspan" href="{{ donor.get_absolute_url }}">
 			{% with photo=donor.top_cover %}
 			{% if photo %}
 			<img class="span3 img-rounded" src="{{ photo.thumbnail.url}}">
 			{% endif %}
 			<div class="{% if photo %}span9{% else %}span12{% endif %}">
-				<h4>{{ donor.name }} 赠书：</h4>
+				<h4><a class="btn-link" href="{{ donor.get_absolute_url }}">{{ donor.name }}</a> 赠书：</h4>
 				<ul>
 					{% for book in donor.top_books %}
-					<li>{{ book.name }}</li>
+					<li><a class="btn-link" href="{{ book.get_absolute_url }}">{{ book.name }}</a></li>
 					{% endfor %}
 				</ul>
 			</div>
 			{% endwith %}
-			</a>
 		</div>
 </div>
 {% if forloop.counter|divisibleby:3 %}
 </div>
-<div class="row-fluid">
+<hr>
+<div class="row">
 {% endif %}
 {% endfor %}
 </div>

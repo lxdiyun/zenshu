@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateResponseMixin
 from zenshu.models import Donor, Book
-from zenshu.utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE
+from zenshu.utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
 from zenshu.form import DonorListPageForm, DonorSearchForm
 from django.core.urlresolvers import reverse
 from django.db.models import Max, Sum, Count
@@ -13,7 +13,7 @@ from django.utils.encoding import smart_str
 def set_top_books_and_cover(donor_list):
     for dn in donor_list:
         date = dn.last_donate_date
-        dn.top_books = dn.book_set.filter(donate_date=date)[:5]
+        dn.top_books = dn.book_set.filter(donate_date=date)[:BOOK_TOP_SIZE]
         for bk in dn.top_books:
             cover = bk.get_cover()
             if cover:
