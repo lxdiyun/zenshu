@@ -8,27 +8,24 @@
 }
 
 .pos-relative { position: relative; }
-.list-cover { 
-	position: absolute; 
-	top: 5%; 
-	width:75px;
-	height:100px;
+
+.list-row { 
+	margin: 0px 0px 20px 0px;
 }
 .list-block { 
-	height: 180px; 
-	position: relative; 
+	border: 1px solid #E5E5E5;
 	border-radius: 6px 6px 6px 6px;
+	display: block;
+	padding: 5px 8px 5px 8px;
+	margin: 0px 0px 0px 0px;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
 }
 
 .hyperspan-black, .hyperspan-white, .hyperspan {
-	opacity: .1;
-	position:absolute;
-	width:98%;
-	height:140px;
-	left:0px;
-	top:5px;
+	display: block;
+	opacity: 1;
 	z-index:1;
-	border-radius: 6px 6px 6px 6px;
 }
 .hyperspan-white {
 	background: white;
