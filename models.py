@@ -130,6 +130,7 @@ class Donor(models.Model):
         return
 
     def get_top_books(self):
+        return
         if (0 < self.book_set.count()):
             date = self.book_set.all()[0].donate_date
             return self.book_set.filter(donate_date=date)[:5]

@@ -16,7 +16,7 @@
 	<div class="span4">
 		<div class="row list-block hover-div">
 			{% if donor.get_cover %}
-			{% with photo=donor.get_top_cover %}
+			{% with photo=donor.top_cover %}
 			<div class="span1" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
 				<img class="img-rounded list-cover my-image" src="{{ photo.thumbnail.url}}"> 
 			</div>
@@ -27,7 +27,9 @@
 			{% endif %}
 				<h4>{{ donor.name }} 赠书：</h4>
 				<p>
-					{{ donor.get_books_string|linebreaksbr }}
+					{% for book in donor.top_books %}
+					<li><a href="{{ book.get_absolute_url }}">{{ book.name }}</a></li>
+					{% endfor %}
 					<a class="btn-link" href="{{ donor.get_absolute_url }}"><span class="hyperspan"><br><br><br><br></span></a>
 				</p>
 			</div>

@@ -10,6 +10,16 @@ from django.http import HttpResponseRedirect
 from django.utils.encoding import smart_str
 
 
+def set_top_books_and_cover(donor_list):
+    for dn in donor_list:
+        date = dn.last_donate_date
+        dn.top_books = dn.book_set.filter(donate_date=date)[:5]
+        for bk in dn.top_books:
+            cover = bk.get_cover()
+            if cover:
+                dn.top_cover = cover
+
+
 class DonorListBase(TemplateResponseMixin):
     template_name = 'zenshu/donor_list.html'
 
@@ -25,6 +35,7 @@ class DonorListView(ListView, DonorListBase):
 
     def get_context_data(self, **kwargs):
         context = super(DonorListView, self).get_context_data(**kwargs)
+        set_top_books_and_cover(context['donors'])
         context['request'] = self.request
         return context
 
@@ -99,6 +110,8 @@ class DonorTopView(ListView, DonorListBase):
         queryset = self.get_queryset()
         org_donors = queryset.filter(donor_type=1)[:DONOR_TOP_SIZE]
         personal_donors = queryset.filter(donor_type=0)[:DONOR_TOP_SIZE]
+        set_top_books_and_cover(org_donors)
+        set_top_books_and_cover(personal_donors)
         context['donor_list_set'] = [org_donors, personal_donors]
         context['indexes'] = Donor.objects.values('name_index').order_by(
             'name_index').annotate(num=Count('name_index'))
