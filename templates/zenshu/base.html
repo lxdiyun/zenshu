@@ -48,8 +48,8 @@
 						</ul>
 						<form method="POST" action="{% url 'search_donor' %}" class="navbar-search pull-right">
 							<input type="text" name="keyword" placeholder="捐赠单位或个人" class="search-query span2">
-							<button class="btn-link my-ie-hidden" type="submit">
-								<i class="icon-search" style="position: absolute; right: 30px; top: 6px;"></i>
+							<button class="btn-link my-ie-hidden" style="position: absolute; right: 5px; top: 3px;"type="submit">
+								<i class="icon-search" ></i>
 							</button>
 							{% csrf_token %}
 						</form>
