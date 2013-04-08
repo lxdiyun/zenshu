@@ -12,10 +12,10 @@ from adli.admin_actions import clone_action
 class BookInline(admin.TabularInline):
     model = Book.donor.through
     readonly_fields = ["book_name", "book_donate_date", "book_amount"]
+    raw_id_fields = ("book",)
     ordering = ["-book__donate_date"]
     verbose_name = _("book")
     verbose_name_plural = _("book")
-    raw_id_fields = ("book",)
 
     def book_name(self, object):
         return object.book.name
