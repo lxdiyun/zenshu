@@ -101,7 +101,9 @@ class BookAdmin(admin.ModelAdmin):
             if fld.name not in exclude:
                 new_kwargs[fld.name] = getattr(obj, fld.name)
 
-        self.model.objects.create(**new_kwargs)
+        new_book = Book(**new_kwargs)
+        new_book.save()
+        new_book.donor.add(*obj.donor.values_list('id', flat=True))
 
 
 class PhotoAdmin(admin.ModelAdmin):
