@@ -110,41 +110,6 @@ class Donor(models.Model):
     def get_absolute_url(self):
         return reverse("detail_donor", kwargs={'pk': self.id})
 
-    def get_books_string(self):
-        string = ""
-
-        for bk in self.book_set.all()[:5]:
-            string += u"《" + bk.name + u"》\n"
-            if (52 < len(string)):
-                break
-
-        return string
-
-    def get_cover(self):
-        if (0 < self.book_set.count()):
-            for bk in self.book_set.all():
-                cover = bk.get_cover()
-                if (cover):
-                    return cover
-
-        return
-
-    def get_top_books(self):
-        return
-        if (0 < self.book_set.count()):
-            date = self.book_set.all()[0].donate_date
-            return self.book_set.filter(donate_date=date)[:5]
-
-        return
-
-    def get_top_cover(self):
-        for book in self.get_top_books():
-            cover = book.get_cover()
-            if cover:
-                return cover
-
-        return
-
 
 class Photo(models.Model):
     name = models.CharField(max_length=250, verbose_name=_('photo name'))

@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateResponseMixin
 from zenshu.models import Donor, Book
-from zenshu.utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE
+from zenshu.utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
 from zenshu.form import DonorListPageForm, DonorSearchForm
 from django.core.urlresolvers import reverse
 from django.db.models import Max, Sum, Count
