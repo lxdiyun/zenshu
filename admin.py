@@ -6,16 +6,16 @@ from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
 from django.contrib.contenttypes import generic
 from imagekit.admin import AdminThumbnail
+from adli.admin_actions import clone_action
 
 
 class BookInline(admin.TabularInline):
     model = Book.donor.through
     readonly_fields = ["book_name", "book_donate_date", "book_amount"]
     ordering = ["-book__donate_date"]
-    exclude = ['book']
-    max_num = 0
     verbose_name = _("book")
     verbose_name_plural = _("book")
+    raw_id_fields = ("book",)
 
     def book_name(self, object):
         return object.book.name
@@ -90,9 +90,18 @@ class BookAdmin(admin.ModelAdmin):
         ('name', _('book name')),
         ('amount', _('amount')),
         ('donate_date', _('donate date')),
-        ('get_donors', _('donor name'))
-    ])]
+        ('get_donors', _('donor name'))]),
+        clone_action()]
     inlines = [PhotoInline]
+
+    def clone(self, obj, request):
+        new_kwargs = dict()
+        exclude = ['id', 'photos']
+        for fld in self.model._meta.fields:
+            if fld.name not in exclude:
+                new_kwargs[fld.name] = getattr(obj, fld.name)
+
+        self.model.objects.create(**new_kwargs)
 
 
 class PhotoAdmin(admin.ModelAdmin):
