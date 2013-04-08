@@ -14,7 +14,7 @@ def set_top_books_and_cover(donor_list):
     for dn in donor_list:
         date = dn.last_donate_date
         dn.top_books = dn.book_set.filter(
-            donate_date=date).order_by('name')[:5]
+            donate_date=date).order_by('name')[:BOOK_TOP_SIZE]
         for bk in dn.top_books:
             cover = bk.get_cover()
             if cover:
