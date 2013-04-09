@@ -29,20 +29,16 @@
 	{% regroup index.list by donor_type as donor_type_list %}
 	<div class="row">
 		{% for type in donor_type_list %}
-		{% ifequal type.grouper 1 %}
-		<div class="span7">
-			{% else %}
-			<div class="span2">
-				{% endifequal %}
-				{% for donor in type.list %}
-				<li><a class="btn-link" href="{{ donor.get_absolute_url }}">{{ donor.name }}</a></li>
-				{% endfor %}
-			</div>
+		<div class="{% ifequal type.grouper 1 %}span7{% else %}span2{% endifequal %}">
+			{% for donor in type.list %}
+			<li><a class="btn-link" href="{{ donor.get_absolute_url }}">{{ donor.name }}</a></li>
 			{% endfor %}
 		</div>
-		</section>
-		{% endif %}
 		{% endfor %}
+	</div>
+	</section>
+	{% endif %}
+	{% endfor %}
 </div>
 </div>
 {% endblock %}

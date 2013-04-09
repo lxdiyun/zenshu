@@ -6,9 +6,19 @@
 	<div class="row" style="background-color:rgba(255,255,255,0.2)">
 		<img class="img-rounded span1" src="{{STATIC_URL}}zenshu/lib-icon.jpg">
 		<div class="span9" >
-			<h3>汕头大学图书馆特色文献服务部潮汕文献赠书芳名录</h3>
-			<p class="pull-right">谨向关心支持我馆潮汕文献建设发展的单位和个人表示衷心感谢!</p>
+			<h3>汕头大学图书馆特色文献服务部赠书芳名录</h3>
+			<p class="pull-right">谨向关心支持我馆文献资源建设的单位和个人表示衷心感谢！</p>
 		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span2">
+	</div>
+	<div class="span5">
+		<strong>　单位（或团体）赠书</strong>
+	</div>
+	<div class="span5">
+		<strong>　个人赠书</strong>
 	</div>
 </div>
 <div class="row">
@@ -41,7 +51,7 @@
 				{% endif %}
 				<div class="{% if photo %}span9{% else %}span12{% endif %}">
 					{% endwith %}
-					<a class="btn-link" href="{{ donor.get_absolute_url }}">{{ donor.name }}</a> 赠书：
+					<a class="btn-link" href="{{ donor.get_absolute_url }}">{{ donor.name }}</a> 
 					<ul>
 						{% for book in donor.top_books %}
 						<li><a href="{{ book.get_absolute_url }}">{{ book.name }}</a></li>
