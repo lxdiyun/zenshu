@@ -12,12 +12,13 @@
 	</div>
 </div>
 <div class="row">
-	<div class="span2">
+	<div class="span2 text-center">
+		<strong>姓名索引</strong>
 	</div>
-	<div class="span5">
+	<div class="span5 text-center">
 		<strong>单位（或团体）赠书</strong>
 	</div>
-	<div class="span5">
+	<div class="span5 text-center">
 		<strong>个人赠书</strong>
 	</div>
 </div>
@@ -26,7 +27,6 @@
 		{% block left-sidebar %}
 		<div class="my-sidebar">
 			<ul class="nav nav-list my-sidenav my-sidenav-top">
-				<li class="my-sidebar-title"><strong>姓名索引</strong></li>
 				{% for index in indexes %}
 				{% if index.name_index %}
 				<li class=""><a href="{% url 'donor_index' %}#{{ index.name_index }}"><i class="icon-chevron-right"></i>{{ index.name_index }}</a></li>
