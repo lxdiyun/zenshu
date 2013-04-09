@@ -1,12 +1,14 @@
 from zenshu.models import Book, Donor, Photo
-from zenshu.actions import merge_selected, export_csv_action
 from zenshu.filters import DonorAnnotateFilter
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
 from django.contrib.contenttypes import generic
 from imagekit.admin import AdminThumbnail
-from adli.admin_actions import clone_action
+from adli.admin_actions import (clone_action,
+                                merge_selected_action,
+                                export_csv_action)
+from zenshu.actions import merge_selected_donor
 
 
 class BookInline(admin.TabularInline):
@@ -43,12 +45,13 @@ class DonorAdmin(admin.ModelAdmin):
                    # because the m2m annotation must after m2m filter
                    ('id', DonorAnnotateFilter))
     inlines = [BookInline]
-    actions = [merge_selected,
+    actions = [merge_selected_action(function=merge_selected_donor),
                export_csv_action(fields=[
                    ('name', _('donor name')),
                    ('amount', _('amount')),
                    ('contact_info', _('contact info'))
                ])]
+    exclude = ['name_index']
 
     def get_ordering(self, request):
         return ["-last_donate_date"]
@@ -86,11 +89,13 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ['name', "author_name", "donor__name", "donate_date"]
     filter_horizontal = ['donor']
     list_filter = (('donate_date', DateRangeFilter),)
-    actions = [export_csv_action(fields=[
-        ('name', _('book name')),
-        ('amount', _('amount')),
-        ('donate_date', _('donate date')),
-        ('get_donors', _('donor name'))]),
+    actions = [export_csv_action(
+        fields=['name',
+                'amount',
+                'donate_date',
+                ],
+        extra=['get_donors']
+    ),
         clone_action()]
     inlines = [PhotoInline]
 

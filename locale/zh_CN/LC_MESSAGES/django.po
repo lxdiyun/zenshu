@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-14 11:45+0800\n"
+"POT-Creation-Date: 2013-04-10 00:48+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,134 +17,107 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: actions.py:55
-msgid "Merge Completed"
-msgstr "合并完成"
-
-#: actions.py:65
-#, python-format
-msgid "Cannot merge %(name)s"
-msgstr "无法合并 %(name)s"
-
-#: actions.py:67
-msgid "Are you sure?"
-msgstr "你确定吗?"
-
-#: actions.py:92
-msgid "Please select at least two objects"
-msgstr "请至少选择两项"
-
-#: actions.py:94
-#, python-format
-msgid "Merge selected %(verbose_name_plural)s"
-msgstr "合并所选的 %(verbose_name_plural)s"
-
-#: actions.py:137
-#, python-format
-msgid "Export Selected %(verbose_name_plural)s"
-msgstr "导出所选的 %(verbose_name_plural)s"
-
-#: admin.py:16 admin.py:17 form.py:33 form.py:36 models.py:49 models.py:90
+#: admin.py:19 admin.py:20 form.py:33 form.py:36 models.py:51
 msgid "book"
 msgstr "赠书"
 
-#: admin.py:21 admin.py:85 models.py:14
+#: admin.py:24 models.py:20
 msgid "book name"
 msgstr "赠书名"
 
-#: admin.py:26 admin.py:87 models.py:20
+#: admin.py:29 models.py:26
 msgid "donate date"
 msgstr "赠书时间"
 
-#: admin.py:30 admin.py:48 admin.py:63 admin.py:86 models.py:19
+#: admin.py:33 admin.py:51 admin.py:67 models.py:25
 msgid "amount"
 msgstr "册数"
 
-#: admin.py:47 admin.py:88 models.py:58
+#: admin.py:50 models.py:84
 msgid "donor name"
 msgstr "捐赠单位或个人"
 
-#: admin.py:49 models.py:68
+#: admin.py:52 models.py:94
 msgid "contact info"
 msgstr "联系信息"
 
-#: admin.py:58
+#: admin.py:62
 msgid "last donate date"
 msgstr "最近赠书时间"
 
-#: admin.py:100
+#: admin.py:80 admin.py:121
 msgid "Thumbnail"
 msgstr "缩略图"
 
-#: models.py:10
+#: models.py:16
 msgid "store up"
 msgstr "收藏"
 
-#: models.py:11
+#: models.py:17
 msgid "circulate"
 msgstr "流通"
 
-#: models.py:12
+#: models.py:18
 msgid "unknow"
 msgstr "未知"
 
-#: models.py:18
+#: models.py:24
 msgid "author"
 msgstr "作者"
 
-#: models.py:24
+#: models.py:30
 msgid "publisher"
 msgstr "出版社"
 
-#: models.py:27
+#: models.py:33
 msgid "publish date"
 msgstr "出版日期"
 
-#: models.py:31
+#: models.py:37
 msgid "status"
 msgstr "状态"
 
-#: models.py:34 models.py:61
+#: models.py:40 models.py:88
 msgid "description"
 msgstr "简介"
 
-#: models.py:36 models.py:45 models.py:77
+#: models.py:42 models.py:59 models.py:97
 msgid "donor"
 msgstr "赠书者"
 
-#: models.py:50
+#: models.py:52
 msgid "books"
 msgstr "赠书"
 
-#: models.py:55
+#: models.py:81
 msgid "personal"
 msgstr "个人"
 
-#: models.py:56
+#: models.py:82
 msgid "organization"
 msgstr "组织"
 
-#: models.py:65
+#: models.py:91
 msgid "donor type"
 msgstr "捐赠人类别"
 
-#: models.py:78
+#: models.py:98
 msgid "donors"
 msgstr "赠书者"
 
-#: models.py:82
+#: models.py:115
 msgid "photo name"
 msgstr "图片名"
 
-#: models.py:84
+#: models.py:117
 msgid "Image"
 msgstr "图片"
 
-#: models.py:98
+#: models.py:130
 msgid "photo"
 msgstr "图片"
 
-#: models.py:99
+#: models.py:131
 msgid "photos"
 msgstr "图片"
 
