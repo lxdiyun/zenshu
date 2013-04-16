@@ -27,20 +27,20 @@
 				{{ book.name }}{% if book.author_name %} / {{ book.author_name }}{% endif %}
 				</a>
 			</td>     
-		<td >
-			{% if book.get_cover %}
-			{% with photo=book.get_cover %}
-			<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-				<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
-					<img class="img-rounded my-image" src="{{ photo.thumbnail.url}}"> 
-				</a>
-			</div>
-			{% endwith %}
-			{% endif %}
-		</td>   
-		<td >{{ book.donate_date }}</td>   
-		<td >{{ book.amount }}</td>   
-	</tr>    
+			<td >
+				{% if book.get_cover %}
+				{% with photo=book.get_cover %}
+				<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+					<a href="{{ photo.image.url }}" target="_blank" title="{{ photo.name }}" data-gallery="gallery">
+						<img class="img-rounded my-image" src="{{ photo.thumbnail.url}}"> 
+					</a>
+				</div>
+				{% endwith %}
+				{% endif %}
+			</td>   
+			<td >{{ book.donate_date }}</td>   
+			<td >{{ book.amount }}</td>   
+		</tr>    
 		{% endfor %}
 	</tbody>
 </table>
