@@ -65,7 +65,7 @@ class Book(models.Model):
         url = ("http://202.192.155.48:83/opac/searchresult.aspx?"
                "ANYWORDS=%s&dt=ALL&cl=ALL&dp=20"
                "&sf=M_PUB_YEAR&ob=DESC&sm=table&dept=ALL")
-        url = (url % quote(self.name.encode("gb18030")))
+        url = (url % quote(self.name.encode("gb18030", 'replace')))
 
         return url
 
