@@ -1,16 +1,16 @@
-jQuery ->
-maybeScrollToHash()
-	setTimeout (-> maybeScrollToHash()), 100
+function detectHash() {
+	  function maybeScrollToHash() {
+		      if (window.location.hash && $(window.location.hash).length) {
+			            var newTop = $(window.location.hash).offset().top - $('.topbar').height();
+				          $(window).scrollTop(newTop);
+					      }
+		        }
 
-$(window).bind 'hashchange', ->
-maybeScrollToHash()
+	    $(window).bind('hashchange', function() {
+		        maybeScrollToHash();
+			  });
 
-	@maybeScrollToHash = ->
-	if window.location.hash
-	hash_name = window.location.hash.split('#')[1]
-	section = $("a[name='#{hash_name}']")
-	section = $("#"+hash_name) if section.length == 0
+	      maybeScrollToHash();
+}
 
-	if section.length
-new_top = section.offset().top - $('.navbar').height()
-$(window).scrollTop(new_top)
+$( document ).ready(detectHash)
