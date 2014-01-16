@@ -1,13 +1,15 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateResponseMixin
+from django.contrib.syndication.views import Feed
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
+from django.db.models import Max, Sum, Count
+from django.http import HttpResponseRedirect
+
 from zenshu.models import Donor, Book
 from zenshu.utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
 from zenshu.form import DonorListPageForm, DonorSearchForm
-from django.core.urlresolvers import reverse
-from django.db.models import Max, Sum, Count
-from django.http import HttpResponseRedirect
-from django.utils.encoding import smart_str
 
 
 def set_top_books_and_cover(donor_list):
@@ -133,3 +135,24 @@ class BookDetailView(DetailView):
         context['donors'] = self.object.donor.all()
 
         return context
+
+
+class LatestDonorFeed(Feed, DonorListBase):
+    title = _("Latest Donors")
+    link = "/sitenews/"
+    description = _("The list of the latest donors")
+
+    def items(self):
+        donor_list = self.get_queryset()[:DONOR_TOP_SIZE]
+        set_top_books_and_cover(donor_list)
+        return donor_list
+
+    def item_title(self, item):
+        return item.name
+
+    def item_description(self, item):
+        book_list = _("donate:")
+        for book in item.top_books:
+            book_list += _("<") + book.name + _(">,")
+
+        return book_list

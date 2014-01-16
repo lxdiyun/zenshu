@@ -20,7 +20,7 @@
 <p><strong>出版社：</strong>{{ book.publisher }}</p>
 {% endif %}
 {% if book.publish_date %}
-<p><strong>出版日期：</strong>{{ book.publish_date|date:"Y-m" }}</p>
+<p><strong>出版年代：</strong>{{ book.publish_date|date:"Y" }}</p>
 {% endif %}
 {% if book.description %}
 <p><strong>简介：</strong>{{ book.description }}</p>
