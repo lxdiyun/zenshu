@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-     
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateResponseMixin
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
 from django.db.models import Max, Sum, Count
 from django.http import HttpResponseRedirect
 
@@ -138,9 +138,9 @@ class BookDetailView(DetailView):
 
 
 class LatestDonorFeed(Feed, DonorListBase):
-    title = _("Latest Donors")
+    title = u"最新赠书"
     link = "/sitenews/"
-    description = _("The list of the latest donors")
+    description = u"最新赠书人名单"
 
     def items(self):
         donor_list = self.get_queryset()[:DONOR_TOP_SIZE]
@@ -151,8 +151,8 @@ class LatestDonorFeed(Feed, DonorListBase):
         return item.name
 
     def item_description(self, item):
-        book_list = _("donate:")
+        book_list = u"赠书："
         for book in item.top_books:
-            book_list += _("<") + book.name + _(">,")
+            book_list += u"《" + book.name + u"》，"
 
         return book_list
