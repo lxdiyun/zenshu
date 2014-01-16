@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 16:03+0800\n"
+"POT-Creation-Date: 2014-01-16 16:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,3 +120,19 @@ msgstr "图片"
 #: models.py:134
 msgid "photos"
 msgstr "图片"
+
+#: views.py:155
+msgid "donate:"
+msgstr "赠书："
+
+#: views.py:155
+msgid ","
+msgstr "，"
+
+#: views.py:156
+msgid "<"
+msgstr "《"
+
+#: views.py:156
+msgid ">"
+msgstr "》"

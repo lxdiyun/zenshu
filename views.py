@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateResponseMixin
 from django.contrib.syndication.views import Feed
+from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.db.models import Max, Sum, Count
 from django.http import HttpResponseRedirect
@@ -139,7 +140,7 @@ class BookDetailView(DetailView):
 
 class LatestDonorFeed(Feed, DonorListBase):
     title = u"最新赠书"
-    link = "/sitenews/"
+    link = "/zenshu"
     description = u"最新赠书人名单"
 
     def items(self):
@@ -151,8 +152,7 @@ class LatestDonorFeed(Feed, DonorListBase):
         return item.name
 
     def item_description(self, item):
-        book_list = u"赠书："
-        for book in item.top_books:
-            book_list += u"《" + book.name + u"》，"
+        book_list = _("donate:") + _(",").join(
+            _("<") + book.name + _(">") for book in item.top_books)
 
         return book_list
