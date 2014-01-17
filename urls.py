@@ -32,5 +32,7 @@ urlpatterns = patterns('',
                                context_object_name='donors',
                                template_name='zenshu/donor_index.html'),
                            name='donor_index'),
-                       url(r'^feeds/latest/$', LatestDonorFeed()),
+                       url(r'^feeds/latest/$', 
+                           LatestDonorFeed(),
+                           name="feed_latest"),
                        )

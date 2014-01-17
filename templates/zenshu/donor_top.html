@@ -1,5 +1,9 @@
 {% extends "zenshu/base.html" %}
 
+{% block extra_header %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url 'feed_latest' %}" />	
+{% endblock %}
+
 
 {% block content %}
 <div class="hero-unit my-hero-unit ">
