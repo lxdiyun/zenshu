@@ -4,7 +4,7 @@ from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateResponseMixin
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Max, Sum, Count
 from django.http import HttpResponseRedirect
 
@@ -140,7 +140,7 @@ class BookDetailView(DetailView):
 
 class LatestDonorFeed(Feed, DonorListBase):
     title = u"最新赠书"
-    link = "/zenshu"
+    link = reverse_lazy('home_page')
     description = u"最新赠书人名单"
 
     def items(self):
