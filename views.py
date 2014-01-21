@@ -7,6 +7,8 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Max, Sum, Count
 from django.http import HttpResponseRedirect
+import urllib
+import urlparse
 
 from zenshu.models import Donor, Book
 from zenshu.utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
@@ -77,7 +79,21 @@ class DonorSearchView(FormView, DonorListBase):
     form_class = DonorSearchForm
 
     def get_queryset(self):
-        keyword = self.request.REQUEST.get('keyword', "")
+        query_raw = urllib.unquote(self.request.META['QUERY_STRING'])
+        try:
+            if "%u" in query_raw:
+                query = query_raw.replace("%u", "\u").decode("unicode escape")
+            else:
+                try:
+                    query = query_raw.decode('utf-8')
+                except UnicodeDecodeError:
+                    query = query_raw.decode('GBK')
+
+            query = dict(urlparse.parse_qsl(query))
+            keyword = query.get('keyword', "")
+        except:
+            keyword = self.request.REQUEST["keyword"]
+
         queryset = super(DonorSearchView, self).get_queryset()
         queryset = queryset.filter(name__contains=keyword.strip())
 
