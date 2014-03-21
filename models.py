@@ -116,7 +116,7 @@ class Donor(models.Model):
 class Photo(models.Model):
     name = models.CharField(max_length=250, verbose_name=_('photo name'))
     image = models.ImageField(upload_to=
-                              random_path_and_rename('zenshu_book_photo'),
+                              random_path_and_rename('zengshu_book_photo'),
                               verbose_name=_('Image'))
     thumbnail = ImageSpecField(image_field='image',
                                processors=[SmartResize(75, 100)],

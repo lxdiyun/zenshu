@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from zenshu.models import Book, Donor
+from models import Book, Donor
 from django.utils.encoding import smart_str, smart_text
 #from django.db.models import Sum
 

@@ -1,5 +1,5 @@
-from zenshu.models import Donor
-from zenshu.transport import merge_dn
+from models import Donor
+from transport import merge_dn
 from django.utils.encoding import force_unicode
 
 

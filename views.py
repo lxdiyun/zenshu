@@ -10,9 +10,9 @@ from django.http import HttpResponseRedirect
 import urllib
 import urlparse
 
-from zenshu.models import Donor, Book
-from zenshu.utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
-from zenshu.form import DonorListPageForm, DonorSearchForm
+from models import Donor, Book
+from utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
+from form import DonorListPageForm, DonorSearchForm
 
 
 def set_top_books_and_cover(donor_list):
@@ -27,7 +27,7 @@ def set_top_books_and_cover(donor_list):
 
 
 class DonorListBase(TemplateResponseMixin):
-    template_name = 'zenshu/donor_list.html'
+    template_name = 'zengshu/donor_list.html'
 
     def get_queryset(self):
         qs = Donor.objects.annotate(
@@ -60,7 +60,7 @@ class DonorListCheck(FormView):
 class DonorDetailView(DetailView):
     model = Donor
     context_object_name = 'donor'
-    template_name = 'zenshu/donor_detail.html'
+    template_name = 'zengshu/donor_detail.html'
 
     def get_queryset(self):
         queryset = super(DonorDetailView, self).get_queryset()
@@ -125,7 +125,7 @@ class DonorSearchView(FormView, DonorListBase):
 
 
 class DonorTopView(ListView, DonorListBase):
-    template_name = 'zenshu/donor_top.html'
+    template_name = 'zengshu/donor_top.html'
 
     def render_to_response(self, context, **response_kwargs):
         queryset = self.get_queryset()
@@ -144,7 +144,7 @@ class DonorTopView(ListView, DonorListBase):
 class BookDetailView(DetailView):
     model = Book
     context_object_name = "book"
-    template_name = "zenshu/book_detail.html"
+    template_name = "zengshu/book_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super(BookDetailView, self).get_context_data(**kwargs)

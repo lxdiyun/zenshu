@@ -1,5 +1,5 @@
-from zenshu.models import Book, Donor, Photo
-from zenshu.filters import DonorAnnotateFilter
+from models import Book, Donor, Photo
+from filters import DonorAnnotateFilter
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
@@ -8,7 +8,7 @@ from imagekit.admin import AdminThumbnail
 from adli.admin_actions import (clone_action,
                                 merge_selected_action,
                                 export_csv_action)
-from zenshu.actions import merge_selected_donor
+from actions import merge_selected_donor
 
 
 class BookInline(admin.TabularInline):

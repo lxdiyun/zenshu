@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.views.generic import ListView
-from zenshu.models import Donor
-from zenshu.views import *
+from models import Donor
+from views import *
 
 
 urlpatterns = patterns('',
@@ -30,7 +30,7 @@ urlpatterns = patterns('',
                                                                "name",
                                                                ),
                                context_object_name='donors',
-                               template_name='zenshu/donor_index.html'),
+                               template_name='zengshu/donor_index.html'),
                            name='donor_index'),
                        url(r'^feeds/latest/$', 
                            LatestDonorFeed(),
