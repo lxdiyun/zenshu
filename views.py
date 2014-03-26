@@ -9,6 +9,8 @@ from django.db.models import Max, Sum, Count
 from django.http import HttpResponseRedirect
 import urllib
 import urlparse
+from datetime import datetime
+
 
 from models import Donor, Book
 from utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
@@ -158,9 +160,10 @@ class LatestDonorFeed(Feed, DonorListBase):
     title = u"最新赠书"
     link = reverse_lazy('home_page')
     description = u"最新赠书人名单"
+    item_pubdate = datetime.now()
 
     def items(self):
-        donor_list = self.get_queryset()[:DONOR_TOP_SIZE]
+        donor_list = self.get_queryset()[:DONOR_TOP_SIZE * 2]
         set_top_books_and_cover(donor_list)
         return donor_list
 
@@ -172,3 +175,11 @@ class LatestDonorFeed(Feed, DonorListBase):
             _("<") + book.name + _(">") for book in item.top_books)
 
         return book_list
+
+    def item_pubdate(self, item):
+        books = item.top_books
+        if 0 < len(books):
+            date = books[0].donate_date
+            return datetime.combine(date, datetime.min.time())
+        else:
+            return None
