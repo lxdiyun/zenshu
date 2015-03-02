@@ -75,6 +75,8 @@
 				</p>
 				<p><strong>来信请寄：</strong>广东省汕头市大学路243号汕头大学图书馆特色文献服务部 <strong>邮编：</strong>515063 </p>
 				<p><a href="{% url 'admin:index' %}" style="color: rgb(255,255,255)">后台管理</a></p>
+        <!-- cnzz tongji -->
+        <script src="http://s11.cnzz.com/z_stat.php?id=1254439597&web_id=1254439597" language="JavaScript"></script>
 				</div>
 			</footer>
 
@@ -121,6 +123,16 @@
 		<script src="{{STATIC_URL}}zengshu/my-ie.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
+			// extended js block
 			{% block extend_js %}{% endblock %}
+
+			// baidu tongji
+			var _hmt = _hmt || [];
+			(function() {
+			var hm = document.createElement("script");
+			hm.src = "//hm.baidu.com/hm.js?100b30946d1fa46e0bafc410684f597e";
+			var s = document.getElementsByTagName("script")[0]; 
+			s.parentNode.insertBefore(hm, s);
+			})();
 		</script>
 </body></html>
