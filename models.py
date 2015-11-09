@@ -6,7 +6,7 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import SmartResize
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from urllib import quote
+from urllib import quote_plus
 import pinyin
 import re
 
@@ -64,11 +64,12 @@ class Book(models.Model):
         return reverse("detail_book", kwargs={'pk': self.id})
 
     def get_search_url(self):
+        SPECIAL_CHARACTER = u"[+\.\!\/_,$%^*(+\"\']+.*|[+——！，。？、~@#￥%……&*（）·]+.*$"
         url = ("http://202.192.155.48:83/opac/searchresult.aspx?"
-               "ANYWORDS=%s&dt=ALL&cl=ALL&dp=20"
+               "title_f=%s&dt=ALL&cl=ALL&dp=20"
                "&sf=M_PUB_YEAR&ob=DESC&sm=table&dept=ALL")
-        search_keyword = re.sub(u"[\s+\.\!\/_,$%^*(+\"\']+|[+——！，。？、~@#￥%……&*（）]+.*$", "", self.name)
-        url = (url % quote(search_keyword.encode("gb18030", 'replace')))
+        search_keyword = re.sub(SPECIAL_CHARACTER, "", self.name)
+        url = (url % quote_plus(search_keyword.encode("gb18030", 'replace')))
 
         return url
 
