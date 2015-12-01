@@ -6,7 +6,7 @@ from django.utils.encoding import smart_str, smart_text
 
 
 class ZshBook(models.Model):
-    id = models.IntegerField()
+    id_1 = models.IntegerField()
     bookname = models.CharField(max_length=60)
     author = models.CharField(max_length=60, blank=True)
     publisher = models.CharField(max_length=60, blank=True)
@@ -21,7 +21,7 @@ class ZshBook(models.Model):
 
 
 class ZshPresent(models.Model):
-    id = models.IntegerField()
+    id_1 = models.IntegerField()
     present_name = models.CharField(max_length=60)
     sent_time = models.DateTimeField(null=True, blank=True)
     vols = models.IntegerField()

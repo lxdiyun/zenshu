@@ -4,8 +4,8 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from imagekit.models import ImageSpecField
 from imagekit.processors import SmartResize
-from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from urllib import quote_plus
 import pinyin
 import re
@@ -33,8 +33,7 @@ class Book(models.Model):
     publish_date = models.DateField(null=True,
                                     blank=True,
                                     verbose_name=_('publish date'))
-    status = models.IntegerField(max_length=8,
-                                 choices=STATUS,
+    status = models.IntegerField(choices=STATUS,
                                  default=0,
                                  verbose_name=_('status'))
     description = models.TextField(blank=True,
@@ -42,11 +41,10 @@ class Book(models.Model):
                                    verbose_name=_("description"))
     donor = models.ManyToManyField('Donor',
                                    verbose_name=_('donor'),
-                                   null=True,
                                    blank=True)
-    photos = generic.GenericRelation('Photo',
-                                     content_type_field='content_type',
-                                     object_id_field='object_id')
+    photos = GenericRelation('Photo',
+                             content_type_field='content_type',
+                             object_id_field='object_id')
 
     class Meta:
         ordering = ['-donate_date']
@@ -94,12 +92,13 @@ class Donor(models.Model):
                                      default=1,
                                      verbose_name=_('donor type'))
     contact_info = models.TextField(blank=True,
-                                    null=True,
+                                   null=True,
                                     verbose_name=_("contact info"))
 
     class Meta:
         verbose_name = _('donor')
         verbose_name_plural = _('donors')
+	ordering = ["id"]
 
     def save(self, *args, **kwargs):
         name_pinyin = re.sub("[^a-zA-z ]",
@@ -120,13 +119,13 @@ class Photo(models.Model):
     image = models.ImageField(upload_to=
                               random_path_and_rename('zengshu_book_photo'),
                               verbose_name=_('Image'))
-    thumbnail = ImageSpecField(image_field='image',
+    thumbnail = ImageSpecField(source='image',
                                processors=[SmartResize(75, 100)],
                                format='JPEG',
                                options={'quality': 60})
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey('content_type', 'object_id')
 
     def __unicode__(self):
         return self.name

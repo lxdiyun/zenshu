@@ -38,6 +38,7 @@ class DonorAdminForm(forms.ModelForm):
 
     class Meta:
         model = Donor
+        fields = '__all__' 
 
     def __init__(self, *args, **kwargs):
         super(DonorAdminForm, self).__init__(*args, **kwargs)
