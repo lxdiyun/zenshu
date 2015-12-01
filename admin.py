@@ -1,5 +1,4 @@
-from models import Book, Donor, Photo
-from filters import DonorAnnotateFilter
+from models import *
 from django.contrib import admin
 from django.db.models import Max, Sum
 from django.utils.translation import ugettext_lazy as _
@@ -10,6 +9,7 @@ from adli.admin_actions import (clone_action,
                                 merge_selected_action,
                                 export_csv_action)
 from actions import merge_selected_donor
+import re
 
 
 class BookInline(admin.TabularInline):
@@ -51,10 +51,19 @@ class DonorAdmin(admin.ModelAdmin):
                ])]
     exclude = ['name_index']
 
+    def get_ordering(self, request):
+        # only use the last_donate_date when in donor admin list
+        path_info = request.META['PATH_INFO']
+        print path_info
+        if re.match(r'.*admin.*donor', path_info):
+            return ['-last_donate_date', '-id']
+        else:
+            return ['name']
+
     def get_queryset(self, request):
         queryset = super(DonorAdmin, self).get_queryset(request)
         queryset = queryset.annotate(amount=Sum('book__amount'),
-                        last_donate_date=Max('book__donate_date'))
+                                     last_donate_date=Max('book__donate_date'))
         return queryset
 
     def last_donate_date(self, obj):
@@ -81,31 +90,68 @@ class PhotoInline(GenericTabularInline):
     admin_thumbnail.short_description = _('Thumbnail')
 
 
+class LogInline(admin.TabularInline):
+    model = Log
+    readonly_fields = ['operator', 'time']
+
+    def save_model(self, request, obj, form, change):
+        obj.operator = request.user
+        super(LogInline, self).save(request, obj, form, change)
+
+
 class BookAdmin(admin.ModelAdmin):
     list_display = ["name",
                     "author_name",
                     "amount",
                     "donate_date",
-                    "get_donors"]
+                    "get_donors",
+                    "get_recent_logs"]
     search_fields = ['name', "author_name", "donor__name", "donate_date"]
     filter_horizontal = ['donor']
     list_filter = (('donate_date', DateRangeFilter),)
-    actions = [export_csv_action(
-        fields=['name',
-                'amount',
-                'donate_date',
-                ],
-        extra=['get_donors']
-    ),
-        clone_action()]
-    inlines = [PhotoInline]
+    actions = [
+        export_csv_action(fields=['name', 'amount', 'donate_date', ],
+                          extra=['get_donors']),
+        clone_action()
+        ]
+    inlines = [LogInline, PhotoInline]
+    exclude = ['last_modify_by']
+
+    def save_model(self, request, obj, form, change):
+        obj.last_modify_by = request.user
+        obj.last_modify_date = datetime.now()
+        obj.save()
+
+    def save_formset(self, request, form, formset, change):
+        instances = formset.save(commit=False)
+
+        for instance in instances:
+            # Check if it is the correct type of inline
+            if isinstance(instance, Log):
+                if not instance.operator_id:
+                    instance.operator = request.user
+
+                instance.save()
+
+    def construct_change_message(self, request, form, formsets):
+        message = super(ItemAdmin, self).construct_change_message(request,
+                                                                  form,
+                                                                  formsets)
+        for item in form.changed_data:
+            message += "\n%s => %s" % (item,
+                                       unicode(form.cleaned_data.get(item)))
+
+        return message
 
     def clone(self, obj, request):
         new_kwargs = dict()
-        exclude = ['id', 'photos']
+        exclude = ['id', 'photos', 'last_modify_by', 'last_modify_date']
         for fld in self.model._meta.fields:
             if fld.name not in exclude:
                 new_kwargs[fld.name] = getattr(obj, fld.name)
+
+        new_kwargs['last_modify_by'] = request.user
+        new_kwargs['last_modify_date'] = datetime.now()
 
         new_book = Book(**new_kwargs)
         new_book.save()

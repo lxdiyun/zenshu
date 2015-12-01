@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 16:43+0800\n"
+"POT-Creation-Date: 2015-12-01 03:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,37 +17,41 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:19 admin.py:20 form.py:33 form.py:36 models.py:53
+#: admin.py:20 admin.py:21 form.py:33 form.py:36 models.py:51
 msgid "book"
 msgstr "赠书"
 
-#: admin.py:24 models.py:22
+#: admin.py:25 models.py:22
 msgid "book name"
 msgstr "赠书名"
 
-#: admin.py:29 models.py:28
+#: admin.py:30 models.py:28
 msgid "donate date"
 msgstr "赠书时间"
 
-#: admin.py:33 admin.py:51 admin.py:67 models.py:27
+#: admin.py:34 admin.py:49 admin.py:68 models.py:27
 msgid "amount"
 msgstr "册数"
 
-#: admin.py:50 models.py:86
+#: admin.py:48 models.py:86
 msgid "donor name"
 msgstr "捐赠单位或个人"
 
-#: admin.py:52 models.py:96
+#: admin.py:50 models.py:96
 msgid "contact info"
 msgstr "联系信息"
 
-#: admin.py:62
+#: admin.py:63
 msgid "last donate date"
 msgstr "最近赠书时间"
 
-#: admin.py:80 admin.py:121
+#: admin.py:81 admin.py:122
 msgid "Thumbnail"
 msgstr "缩略图"
+
+#: apps.py:7
+msgid "zengshu management"
+msgstr ""
 
 #: models.py:18
 msgid "store up"
@@ -73,19 +77,19 @@ msgstr "出版社"
 msgid "publish date"
 msgstr "出版年代"
 
-#: models.py:39
+#: models.py:38
 msgid "status"
 msgstr "状态"
 
-#: models.py:42 models.py:90
+#: models.py:41 models.py:90
 msgid "description"
 msgstr "简介"
 
-#: models.py:44 models.py:61 models.py:99
+#: models.py:43 models.py:59 models.py:99
 msgid "donor"
 msgstr "赠书者"
 
-#: models.py:54
+#: models.py:52
 msgid "books"
 msgstr "赠书"
 
@@ -105,34 +109,34 @@ msgstr "捐赠人类别"
 msgid "donors"
 msgstr "赠书者"
 
-#: models.py:117
+#: models.py:118
 msgid "photo name"
 msgstr "图片名"
 
-#: models.py:120
+#: models.py:121
 msgid "Image"
 msgstr "图片"
 
-#: models.py:133
+#: models.py:134
 msgid "photo"
 msgstr "图片"
 
-#: models.py:134
+#: models.py:135
 msgid "photos"
 msgstr "图片"
 
-#: views.py:155
+#: views.py:174
 msgid "donate:"
 msgstr "赠书："
 
-#: views.py:155
+#: views.py:174
 msgid ","
 msgstr "，"
 
-#: views.py:156
+#: views.py:175
 msgid "<"
 msgstr "《"
 
-#: views.py:156
+#: views.py:175
 msgid ">"
 msgstr "》"

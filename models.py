@@ -1,16 +1,49 @@
 # -*- coding: utf-8 -*-
+import re
+from urllib import quote_plus
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from imagekit.models import ImageSpecField
-from imagekit.processors import SmartResize
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-from urllib import quote_plus
+from django.contrib.auth.models import User as Operator
+from django.utils.timezone import localtime
+
+from imagekit.models import ImageSpecField
+from imagekit.processors import SmartResize
+
 import pinyin
-import re
 
 from adli.utils import random_path_and_rename
+
+
+class BookType(models.Model):
+    name = models.CharField(max_length=250, verbose_name=_('book type name'))
+
+    class Meta:
+        verbose_name = _('book type')
+        verbose_name_plural = _('book types')
+
+    def __unicode__(self):
+        return self.name
+
+
+class Log(models.Model):
+    time = models.DateTimeField(auto_now_add=True, verbose_name=_('log time'))
+    description = models.TextField(blank=True, null=True, verbose_name=_("description"))
+    operator = models.ForeignKey(Operator, verbose_name=_('operator'))
+    book = models.ForeignKey('Book')
+
+    class Meta:
+        ordering = ['-time']
+        verbose_name = _('log')
+        verbose_name_plural = _('logs')
+
+    def __unicode__(self):
+        return "%s|%s|%s" % (localtime(self.time),
+                             self.operator,
+                             self.description)
 
 
 class Book(models.Model):
@@ -20,12 +53,17 @@ class Book(models.Model):
         (2, _('unknow')),
     )
     name = models.CharField(max_length=250, verbose_name=_('book name'))
+    book_type = models.ForeignKey(BookType, verbose_name=_('book type'))
+    amount = models.IntegerField(verbose_name=_('amount'))
+    collected_amount = models.IntegerField(verbose_name=_('collected amount'))
+    donate_date = models.DateField(verbose_name=_('donate date'))
+    donor = models.ManyToManyField('Donor',
+                                   verbose_name=_('donor'),
+                                   blank=True)
     author_name = models.CharField(max_length=250,
                                    null=True,
                                    blank=True,
                                    verbose_name=_('author'))
-    amount = models.IntegerField(verbose_name=_('amount'))
-    donate_date = models.DateField(verbose_name=_('donate date'))
     publisher = models.CharField(max_length=120,
                                  null=True,
                                  blank=True,
@@ -39,9 +77,10 @@ class Book(models.Model):
     description = models.TextField(blank=True,
                                    null=True,
                                    verbose_name=_("description"))
-    donor = models.ManyToManyField('Donor',
-                                   verbose_name=_('donor'),
-                                   blank=True)
+    last_modify_date = models.DateField(auto_now_add=True,
+                                        verbose_name=_('last modify date'))
+    last_modify_by = models.ForeignKey(Operator,
+                                       verbose_name=_('last modify by'))
     photos = GenericRelation('Photo',
                              content_type_field='content_type',
                              object_id_field='object_id')
@@ -77,6 +116,15 @@ class Book(models.Model):
 
         return
 
+    def get_recent_logs(self):
+        string = ""
+        for log in self.log_set.all()[:5]:
+            string += "#" + unicode(log) + "\n <br> \n"
+
+        return string
+    get_recent_logs.short_description = _('recent logs')
+    get_recent_logs.allow_tags = True
+
 
 class Donor(models.Model):
     TYPE = (
@@ -92,13 +140,12 @@ class Donor(models.Model):
                                      default=1,
                                      verbose_name=_('donor type'))
     contact_info = models.TextField(blank=True,
-                                   null=True,
+                                    null=True,
                                     verbose_name=_("contact info"))
 
     class Meta:
         verbose_name = _('donor')
         verbose_name_plural = _('donors')
-	ordering = ["id"]
 
     def save(self, *args, **kwargs):
         name_pinyin = re.sub("[^a-zA-z ]",
@@ -116,8 +163,7 @@ class Donor(models.Model):
 
 class Photo(models.Model):
     name = models.CharField(max_length=250, verbose_name=_('photo name'))
-    image = models.ImageField(upload_to=
-                              random_path_and_rename('zengshu_book_photo'),
+    image = models.ImageField(upload_to=random_path_and_rename('zengshu_book_photo'),
                               verbose_name=_('Image'))
     thumbnail = ImageSpecField(source='image',
                                processors=[SmartResize(75, 100)],
