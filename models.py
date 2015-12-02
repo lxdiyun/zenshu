@@ -8,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.auth.models import User as Operator
-from django.utils.timezone import localtime
 
 from imagekit.models import ImageSpecField
 from imagekit.processors import SmartResize
@@ -41,9 +40,19 @@ class Log(models.Model):
         verbose_name_plural = _('logs')
 
     def __unicode__(self):
-        return "%s|%s|%s" % (localtime(self.time),
+        return "%s|%s|%s" % (self.time.strftime("%Y-%m-%d"),
                              self.operator,
                              self.description)
+
+
+class Batch(models.Model):
+    name = models.CharField(max_length=250, verbose_name=_('batch name'))
+    date = models.DateField(verbose_name=_('date'))
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name = _('batch')
+        verbose_name_plural = _('batches')
 
 
 class Book(models.Model):
@@ -55,35 +64,19 @@ class Book(models.Model):
     name = models.CharField(max_length=250, verbose_name=_('book name'))
     book_type = models.ForeignKey(BookType, verbose_name=_('book type'))
     amount = models.IntegerField(verbose_name=_('amount'))
-    collected_amount = models.IntegerField(verbose_name=_('collected amount'))
+    collected_amount = models.IntegerField(null=True, blank=True, verbose_name=_('collected amount'))
+    control_number = models.IntegerField(verbose_name=_('control number'), null=True, blank=True)
     donate_date = models.DateField(verbose_name=_('donate date'))
-    donor = models.ManyToManyField('Donor',
-                                   verbose_name=_('donor'),
-                                   blank=True)
-    author_name = models.CharField(max_length=250,
-                                   null=True,
-                                   blank=True,
-                                   verbose_name=_('author'))
-    publisher = models.CharField(max_length=120,
-                                 null=True,
-                                 blank=True,
-                                 verbose_name=_('publisher'))
-    publish_date = models.DateField(null=True,
-                                    blank=True,
-                                    verbose_name=_('publish date'))
-    status = models.IntegerField(choices=STATUS,
-                                 default=0,
-                                 verbose_name=_('status'))
-    description = models.TextField(blank=True,
-                                   null=True,
-                                   verbose_name=_("description"))
-    last_modify_date = models.DateField(auto_now_add=True,
-                                        verbose_name=_('last modify date'))
-    last_modify_by = models.ForeignKey(Operator,
-                                       verbose_name=_('last modify by'))
-    photos = GenericRelation('Photo',
-                             content_type_field='content_type',
-                             object_id_field='object_id')
+    batch = models.ForeignKey(Batch, blank=True, null=True, verbose_name=_("batch"))
+    author_name = models.CharField(max_length=250, null=True, blank=True, verbose_name=_('author'))
+    publisher = models.CharField(max_length=120, null=True, blank=True, verbose_name=_('publisher'))
+    publish_date = models.DateField(null=True, blank=True, verbose_name=_('publish date'))
+    status = models.IntegerField(choices=STATUS, default=0, verbose_name=_('status'))
+    description = models.TextField(blank=True, null=True, verbose_name=_("description"))
+    donor = models.ManyToManyField('Donor', verbose_name=_('donor'), blank=True)
+    last_modify_date = models.DateField(auto_now_add=True, null=True, blank=True, verbose_name=_('last modify date'))
+    last_modify_by = models.ForeignKey(Operator, verbose_name=_('last modify by'))
+    photos = GenericRelation('Photo', content_type_field='content_type', object_id_field='object_id')
 
     class Meta:
         ordering = ['-donate_date']
@@ -119,7 +112,7 @@ class Book(models.Model):
     def get_recent_logs(self):
         string = ""
         for log in self.log_set.all()[:5]:
-            string += "#" + unicode(log) + "\n <br> \n"
+            string += "#%s\n <br> \n" % (unicode(log))
 
         return string
     get_recent_logs.short_description = _('recent logs')
@@ -133,24 +126,16 @@ class Donor(models.Model):
     )
     name = models.CharField(max_length=250, verbose_name=_("donor name"))
     name_index = models.CharField(max_length=2)
-    description = models.TextField(blank=True,
-                                   null=True,
-                                   verbose_name=_("description"))
-    donor_type = models.IntegerField(choices=TYPE,
-                                     default=1,
-                                     verbose_name=_('donor type'))
-    contact_info = models.TextField(blank=True,
-                                    null=True,
-                                    verbose_name=_("contact info"))
+    description = models.TextField(blank=True, null=True, verbose_name=_("description"))
+    donor_type = models.IntegerField(choices=TYPE, default=1, verbose_name=_('donor type'))
+    contact_info = models.TextField(blank=True, null=True, verbose_name=_("contact info"))
 
     class Meta:
         verbose_name = _('donor')
         verbose_name_plural = _('donors')
 
     def save(self, *args, **kwargs):
-        name_pinyin = re.sub("[^a-zA-z ]",
-                             "",
-                             pinyin.get_initial(self.name, ""))
+        name_pinyin = re.sub("[^a-zA-z ]", "", pinyin.get_initial(self.name, ""))
         self.name_index = name_pinyin[:1].upper()
         super(Donor, self).save(*args, **kwargs)
 
@@ -163,8 +148,7 @@ class Donor(models.Model):
 
 class Photo(models.Model):
     name = models.CharField(max_length=250, verbose_name=_('photo name'))
-    image = models.ImageField(upload_to=random_path_and_rename('zengshu_book_photo'),
-                              verbose_name=_('Image'))
+    image = models.ImageField(upload_to=random_path_and_rename('zengshu_book_photo'), verbose_name=_('Image'))
     thumbnail = ImageSpecField(source='image',
                                processors=[SmartResize(75, 100)],
                                format='JPEG',

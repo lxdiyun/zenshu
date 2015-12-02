@@ -1,15 +1,19 @@
-from models import *
+import re
+from datetime import  datetime
+
 from django.contrib import admin
 from django.db.models import Max, Sum
 from django.utils.translation import ugettext_lazy as _
-from daterange_filter.filter import DateRangeFilter
 from django.contrib.contenttypes.admin import GenericTabularInline
+
 from imagekit.admin import AdminThumbnail
+from daterange_filter.filter import DateRangeFilter
+
+from actions import merge_selected_donor
+from models import *
 from adli.admin_actions import (clone_action,
                                 merge_selected_action,
                                 export_csv_action)
-from actions import merge_selected_donor
-import re
 
 
 class BookInline(admin.TabularInline):
@@ -105,10 +109,18 @@ class BookAdmin(admin.ModelAdmin):
                     "amount",
                     "donate_date",
                     "get_donors",
+                    "last_modify_by",
+                    "last_modify_date",
                     "get_recent_logs"]
-    search_fields = ['name', "author_name", "donor__name", "donate_date"]
+    search_fields = ['name', "author_name", "donor__name", "donate_date",
+                     'log__description']
     filter_horizontal = ['donor']
-    list_filter = (('donate_date', DateRangeFilter),)
+    list_filter = (('donate_date', DateRangeFilter),
+                   ('donor__name'),
+                   ('book_type__name'),
+                   ('batch__name'),
+                   ('last_modify_by__username'),
+                   )
     actions = [
         export_csv_action(fields=['name', 'amount', 'donate_date', ],
                           extra=['get_donors']),
@@ -134,7 +146,7 @@ class BookAdmin(admin.ModelAdmin):
                 instance.save()
 
     def construct_change_message(self, request, form, formsets):
-        message = super(ItemAdmin, self).construct_change_message(request,
+        message = super(BookAdmin, self).construct_change_message(request,
                                                                   form,
                                                                   formsets)
         for item in form.changed_data:
@@ -170,4 +182,6 @@ class PhotoAdmin(admin.ModelAdmin):
 
 admin.site.register(Donor, DonorAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(BookType)
+admin.site.register(Batch)
 #admin.site.register(Photo, PhotoAdmin)
