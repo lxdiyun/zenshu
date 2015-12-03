@@ -1,5 +1,5 @@
 import re
-from datetime import  datetime
+from datetime import datetime
 
 from django.contrib import admin
 from django.db.models import Max, Sum
@@ -111,6 +111,7 @@ class BookAdmin(admin.ModelAdmin):
                     "get_donors",
                     "last_modify_by",
                     "last_modify_date",
+                    "publish",
                     "get_recent_logs"]
     search_fields = ['name', "author_name", "donor__name", "donate_date",
                      'log__description']
@@ -119,6 +120,7 @@ class BookAdmin(admin.ModelAdmin):
                    ('donor__name'),
                    ('book_type__name'),
                    ('batch__name'),
+                   ('publish'),
                    ('last_modify_by__username'),
                    )
     actions = [
