@@ -104,7 +104,7 @@ class LogInline(admin.TabularInline):
         user = obj.operator
         name = user.username
         if user.first_name:
-            name = first_name
+            name = user.first_name
         return name
     get_operator_name.short_description = _("operator")
 
@@ -148,7 +148,7 @@ class BookAdmin(admin.ModelAdmin):
         user = obj.last_modify_by
         name = user.username
         if user.first_name:
-            name = first_name
+            name = user.first_name
         return name
     get_last_modify_by.short_description = _("last modify by")
 
