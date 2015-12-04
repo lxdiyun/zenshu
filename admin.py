@@ -101,11 +101,7 @@ class LogInline(admin.TabularInline):
     readonly_fields = ['get_operator_name', 'time']
 
     def get_operator_name(self, obj):
-        user = obj.operator
-        name = user.username
-        if user.first_name:
-            name = user.first_name
-        return name
+        return obj.operator
     get_operator_name.short_description = _("operator")
 
     def save_model(self, request, obj, form, change):
@@ -145,11 +141,7 @@ class BookAdmin(admin.ModelAdmin):
     exclude = ['last_modify_by']
 
     def get_last_modify_by(self, obj):
-        user = obj.last_modify_by
-        name = user.username
-        if user.first_name:
-            name = user.first_name
-        return name
+        return obj.last_modify_by
     get_last_modify_by.short_description = _("last modify by")
 
     def get_batch(self, obj):

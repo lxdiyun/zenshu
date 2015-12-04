@@ -51,7 +51,7 @@ msgstr "缩略图"
 
 #: admin.py:109 models.py:34
 msgid "operator"
-msgstr "记录元"
+msgstr "记录员"
 
 #: admin.py:137 admin.py:153 models.py:87
 msgid "last modify by"
