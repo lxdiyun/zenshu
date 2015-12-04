@@ -27,6 +27,17 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='BookStatus',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=250, verbose_name='book status name')),
+            ],
+            options={
+                'verbose_name': 'book status',
+                'verbose_name_plural': 'book status',
+            },
+        ),
+        migrations.CreateModel(
             name='BookType',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -74,6 +85,11 @@ class Migration(migrations.Migration):
             model_name='book',
             name='last_modify_date',
             field=models.DateField(auto_now_add=True, verbose_name='last modify date', null=True),
+        ),
+        migrations.AlterField(
+            model_name='book',
+            name='status',
+            field=models.ForeignKey(default=1, verbose_name='status', to='zengshu.BookStatus'),
         ),
         migrations.AddField(
             model_name='log',

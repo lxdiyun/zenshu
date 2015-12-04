@@ -58,12 +58,18 @@ class Batch(models.Model):
         verbose_name_plural = _('batches')
 
 
+class BookStatus(models.Model):
+    name = models.CharField(max_length=250, verbose_name=_('book status name'))
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('book status')
+        verbose_name_plural = _('book status')
+
+
 class Book(models.Model):
-    STATUS = (
-        (0, _('store up')),
-        (1, _('circulate')),
-        (2, _('unknow')),
-    )
     name = models.CharField(max_length=250, verbose_name=_('book name'))
     book_type = models.ForeignKey(BookType, verbose_name=_('book type'))
     donate_date = models.DateField(verbose_name=_('donate date'))
@@ -74,7 +80,7 @@ class Book(models.Model):
     author_name = models.CharField(max_length=250, null=True, blank=True, verbose_name=_('author'))
     publisher = models.CharField(max_length=120, null=True, blank=True, verbose_name=_('publisher'))
     publish_date = models.DateField(null=True, blank=True, verbose_name=_('publish date'))
-    status = models.IntegerField(choices=STATUS, default=0, verbose_name=_('status'))
+    status = models.ForeignKey(BookStatus, verbose_name=_("status"), default=1)
     description = models.TextField(blank=True, null=True, verbose_name=_("description"))
     donor = models.ManyToManyField('Donor', verbose_name=_('donor'), blank=True)
     last_modify_date = models.DateField(auto_now_add=True, null=True, blank=True, verbose_name=_('last modify date'))
@@ -97,8 +103,10 @@ class Book(models.Model):
         return reverse("detail_book", kwargs={'pk': self.id})
 
     def get_search_url(self):
-        url = "http://202.192.155.48:83/opac/bookinfo.aspx?ctrlno=%d"
-        url = (url % self.control_number)
+        url = "http://202.192.155.48:83/opac/search.aspx"
+        if self.control_number:
+            url = "http://202.192.155.48:83/opac/bookinfo.aspx?ctrlno=%d"
+            url = (url % self.control_number)
 
         return url
 

@@ -11,6 +11,7 @@ from daterange_filter.filter import DateRangeFilter
 
 from actions import merge_selected_donor
 from models import *
+from .filters import custom_titled_filter
 from adli.admin_actions import (clone_action,
                                 merge_selected_action,
                                 export_csv_action)
@@ -109,9 +110,9 @@ class BookAdmin(admin.ModelAdmin):
                     "author_name",
                     "donate_date",
                     "get_donors",
-                    "last_modify_by",
+                    "get_last_modify_by",
                     "last_modify_date",
-                    'batch',
+                    "get_batch",
                     "get_recent_logs"]
     search_fields = ['name',
                      "author_name",
@@ -123,7 +124,7 @@ class BookAdmin(admin.ModelAdmin):
                    ('donor__name'),
                    ('book_type__name'),
                    ('batch__name'),
-                   ('last_modify_by__username'),
+                   ('last_modify_by__username', custom_titled_filter(_("last modify by"))),
                    )
     actions = [
         export_csv_action(fields=['name', 'amount', 'donate_date', ],
@@ -132,6 +133,15 @@ class BookAdmin(admin.ModelAdmin):
         ]
     inlines = [LogInline, PhotoInline]
     exclude = ['last_modify_by']
+
+    def get_last_modify_by(self, obj):
+        return obj.last_modify_by
+    get_last_modify_by.short_description = _("last modify by")
+
+    def get_batch(self, obj):
+        return obj.batch
+    get_batch.short_description = _("batch")
+    get_batch.admin_order_field = "batch__date"
 
     def save_model(self, request, obj, form, change):
         obj.last_modify_by = request.user
@@ -188,4 +198,5 @@ admin.site.register(Donor, DonorAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(BookType)
 admin.site.register(Batch)
+admin.site.register(BookStatus)
 #admin.site.register(Photo, PhotoAdmin)
