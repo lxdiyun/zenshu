@@ -18,7 +18,7 @@ from adli.admin_actions import (clone_action,
 
 class BookInline(admin.TabularInline):
     model = Book.donor.through
-    readonly_fields = ["book_name", "book_donate_date", "book_amount"]
+    readonly_fields = ["book_name", "book_amount", "book_donate_date",]
     raw_id_fields = ("book",)
     ordering = ["-book__donate_date"]
     verbose_name = _("book")
@@ -105,14 +105,18 @@ class LogInline(admin.TabularInline):
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ["name",
-                    "author_name",
                     "amount",
+                    "author_name",
                     "donate_date",
                     "get_donors",
                     "last_modify_by",
                     "last_modify_date",
+                    'batch',
                     "get_recent_logs"]
-    search_fields = ['name', "author_name", "donor__name", "donate_date",
+    search_fields = ['name',
+                     "author_name",
+                     "donor__name",
+                     "donate_date",
                      'log__description']
     filter_horizontal = ['donor']
     list_filter = (('donate_date', DateRangeFilter),

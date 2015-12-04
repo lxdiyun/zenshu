@@ -49,6 +49,9 @@ class Batch(models.Model):
     name = models.CharField(max_length=250, verbose_name=_('batch name'))
     date = models.DateField(verbose_name=_('date'))
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
         ordering = ['-date']
         verbose_name = _('batch')
@@ -94,12 +97,8 @@ class Book(models.Model):
         return reverse("detail_book", kwargs={'pk': self.id})
 
     def get_search_url(self):
-        SPECIAL_CHARACTER = u"[+\.\!\/_,$%^*(+\"\']+.*|[+——！，。？、~@#￥%……&*（）·]+.*$"
-        url = ("http://202.192.155.48:83/opac/searchresult.aspx?"
-               "title_f=%s&dt=ALL&cl=ALL&dp=20"
-               "&sf=M_PUB_YEAR&ob=DESC&sm=table&dept=ALL")
-        search_keyword = re.sub(SPECIAL_CHARACTER, "", self.name)
-        url = (url % quote_plus(search_keyword.encode("gb18030", 'replace')))
+        url = "http://202.192.155.48:83/opac/bookinfo.aspx?ctrlno=%d"
+        url = (url % self.control_number)
 
         return url
 
