@@ -97,7 +97,16 @@ class PhotoInline(GenericTabularInline):
 
 class LogInline(admin.TabularInline):
     model = Log
-    readonly_fields = ['operator', 'time']
+    fields = ['description', 'get_operator_name', 'time']
+    readonly_fields = ['get_operator_name', 'time']
+
+    def get_operator_name(self, obj):
+        user = obj.operator
+        name = user.username
+        if user.first_name:
+            name = first_name
+        return name
+    get_operator_name.short_description = _("operator")
 
     def save_model(self, request, obj, form, change):
         obj.operator = request.user
@@ -123,6 +132,7 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = (('donate_date', DateRangeFilter),
                    ('donor__name'),
                    ('book_type__name'),
+                   ('status__name'),
                    ('batch__name'),
                    ('last_modify_by__username', custom_titled_filter(_("last modify by"))),
                    )
@@ -135,7 +145,11 @@ class BookAdmin(admin.ModelAdmin):
     exclude = ['last_modify_by']
 
     def get_last_modify_by(self, obj):
-        return obj.last_modify_by
+        user = obj.last_modify_by
+        name = user.username
+        if user.first_name:
+            name = first_name
+        return name
     get_last_modify_by.short_description = _("last modify by")
 
     def get_batch(self, obj):

@@ -30,7 +30,7 @@ class BookType(models.Model):
 
 class Log(models.Model):
     time = models.DateTimeField(auto_now_add=True, verbose_name=_('log time'))
-    description = models.TextField(blank=True, null=True, verbose_name=_("description"))
+    description = models.TextField(blank=True, null=True, verbose_name=_("log content"))
     operator = models.ForeignKey(Operator, verbose_name=_('operator'))
     book = models.ForeignKey('Book')
 
