@@ -160,10 +160,16 @@ class BookAdmin(admin.ModelAdmin):
         for instance in instances:
             # Check if it is the correct type of inline
             if isinstance(instance, Log):
-                if not instance.operator_id:
-                    instance.operator = request.user
+                instance_changed = True
+                if instance.pk is not None:
+                    orig = Log.objects.get(pk=instance.pk)
+                    if orig.description == instance.description:
+                        instance_changed = False
 
-                instance.save()
+                if instance_changed:
+                    instance.operator = request.user
+                    instance.time = datetime.now()
+                    instance.save()
 
     def construct_change_message(self, request, form, formsets):
         message = super(BookAdmin, self).construct_change_message(request,
