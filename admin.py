@@ -59,7 +59,6 @@ class DonorAdmin(admin.ModelAdmin):
     def get_ordering(self, request):
         # only use the last_donate_date when in donor admin list
         path_info = request.META['PATH_INFO']
-        print path_info
         if re.match(r'.*admin.*donor', path_info):
             return ['-last_donate_date', '-id']
         else:
