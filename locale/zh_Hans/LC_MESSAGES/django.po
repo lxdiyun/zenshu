@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-16 16:43+0800\n"
+"POT-Creation-Date: 2015-12-04 15:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,122 +17,190 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:19 admin.py:20 form.py:33 form.py:36 models.py:53
+#: admin.py:25 admin.py:26 form.py:33 form.py:36 models.py:92
 msgid "book"
 msgstr "赠书"
 
-#: admin.py:24 models.py:22
+#: admin.py:30 models.py:73
 msgid "book name"
 msgstr "赠书名"
 
-#: admin.py:29 models.py:28
+#: admin.py:35 models.py:75
 msgid "donate date"
 msgstr "赠书时间"
 
-#: admin.py:33 admin.py:51 admin.py:67 models.py:27
+#: admin.py:39 admin.py:54 admin.py:82 models.py:76
 msgid "amount"
 msgstr "册数"
 
-#: admin.py:50 models.py:86
+#: admin.py:53 models.py:134
 msgid "donor name"
 msgstr "捐赠单位或个人"
 
-#: admin.py:52 models.py:96
+#: admin.py:55 models.py:138
 msgid "contact info"
 msgstr "联系信息"
 
-#: admin.py:62
+#: admin.py:77
 msgid "last donate date"
 msgstr "最近赠书时间"
 
-#: admin.py:80 admin.py:121
+#: admin.py:95 admin.py:208
 msgid "Thumbnail"
 msgstr "缩略图"
 
-#: models.py:18
-msgid "store up"
-msgstr "收藏"
+#: admin.py:109 models.py:34
+msgid "operator"
+msgstr "记录员"
 
-#: models.py:19
-msgid "circulate"
-msgstr "流通"
+#: admin.py:137 admin.py:153 models.py:87
+msgid "last modify by"
+msgstr "最近修改员"
 
-#: models.py:20
-msgid "unknow"
-msgstr "未知"
+#: admin.py:157 models.py:57 models.py:79
+msgid "batch"
+msgstr "批次"
 
-#: models.py:26
+#: apps.py:7
+msgid "zengshu management"
+msgstr "赠书管理"
+
+#: models.py:21
+msgid "book type name"
+msgstr "文献类型"
+
+#: models.py:24 models.py:74
+msgid "book type"
+msgstr "文献类型"
+
+#: models.py:25
+msgid "book types"
+msgstr "文献类型"
+
+#: models.py:32
+msgid "log time"
+msgstr "日志时间"
+
+#: models.py:33
+msgid "log content"
+msgstr "内容"
+
+#: models.py:39
+msgid "log"
+msgstr "日志"
+
+#: models.py:40
+msgid "logs"
+msgstr "日志"
+
+#: models.py:49
+msgid "batch name"
+msgstr "批次"
+
+#: models.py:50
+msgid "date"
+msgstr "日期"
+
+#: models.py:58
+msgid "batches"
+msgstr "批次"
+
+#: models.py:62
+msgid "book status name"
+msgstr "文献状态"
+
+#: models.py:68 models.py:69
+msgid "book status"
+msgstr "文献状态"
+
+#: models.py:77
+msgid "collected amount"
+msgstr "入藏数量"
+
+#: models.py:78
+msgid "control number"
+msgstr "控制号"
+
+#: models.py:80
 msgid "author"
 msgstr "作者"
 
-#: models.py:32
+#: models.py:81
 msgid "publisher"
 msgstr "出版社"
 
-#: models.py:35
+#: models.py:82
 msgid "publish date"
 msgstr "出版年代"
 
-#: models.py:39
+#: models.py:83
 msgid "status"
 msgstr "状态"
 
-#: models.py:42 models.py:90
+#: models.py:84 models.py:136
 msgid "description"
 msgstr "简介"
 
-#: models.py:44 models.py:61 models.py:99
+#: models.py:85 models.py:100 models.py:141
 msgid "donor"
 msgstr "赠书者"
 
-#: models.py:54
+#: models.py:86
+msgid "last modify date"
+msgstr "最近修改时间"
+
+#: models.py:93
 msgid "books"
 msgstr "赠书"
 
-#: models.py:83
+#: models.py:125
+msgid "recent logs"
+msgstr "近期日志"
+
+#: models.py:131
 msgid "personal"
 msgstr "个人"
 
-#: models.py:84
+#: models.py:132
 msgid "organization"
 msgstr "组织"
 
-#: models.py:93
+#: models.py:137
 msgid "donor type"
 msgstr "捐赠人类别"
 
-#: models.py:100
+#: models.py:142
 msgid "donors"
 msgstr "赠书者"
 
-#: models.py:117
+#: models.py:157
 msgid "photo name"
 msgstr "图片名"
 
-#: models.py:120
+#: models.py:158
 msgid "Image"
 msgstr "图片"
 
-#: models.py:133
+#: models.py:171
 msgid "photo"
 msgstr "图片"
 
-#: models.py:134
+#: models.py:172
 msgid "photos"
 msgstr "图片"
 
-#: views.py:155
+#: views.py:174
 msgid "donate:"
 msgstr "赠书："
 
-#: views.py:155
+#: views.py:174
 msgid ","
 msgstr "，"
 
-#: views.py:156
+#: views.py:175
 msgid "<"
 msgstr "《"
 
-#: views.py:156
+#: views.py:175
 msgid ">"
 msgstr "》"

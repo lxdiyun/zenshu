@@ -3,7 +3,6 @@
 {% block content %}
 <h2>{{ book.name }}</h2>
 <a class="btn-link" target="_blank" href="{{ book.get_search_url }}">在图书馆中查找该书<i class="icon-hand-right"></i></a>
-<p ><strong >状态：</strong> {{ book.get_status_display }}</p>
 {% if donors.count %}
 <p ><strong >赠书单位或个人：</strong>
 	{% for donor in donors %}
