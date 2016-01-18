@@ -3,7 +3,7 @@ from filters import DonorAnnotateFilter
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.admin import GenericTabularInline
 from imagekit.admin import AdminThumbnail
 from adli.admin_actions import (clone_action,
                                 merge_selected_action,
@@ -72,7 +72,7 @@ class DonorAdmin(admin.ModelAdmin):
         return super(DonorAdmin, self).lookup_allowed(lookup, value)
 
 
-class PhotoInline(generic.GenericTabularInline):
+class PhotoInline(GenericTabularInline):
     model = Photo
     readonly_fields = ['admin_thumbnail']
     admin_thumbnail = AdminThumbnail(image_field='thumbnail')
