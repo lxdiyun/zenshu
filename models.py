@@ -98,6 +98,7 @@ class Donor(models.Model):
     class Meta:
         verbose_name = _('donor')
         verbose_name_plural = _('donors')
+	ordering = ["id"]
 
     def save(self, *args, **kwargs):
         name_pinyin = re.sub("[^a-zA-z ]",

@@ -1,6 +1,7 @@
 from models import Book, Donor, Photo
 from filters import DonorAnnotateFilter
 from django.contrib import admin
+from django.db.models import Max, Sum
 from django.utils.translation import ugettext_lazy as _
 from daterange_filter.filter import DateRangeFilter
 from django.contrib.contenttypes.admin import GenericTabularInline
@@ -40,10 +41,7 @@ class DonorAdmin(admin.ModelAdmin):
                     "description",
                     "contact_info"]
     search_fields = ['name', 'description']
-    list_filter = (('book__donate_date', DateRangeFilter),
-                   # Need this special filter to provide annotate field
-                   # because the m2m annotation must after m2m filter
-                   ('id', DonorAnnotateFilter))
+    list_filter = (('book__donate_date', DateRangeFilter),)
     inlines = [BookInline]
     actions = [merge_selected_action(function=merge_selected_donor),
                export_csv_action(fields=[
@@ -53,8 +51,11 @@ class DonorAdmin(admin.ModelAdmin):
                ])]
     exclude = ['name_index']
 
-    def get_ordering(self, request):
-        return ["-last_donate_date"]
+    def get_queryset(self, request):
+        queryset = super(DonorAdmin, self).get_queryset(request)
+        queryset = queryset.annotate(amount=Sum('book__amount'),
+                        last_donate_date=Max('book__donate_date'))
+        return queryset
 
     def last_donate_date(self, obj):
         return obj.last_donate_date
