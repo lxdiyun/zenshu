@@ -86,7 +86,7 @@ class DonorAdmin(admin.ModelAdmin):
         return super(DonorAdmin, self).lookup_allowed(lookup, value)
 
 
-class PhotoInline(admin.TabularInline):
+class PhotoInline(GenericTabularInline):
     model = Photo
     readonly_fields = ['admin_thumbnail']
     admin_thumbnail = AdminThumbnail(image_field='thumbnail')
