@@ -4,6 +4,7 @@ from datetime import datetime
 from django.contrib import admin
 from django.db.models import Max, Sum
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_text
 from django.contrib.contenttypes.admin import GenericTabularInline
 
 from imagekit.admin import AdminThumbnail
@@ -176,7 +177,8 @@ class BookAdmin(admin.ModelAdmin):
                                                                   form,
                                                                   formsets)
         for item in form.changed_data:
-            changed_item = unicode(str(form.cleaned_data.get(item)), 'utf-8')
+            changed_item = force_text(form.cleaned_data.get(item))
+            item = force_text(_(item))
             message += "\n%s => %s" % (item, changed_item)
 
         return message
