@@ -168,9 +168,8 @@ class BookAdmin(admin.ModelAdmin):
                 if instance_changed:
                     instance.operator = request.user
                     instance.time = datetime.now()
-                    instance.save()
-            else:
-                instance.save()
+
+        formset.save()
 
     def construct_change_message(self, request, form, formsets):
         message = super(BookAdmin, self).construct_change_message(request,
