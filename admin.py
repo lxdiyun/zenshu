@@ -59,7 +59,6 @@ class DonorAdmin(admin.ModelAdmin):
     def get_ordering(self, request):
         # only use the last_donate_date when in donor admin list
         path_info = request.META['PATH_INFO']
-        print path_info
         if re.match(r'.*admin.*donor', path_info):
             return ['-last_donate_date', '-id']
         else:
@@ -87,7 +86,7 @@ class DonorAdmin(admin.ModelAdmin):
         return super(DonorAdmin, self).lookup_allowed(lookup, value)
 
 
-class PhotoInline(GenericTabularInline):
+class PhotoInline(admin.TabularInline):
     model = Photo
     readonly_fields = ['admin_thumbnail']
     admin_thumbnail = AdminThumbnail(image_field='thumbnail')
@@ -158,7 +157,7 @@ class BookAdmin(admin.ModelAdmin):
         instances = formset.save(commit=False)
 
         for instance in instances:
-            # Check if it is the correct type of inline
+            # if the instance is Log and changed, update the time
             if isinstance(instance, Log):
                 instance_changed = True
                 if instance.pk is not None:
@@ -170,14 +169,16 @@ class BookAdmin(admin.ModelAdmin):
                     instance.operator = request.user
                     instance.time = datetime.now()
                     instance.save()
+            else:
+                instance.save()
 
     def construct_change_message(self, request, form, formsets):
         message = super(BookAdmin, self).construct_change_message(request,
                                                                   form,
                                                                   formsets)
         for item in form.changed_data:
-            message += "\n%s => %s" % (item,
-                                       unicode(form.cleaned_data.get(item)))
+            changed_item = unicode(str(form.cleaned_data.get(item)), 'utf-8')
+            message += "\n%s => %s" % (item, changed_item)
 
         return message
 

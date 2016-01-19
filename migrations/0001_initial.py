@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=250, verbose_name='photo name')),
-                ('image', models.ImageField(upload_to=adli.utils.wrapper, verbose_name='Image')),
+                ('image', models.ImageField(upload_to=adli.utils.random_path_and_rename('zengshu_book_photo'), verbose_name='Image')),
                 ('object_id', models.PositiveIntegerField()),
                 ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
             ],
