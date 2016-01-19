@@ -175,8 +175,8 @@ class BookAdmin(admin.ModelAdmin):
                                                                   form,
                                                                   formsets)
         for item in form.changed_data:
-            message += "\n%s => %s" % (item,
-                                       unicode(form.cleaned_data.get(item)))
+            changed_item = unicode(str(form.cleaned_data.get(item)), 'utf-8')
+            message += "\n%s => %s" % (item, changed_item)
 
         return message
 
