@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en"><head>
 		<meta charset="utf-8">
@@ -7,19 +8,19 @@
 		<meta name="author" content="">
 
 		<!-- Le styles -->
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}">
 
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}zengshu/my.css">
+		<link rel="stylesheet" type="text/css" href="{% static "zengshu/my.css" %}">
 		<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/bootstrap-ie6.css">
+			<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap-ie6.css" %}">
 		<![endif]-->
 		<!--[if lte IE 8]>
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/ie.css">
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}zengshu/my-ie.css">
-		<script src="{{STATIC_URL}}html5/html5.js"></script>
+			<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/ie.css" %}">
+			<link rel="stylesheet" type="text/css" href="{% static "zengshu/my-ie.css" %}">
+			<script src="{% static "html5/html5.js" %}"></script>
 		<![endif]-->
 
-		<link rel="stylesheet" href="{{STATIC_URL}}bootstrap-image/css/bootstrap-image-gallery.min.css">
+		<link rel="stylesheet" href="{% static "bootstrap-image/css/bootstrap-image-gallery.min.css" %}">
 
 		<style type="text/css">
 			body {
@@ -45,9 +46,9 @@
 					<a class="brand" href="http://www.lib.stu.edu.cn/">汕头大学图书馆</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li><a href="{% url 'home_page' %}">赠书芳名录</a></li>
+							<li><a href="{% url 'zengshu:home_page' %}">赠书芳名录</a></li>
 						</ul>
-						<form method="POST" action="{% url 'search_donor' %}" class="navbar-search pull-right">
+						<form method="POST" action="{% url 'zengshu:search_donor' %}" class="navbar-search pull-right">
 							<input type="text" name="keyword" placeholder="捐赠单位或个人" class="search-query span2">
 							<button class="btn-link my-ie-hidden" style="position: absolute; right: 5px; top: 3px;"type="submit">
 								<i class="icon-search" ></i>
@@ -103,23 +104,23 @@
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
-		<script src="{{STATIC_URL}}html5/html5.js"></script>
+		<script src="{%static "html5/html5.js" %}"></script>
 		<![endif]-->
 
-		<script type="text/javascript" src="{{STATIC_URL}}jquery/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="{{STATIC_URL}}jquery/jquery.html5-placeholder-shim.js"></script>
-		<script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
-		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-bsie/js/bootstrap-ie.js"></script>
-		<script type="text/javascript" src="{{STATIC_URL}}JavaScript-Load-Image/load-image.min.js"></script>
-		<script src="{{STATIC_URL}}zengshu/my.js"></script>
+		<script type="text/javascript" src="{% static "jquery/jquery-1.7.2.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "jquery/jquery.html5-placeholder-shim.js" %}"></script>
+		<script type="text/javascript" src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+		<script type="text/javascript" src="{% static "bootstrap-bsie/js/bootstrap-ie.js" %}"></script>
+		<script type="text/javascript" src="{% static "JavaScript-Load-Image/load-image.min.js" %}"></script>
+		<script src="{% static "zengshu/my.js" %}"></script>
 		<!--[if gt IE 6]>
-		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-image/js/bootstrap-image-gallery.min.js"></script>
+    <script type="text/javascript" src="{% static "bootstrap-image/js/bootstrap-image-gallery.min.js" %}"></script>
 		<![endif]-->
 		<!--[if !IE]>-->
-		<script type="text/javascript" src="{{STATIC_URL}}bootstrap-image/js/bootstrap-image-gallery.min.js"></script>
+		<script type="text/javascript" src="{% static "bootstrap-image/js/bootstrap-image-gallery.min.js" %}"></script>
 		<!--<![endif]-->
 		<!--[if lte IE 8]>
-		<script src="{{STATIC_URL}}zengshu/my-ie.js"></script>
+		<script src="{% static "zengshu/my-ie.js" %}"></script>
 		<![endif]-->
 		<script type="text/javascript">
 			// extended js block

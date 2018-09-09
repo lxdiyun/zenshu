@@ -10,8 +10,8 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from imagekit.admin import AdminThumbnail
 from daterange_filter.filter import DateRangeFilter
 
-from actions import merge_selected_donor
-from models import *
+from .actions import merge_selected_donor
+from .models import *
 from .filters import custom_titled_filter
 from adli.admin_actions import (clone_action,
                                 merge_selected_action,

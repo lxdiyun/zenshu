@@ -4,17 +4,16 @@ from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateResponseMixin
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.db.models import Max, Sum, Count
 from django.http import HttpResponseRedirect
 import urllib
-import urlparse
 from datetime import datetime
 
 
-from models import Donor, Book
-from utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
-from form import DonorListPageForm, DonorSearchForm
+from .models import Donor, Book
+from .utils import DONOR_PAGE_SIZE, DONOR_TOP_SIZE, BOOK_TOP_SIZE
+from .form import DonorListPageForm, DonorSearchForm
 
 
 def set_top_books_and_cover(donor_list):
@@ -84,14 +83,14 @@ class DonorSearchView(FormView, DonorListBase):
         query_raw = urllib.unquote(self.request.META['QUERY_STRING'])
         try:
             if "%u" in query_raw:
-                query = query_raw.replace("%u", "\u").decode("unicode escape")
+                query = query_raw.replace("%u", "\\u").decode("unicode escape")
             else:
                 try:
                     query = query_raw.decode('utf-8')
                 except UnicodeDecodeError:
                     query = query_raw.decode('GBK')
 
-            query = dict(urlparse.parse_qsl(query))
+            query = dict(urllib.parse.parse_qsl(query))
             keyword = query.get('keyword', "")
         except:
             keyword = self.request.REQUEST["keyword"]

@@ -1,14 +1,15 @@
 {% extends "zengshu/base.html" %}
+{% load static %}
 
 {% block extra_header %}
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url 'feed_latest' %}" />	
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url 'zengshu:feed_latest' %}" />	
 {% endblock %}
 
 
 {% block content %}
 <div class="hero-unit my-hero-unit ">
 	<div class="row" style="background-color:rgba(255,255,255,0.2)">
-		<img class="img-rounded span1" src="{{STATIC_URL}}zengshu/lib-icon.jpg">
+    <img class="img-rounded span1" src="{% static "zengshu/lib-icon.jpg" %}">
 		<div class="span9" >
 			<h3>汕头大学图书馆赠书芳名录</h3>
 			<p class="pull-right">谨向关心支持我馆文献资源建设的单位和个人表示衷心感谢！</p>
@@ -33,7 +34,7 @@
 			<ul class="nav nav-list my-sidenav my-sidenav-top">
 				{% for index in indexes %}
 				{% if index.name_index %}
-				<li class=""><a href="{% url 'donor_index' %}#{{ index.name_index }}"><i class="icon-chevron-right"></i>{{ index.name_index }}</a></li>
+				<li class=""><a href="{% url 'zengshu:donor_index' %}#{{ index.name_index }}"><i class="icon-chevron-right"></i>{{ index.name_index }}</a></li>
 				{% endif %}
 				{% endfor %}
 			</ul>
@@ -70,7 +71,7 @@
 </div>
 <div class="row">
 	<div class="span10 offset2">
-		<a class="btn-link" href="{% url 'list_donors' 1 %}">更多赠书……</a>
+		<a class="btn-link" href="{% url 'zengshu:list_donors' 1 %}">更多赠书……</a>
 	</div>
 </div>
 {% endblock %}

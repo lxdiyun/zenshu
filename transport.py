@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from models import Book, Donor
+from .models import Book, Donor
 from django.utils.encoding import smart_str, smart_text
 #from django.db.models import Sum
 
@@ -176,7 +176,7 @@ def check3():
     dns = Donor.objects.all()
     for dn in dns:
         total = dn.book_set.count()
-        print total
+        print(total)
 
 g_merge_dict = {}
 
@@ -228,7 +228,7 @@ def merge_dn(key_dn, dn):
 def merge():
     for key in g_merge_dict.keys():
         key_dn = Donor.objects.get(id=key)
-        print key_dn
+        print(key_dn)
         dn_ids = g_merge_dict[key]
         dns = Donor.objects.filter(id__in=dn_ids)
         for dn in dns:

@@ -1,7 +1,7 @@
 from django import forms
 from django.core.paginator import Paginator
-from models import Donor, Book
-from utils import DONOR_PAGE_SIZE
+from .models import Donor, Book
+from .utils import DONOR_PAGE_SIZE
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import ugettext_lazy as _
 

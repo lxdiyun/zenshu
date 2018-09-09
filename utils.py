@@ -1,11 +1,11 @@
 import csv
-import StringIO
+from io import StringIO
 from django.contrib.admin.utils import NestedObjects, quote
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.html import escape
 from django.utils.text import capfirst
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 
 DONOR_PAGE_SIZE = 18
 DONOR_TOP_SIZE = 10
@@ -31,7 +31,7 @@ class UnicodeWriter(object):
     """
     def __init__(self, f, dialect=csv.excel_tab, encoding="utf-16", **kwds):
         # Redirect output to a queue
-        self.queue = StringIO.StringIO()
+        self.queue = StringIO()
         self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
         self.stream = f
         self.encoding = encoding
@@ -130,7 +130,7 @@ def get_merged_objects(objs, opts, user, admin_site, using):
             # Don't display link to edit, because it either has no
             # admin or is edited inline.
             return u'%s: %s' % (capfirst(opts.verbose_name),
-                                force_unicode(obj))
+                                force_text(obj))
 
     to_merge = collector.nested(format_callback)
 
